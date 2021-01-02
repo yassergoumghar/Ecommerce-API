@@ -1,2 +1,2 @@
 # This is an API template.
-If you want to start an API, get this repo and start coding !
+Assalamu Alaykum, this is an E-commerce API, if you wanna use it. You could clone this repo and go ahead.
