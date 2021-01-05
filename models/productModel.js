@@ -8,7 +8,6 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please put the Product's name"],
     },
-    slug: String,
     category: String,
     slug: String,
     brand: {

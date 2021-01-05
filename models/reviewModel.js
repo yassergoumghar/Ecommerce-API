@@ -16,6 +16,10 @@ const reviewSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    checked: {
+      type: Boolean,
+      default: false,
+    },
     product: {
       type: mongoose.Schema.ObjectId,
       ref: 'Product',
@@ -25,6 +29,11 @@ const reviewSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: 'User',
       required: [true, 'Review must belong to a user'],
+    },
+    order: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Order',
+      required: [true, 'Review must belong to an order'],
     },
   },
   {
@@ -48,6 +57,12 @@ reviewSchema.pre(/^find/, function (next) {
     path: 'user',
     select: 'name photo',
   });
+  next();
+});
+
+reviewSchema.pre(/^find/, function (next) {
+  // this points to the current query
+  this.find({ checked: { $ne: false } });
   next();
 });
 

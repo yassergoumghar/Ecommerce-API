@@ -9,7 +9,7 @@ exports.updateProduct = handleFactory.updateOne(Products);
 
 exports.getProductBySlug = catchAsync(async (req, res, next) => {
   let { slug } = req.params;
-  let query = Products.findOne({ slug });
+  let query = Products.findOne({ slug }).populate('reviews');
   const doc = await query;
 
   if (!doc) {
