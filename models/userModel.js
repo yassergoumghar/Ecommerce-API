@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     validate: [validator.isEmail, 'Please provide a valid email'],
   },
-  photo: String,
+  picture: String,
   role: {
     type: String,
     enum: ['user', 'employee', 'accountant', 'admin'],
@@ -46,6 +46,7 @@ const userSchema = new mongoose.Schema({
     default: true,
     select: false,
   },
+  googleId: String,
 });
 
 userSchema.pre('save', async function (next) {

@@ -70,6 +70,66 @@ app.use((req, res, next) => {
   next();
 });
 
+//2 GOOGLE AUTH
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const User = require('./models/userModel');
+
+const dotenv = require('dotenv');
+dotenv.config({ path: './config.env' });
+const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, callbackURL } = process.env;
+
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: GOOGLE_CLIENT_ID,
+      clientSecret: GOOGLE_CLIENT_SECRET,
+      callbackURL,
+    },
+    (accessToken, refreshToken, profile, done) => {
+      // passport callback function
+      //check if user already exists in our db with the given profile ID
+      User.findOne({ googleId: profile.id }).then((currentUser) => {
+        console.log(profile);
+        if (currentUser) {
+          //if we already have a record with the given profile ID
+          done(null, currentUser);
+        } else {
+          //if not, create a new user
+          new User({
+            googleId: profile.id,
+          })
+            .save()
+            .then((newUser) => {
+              done(null, newUser);
+            });
+        }
+      });
+    }
+  )
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+  User.findById(id).then((user) => {
+    done(null, user);
+  });
+});
+
+app.get(
+  '/auth/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] }),
+  (req, res, next) => {
+    res.send();
+    res.send('you reached the redirect URI');
+  }
+);
+
+app.get('/auth/google/redirect', passport.authenticate('google'));
+
 //) 3) ROUTES
 //? Products
 app.use('/api/v1/products', productRouter);
