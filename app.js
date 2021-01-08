@@ -7,6 +7,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
+const passport = require('passport');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -17,8 +18,13 @@ const userRouter = require('./routes/userRoutes');
 const orderRouter = require('./routes/orderRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const authRouter = require('./routes/authRoutes');
+const viewRouter = require('./routes/viewRoutes');
 
 const app = express();
+
+//) view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
 
 // 1) GLOBAL MIDDLEWARES
 // Serving static files
@@ -27,9 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(helmet());
 
 // Development logging
-if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('dev'));
-}
+if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 
 // Limit requests from same API
 const limiter = rateLimit({
@@ -71,6 +75,26 @@ app.use((req, res, next) => {
   next();
 });
 
+//) Passport Middleware
+app.use(passport.initialize());
+
+require('./authenticate');
+
+app.get(
+  '/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] })
+);
+
+app.get(
+  '/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  (req, res) => {
+    //res.redirect('/');
+    console.log(req.user);
+    res.end('Logged in!');
+  }
+);
+
 //) 3) ROUTES
 //? Products
 app.use('/api/v1/products', productRouter);
@@ -82,6 +106,8 @@ app.use('/api/v1/users', userRouter);
 // app.use('/api/v1/auth', authRouter);
 //? Reviews
 app.use('/api/v1/reviews', reviewRouter);
+//? Index
+app.use('/', viewRouter);
 
 //) 404 not found
 app.all('*', (req, res, next) => {
