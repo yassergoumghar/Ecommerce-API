@@ -116,4 +116,16 @@ router.get(
   findOrCreate
 );
 
+router.post('/signup', authController.signup);
+router.post('/login', authController.login);
+router.get('/logout', authController.logout);
+
+router.use(authController.protect);
+
+router.use('/protected', (req, res, next) => {
+  res.status(200).json({
+    message: 'U are logged in',
+  });
+});
+
 module.exports = router;
