@@ -78,23 +78,6 @@ app.use((req, res, next) => {
 //) Passport Middleware
 app.use(passport.initialize());
 
-require('./authenticate');
-
-app.get(
-  '/google',
-  passport.authenticate('google', { scope: ['profile', 'email'] })
-);
-
-app.get(
-  '/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login' }),
-  (req, res) => {
-    //res.redirect('/');
-    console.log(req.user);
-    res.end('Logged in!');
-  }
-);
-
 //) 3) ROUTES
 //? Products
 app.use('/api/v1/products', productRouter);
@@ -103,7 +86,7 @@ app.use('/api/v1/orders', orderRouter);
 //? Users
 app.use('/api/v1/users', userRouter);
 //? Authentification
-// app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/auth', authRouter);
 //? Reviews
 app.use('/api/v1/reviews', reviewRouter);
 //? Index

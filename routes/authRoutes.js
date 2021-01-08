@@ -1,64 +1,108 @@
 const express = require('express');
 const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const dotenv = require('dotenv');
-// const authController = require('./../controllers/authController');
-
-//! TEMPORARLY
-const User = require('./../models/userModel');
+const authController = require('./../controllers/authController');
 const catchAsync = require('./../utils/catchAsync');
+const User = require('./../models/userModel');
 
 //2 Read .env files
 dotenv.config({ path: './../config.env' });
 const { clientID, clientSecret, callbackURL } = process.env;
 
-//4 Google Strategy
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
 
-const GoogleStrategy = require('passport-google-oauth20');
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
 
 passport.use(
   new GoogleStrategy(
     {
-      passReqToCallBack: true,
       clientID,
       clientSecret,
       callbackURL,
     },
-    catchAsync(async (request, accessToken, refreshToken, profile, done) => {
-      const { sub, name, picture, email, locale } = profile._json;
-      let user = await User.findOne({ email });
-
-      //2 Check if the user has already signed up, if not create him
-      if (!user) {
-        user = await User.create({
-          name,
-          googleId: sub,
-          email,
-          picture,
-          locale,
-        });
-      }
-
-      done(null, user);
-    })
+    function (accessToken, refreshToken, profile, cb) {
+      // Register user here.
+      cb(null, profile);
+    }
   )
 );
 
-passport.serializeUser((user, done) => {
-  console.log(user);
-  done(null, user.id);
+const getCredentials = (req, res, next) => {
+  //2 Get user
+  const user = req.user._json;
+
+  //2  Put the User data in req.user
+  req.user = user;
+
+  //2 Call next
+  next();
+};
+
+const thirdPartyLogin = catchAsync(async (req, res, next) => {
+  const { sub } = req.user;
+
+  // 1) Check if email and password exist
+  if (!sub) {
+    return next(
+      new AppError(
+        'Something went wrong ! The login was not successful, Please try agin',
+        400
+      )
+    );
+  }
+  // 2) Check if user exists && password is correct
+  const user = await User.findOne({ googleId: sub });
+
+  if (!user) {
+    return next(
+      new AppError(
+        'Something went wrong ! The login was not successful, Please try agin',
+        400
+      )
+    );
+  }
+
+  // 3) If everything ok, send token to client
+  authController.createSendToken(user, 200, res);
 });
 
-passport.deserializeUser(
-  catchAsync(async (id, done) => {
-    const user = await User.findById(id);
-    console.log(user);
-    done(null, user);
-  })
-);
+const thirdPartySignUp = catchAsync(async (req, res, next) => {
+  const { sub, name, picture, email, locale } = req.user;
+
+  const newUser = await User.create({
+    googleId: sub,
+    name,
+    email,
+    picture,
+    locale,
+  });
+
+  authController.createSendToken(newUser, 201, res);
+});
+
+const findOrCreate = catchAsync(async (req, res, next) => {
+  //2 Find the user
+  const { sub } = req.user;
+
+  const user = await User.findOne({ googleId: sub });
+
+  if (!user) {
+    console.log('No user');
+    await thirdPartySignUp(req, res, next);
+    return;
+  }
+
+  console.log('There is user');
+  await thirdPartyLogin(req, res, next);
+  return;
+});
 
 const router = express.Router();
-
-router.use(passport.initialize());
 
 //2 Google Auth
 router.get(
@@ -67,11 +111,9 @@ router.get(
 );
 router.get(
   '/google/redirect',
-  passport.authenticate('google', { scope: ['profile', 'email'] }),
-  (req, res) => {
-    console.log(req.user);
-    res.send('This is redirect URL');
-  }
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  getCredentials,
+  findOrCreate
 );
 
 module.exports = router;
