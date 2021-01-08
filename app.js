@@ -16,6 +16,7 @@ const productRouter = require('./routes/productRoutes');
 const userRouter = require('./routes/userRoutes');
 const orderRouter = require('./routes/orderRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
+const authRouter = require('./routes/authRoutes');
 
 const app = express();
 
@@ -66,83 +67,28 @@ app.use(
 // Test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
-  console.log(req.cookies);
+  // console.log(req.cookies);
   next();
 });
-
-//2 GOOGLE AUTH
-const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const User = require('./models/userModel');
-
-const dotenv = require('dotenv');
-dotenv.config({ path: './config.env' });
-const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, callbackURL } = process.env;
-
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: GOOGLE_CLIENT_ID,
-      clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL,
-    },
-    (accessToken, refreshToken, profile, done) => {
-      // passport callback function
-      //check if user already exists in our db with the given profile ID
-      User.findOne({ googleId: profile.id }).then((currentUser) => {
-        console.log(profile);
-        if (currentUser) {
-          //if we already have a record with the given profile ID
-          done(null, currentUser);
-        } else {
-          //if not, create a new user
-          new User({
-            googleId: profile.id,
-          })
-            .save()
-            .then((newUser) => {
-              done(null, newUser);
-            });
-        }
-      });
-    }
-  )
-);
-
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser((id, done) => {
-  User.findById(id).then((user) => {
-    done(null, user);
-  });
-});
-
-app.get(
-  '/auth/google',
-  passport.authenticate('google', { scope: ['profile', 'email'] }),
-  (req, res, next) => {
-    res.send();
-    res.send('you reached the redirect URI');
-  }
-);
-
-app.get('/auth/google/redirect', passport.authenticate('google'));
 
 //) 3) ROUTES
 //? Products
 app.use('/api/v1/products', productRouter);
 //? Orders, add promocode functionnality
 app.use('/api/v1/orders', orderRouter);
-//? Users + Authentification
+//? Users
 app.use('/api/v1/users', userRouter);
+//? Authentification
+// app.use('/api/v1/auth', authRouter);
 //? Reviews
 app.use('/api/v1/reviews', reviewRouter);
 
 //) 404 not found
 app.all('*', (req, res, next) => {
-  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+  //! TEMPORARLY REDIRECT TO HOME
+  res.redirect('/');
+
+  // next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
 app.use(globalErrorHandler);

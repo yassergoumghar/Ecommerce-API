@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: [true, 'Please provide your email'],
+    // required: [true, 'Please provide your email'],
     unique: true,
     lowercase: true,
     validate: [validator.isEmail, 'Please provide a valid email'],
@@ -22,14 +22,13 @@ const userSchema = new mongoose.Schema({
     default: 'user',
   },
   password: {
+    //! Add the required function for yourself: pre('create') and check if there is no googleId or facebookId then return an error
     type: String,
-    required: [true, 'Please provide a password'],
     minlength: 8,
     select: false,
   },
   passwordConfirm: {
     type: String,
-    required: [true, 'Please confirm your password'],
     validate: {
       // This only works on CREATE and SAVE!!!
       validator: function (el) {
@@ -46,7 +45,15 @@ const userSchema = new mongoose.Schema({
     default: true,
     select: false,
   },
-  googleId: String,
+  googleId: {
+    type: String,
+    default: 'Not Logged in as a Google User',
+  },
+  facebookId: {
+    type: String,
+    default: 'Not Logged in as a Facebook User',
+  },
+  locale: String,
 });
 
 userSchema.pre('save', async function (next) {

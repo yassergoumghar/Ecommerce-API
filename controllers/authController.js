@@ -249,6 +249,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   createSendToken(user, 200, res);
 });
 
+//) Get user
 exports.getUser = (req, res, next) => {
   //2 Get user from req.user
   const { user } = req;
