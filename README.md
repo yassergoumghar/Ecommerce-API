@@ -8,8 +8,9 @@ Assalamu alaikum everyone, this an API template for your ecommerce website. It c
 
 Very simple, Clone this repository and first, you should create a *config.env* file to put envirement variables:
 
-> Setup 
--NODE_ENV= production || development  
+> Setup  
+
+-NODE_ENV= production Or development  
 -PORT= YOUR_PORT  
 -DATABASE= MONGODB_LINK  
 -DATABASE_PASSWORD= MONGODB_PASSWORD  
