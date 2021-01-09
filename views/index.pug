@@ -1,5 +1,603 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  // Page Preloder
+  #preloder
+    .loader
+  // Offcanvas Menu Begin
+  .offcanvas-menu-overlay
+  .offcanvas-menu-wrapper
+    .offcanvas__option
+      .offcanvas__links
+        a(href='#') Sign in
+        a(href='#') FAQs
+      .offcanvas__top__hover
+        span
+          | Usd 
+          i.arrow_carrot-down
+        ul
+          li USD
+          li EUR
+          li USD
+    .offcanvas__nav__option
+      a.search-switch(href='#')
+        img(src='img/icon/search.png' alt='')
+      a(href='#')
+        img(src='img/icon/heart.png' alt='')
+      a(href='#')
+        img(src='img/icon/cart.png' alt='')
+        span 0
+      .price $0.00
+    #mobile-menu-wrap
+    .offcanvas__text
+      p Free shipping, 30-day return or refund guarantee.
+  // Offcanvas Menu End
+  // Header Section Begin
+  header.header
+    .header__top
+      .container
+        .row
+          .col-lg-6.col-md-7
+            .header__top__left
+              p Free shipping, 30-day return or refund guarantee.
+          .col-lg-6.col-md-5
+            .header__top__right
+              .header__top__links
+                a(href='#') Sign in
+                a(href='#') FAQs
+              .header__top__hover
+                span
+                  | Usd 
+                  i.arrow_carrot-down
+                ul
+                  li USD
+                  li EUR
+                  li USD
+    .container
+      .row
+        .col-lg-3.col-md-3
+          .header__logo
+            a(href='./index.html')
+              img(src='img/logo.png' alt='')
+        .col-lg-6.col-md-6
+          nav.header__menu.mobile-menu
+            ul
+              li.active
+                a(href='./index.html') Home
+              li
+                a(href='./shop.html') Shop
+              li
+                a(href='#') Pages
+                ul.dropdown
+                  li
+                    a(href='./about.html') About Us
+                  li
+                    a(href='./shop-details.html') Shop Details
+                  li
+                    a(href='./shopping-cart.html') Shopping Cart
+                  li
+                    a(href='./checkout.html') Check Out
+                  li
+                    a(href='./blog-details.html') Blog Details
+              li
+                a(href='./blog.html') Blog
+              li
+                a(href='./contact.html') Contacts
+        .col-lg-3.col-md-3
+          .header__nav__option
+            a.search-switch(href='#')
+              img(src='img/icon/search.png' alt='')
+            a(href='#')
+              img(src='img/icon/heart.png' alt='')
+            a(href='#')
+              img(src='img/icon/cart.png' alt='')
+              span 0
+            .price $0.00
+      .canvas__open
+        i.fa.fa-bars
+  // Header Section End
+  // Hero Section Begin
+  section.hero
+    .hero__slider.owl-carousel
+      .hero__items.set-bg(data-setbg='img/hero/hero-1.jpg')
+        .container
+          .row
+            .col-xl-5.col-lg-7.col-md-8
+              .hero__text
+                h6 Summer Collection
+                h2 Fall - Winter Collections 2030
+                p
+                  | A specialist label creating luxury essentials. Ethically
+                  | crafted with an unwavering commitment to exceptional
+                  | quality.
+                a.primary-btn(href='#')
+                  | Shop now 
+                  span.arrow_right
+                .hero__social
+                  a(href='#')
+                    i.fa.fa-facebook
+                  a(href='#')
+                    i.fa.fa-twitter
+                  a(href='#')
+                    i.fa.fa-pinterest
+                  a(href='#')
+                    i.fa.fa-instagram
+      .hero__items.set-bg(data-setbg='img/hero/hero-2.jpg')
+        .container
+          .row
+            .col-xl-5.col-lg-7.col-md-8
+              .hero__text
+                h6 Summer Collection
+                h2 Fall - Winter Collections 2030
+                p
+                  | A specialist label creating luxury essentials. Ethically
+                  | crafted with an unwavering commitment to exceptional
+                  | quality.
+                a.primary-btn(href='#')
+                  | Shop now 
+                  span.arrow_right
+                .hero__social
+                  a(href='#')
+                    i.fa.fa-facebook
+                  a(href='#')
+                    i.fa.fa-twitter
+                  a(href='#')
+                    i.fa.fa-pinterest
+                  a(href='#')
+                    i.fa.fa-instagram
+  // Hero Section End
+  // Banner Section Begin
+  section.banner.spad
+    .container
+      .row
+        .col-lg-7.offset-lg-4
+          .banner__item
+            .banner__item__pic
+              img(src='img/banner/banner-1.jpg' alt='')
+            .banner__item__text
+              h2 Clothing Collections 2030
+              a(href='#') Shop now
+        .col-lg-5
+          .banner__item.banner__item--middle
+            .banner__item__pic
+              img(src='img/banner/banner-2.jpg' alt='')
+            .banner__item__text
+              h2 Accessories
+              a(href='#') Shop now
+        .col-lg-7
+          .banner__item.banner__item--last
+            .banner__item__pic
+              img(src='img/banner/banner-3.jpg' alt='')
+            .banner__item__text
+              h2 Shoes Spring 2030
+              a(href='#') Shop now
+  // Banner Section End
+  // Product Section Begin
+  section.product.spad
+    .container
+      .row
+        .col-lg-12
+          ul.filter__controls
+            li.active(data-filter='*') Best Sellers
+            li(data-filter='.new-arrivals') New Arrivals
+            li(data-filter='.hot-sales') Hot Sales
+      .row.product__filter
+        .col-lg-3.col-md-6.col-sm-6.col-md-6.col-sm-6.mix.new-arrivals
+          .product__item
+            .product__item__pic.set-bg(data-setbg='img/product/product-1.jpg')
+              span.label New
+              ul.product__hover
+                li
+                  a(href='#')
+                    img(src='img/icon/heart.png' alt='')
+                li
+                  a(href='#')
+                    img(src='img/icon/compare.png' alt='')
+                    span Compare
+                li
+                  a(href='#')
+                    img(src='img/icon/search.png' alt='')
+            .product__item__text
+              h6 Piqu&eacute; Biker Jacket
+              a.add-cart(href='#') + Add To Cart
+              .rating
+                i.fa.fa-star-o
+                i.fa.fa-star-o
+                i.fa.fa-star-o
+                i.fa.fa-star-o
+                i.fa.fa-star-o
+              h5 $67.24
+              .product__color__select
+                label(for='pc-1')
+                  input#pc-1(type='radio')
+                label.active.black(for='pc-2')
+                  input#pc-2(type='radio')
+                label.grey(for='pc-3')
+                  input#pc-3(type='radio')
+        .col-lg-3.col-md-6.col-sm-6.col-md-6.col-sm-6.mix.hot-sales
+          .product__item
+            .product__item__pic.set-bg(data-setbg='img/product/product-2.jpg')
+              ul.product__hover
+                li
+                  a(href='#')
+                    img(src='img/icon/heart.png' alt='')
+                li
+                  a(href='#')
+                    img(src='img/icon/compare.png' alt='')
+                    span Compare
+                li
+                  a(href='#')
+                    img(src='img/icon/search.png' alt='')
+            .product__item__text
+              h6 Piqu&eacute; Biker Jacket
+              a.add-cart(href='#') + Add To Cart
+              .rating
+                i.fa.fa-star-o
+                i.fa.fa-star-o
+                i.fa.fa-star-o
+                i.fa.fa-star-o
+                i.fa.fa-star-o
+              h5 $67.24
+              .product__color__select
+                label(for='pc-4')
+                  input#pc-4(type='radio')
+                label.active.black(for='pc-5')
+                  input#pc-5(type='radio')
+                label.grey(for='pc-6')
+                  input#pc-6(type='radio')
+        .col-lg-3.col-md-6.col-sm-6.col-md-6.col-sm-6.mix.new-arrivals
+          .product__item.sale
+            .product__item__pic.set-bg(data-setbg='img/product/product-3.jpg')
+              span.label Sale
+              ul.product__hover
+                li
+                  a(href='#')
+                    img(src='img/icon/heart.png' alt='')
+                li
+                  a(href='#')
+                    img(src='img/icon/compare.png' alt='')
+                    span Compare
+                li
+                  a(href='#')
+                    img(src='img/icon/search.png' alt='')
+            .product__item__text
+              h6 Multi-pocket Chest Bag
+              a.add-cart(href='#') + Add To Cart
+              .rating
+                i.fa.fa-star
+                i.fa.fa-star
+                i.fa.fa-star
+                i.fa.fa-star
+                i.fa.fa-star-o
+              h5 $43.48
+              .product__color__select
+                label(for='pc-7')
+                  input#pc-7(type='radio')
+                label.active.black(for='pc-8')
+                  input#pc-8(type='radio')
+                label.grey(for='pc-9')
+                  input#pc-9(type='radio')
+        .col-lg-3.col-md-6.col-sm-6.col-md-6.col-sm-6.mix.hot-sales
+          .product__item
+            .product__item__pic.set-bg(data-setbg='img/product/product-4.jpg')
+              ul.product__hover
+                li
+                  a(href='#')
+                    img(src='img/icon/heart.png' alt='')
+                li
+                  a(href='#')
+                    img(src='img/icon/compare.png' alt='')
+                    span Compare
+                li
+                  a(href='#')
+                    img(src='img/icon/search.png' alt='')
+            .product__item__text
+              h6 Diagonal Textured Cap
+              a.add-cart(href='#') + Add To Cart
+              .rating
+                i.fa.fa-star-o
+                i.fa.fa-star-o
+                i.fa.fa-star-o
+                i.fa.fa-star-o
+                i.fa.fa-star-o
+              h5 $60.9
+              .product__color__select
+                label(for='pc-10')
+                  input#pc-10(type='radio')
+                label.active.black(for='pc-11')
+                  input#pc-11(type='radio')
+                label.grey(for='pc-12')
+                  input#pc-12(type='radio')
+        .col-lg-3.col-md-6.col-sm-6.col-md-6.col-sm-6.mix.new-arrivals
+          .product__item
+            .product__item__pic.set-bg(data-setbg='img/product/product-5.jpg')
+              ul.product__hover
+                li
+                  a(href='#')
+                    img(src='img/icon/heart.png' alt='')
+                li
+                  a(href='#')
+                    img(src='img/icon/compare.png' alt='')
+                    span Compare
+                li
+                  a(href='#')
+                    img(src='img/icon/search.png' alt='')
+            .product__item__text
+              h6 Lether Backpack
+              a.add-cart(href='#') + Add To Cart
+              .rating
+                i.fa.fa-star-o
+                i.fa.fa-star-o
+                i.fa.fa-star-o
+                i.fa.fa-star-o
+                i.fa.fa-star-o
+              h5 $31.37
+              .product__color__select
+                label(for='pc-13')
+                  input#pc-13(type='radio')
+                label.active.black(for='pc-14')
+                  input#pc-14(type='radio')
+                label.grey(for='pc-15')
+                  input#pc-15(type='radio')
+        .col-lg-3.col-md-6.col-sm-6.col-md-6.col-sm-6.mix.hot-sales
+          .product__item.sale
+            .product__item__pic.set-bg(data-setbg='img/product/product-6.jpg')
+              span.label Sale
+              ul.product__hover
+                li
+                  a(href='#')
+                    img(src='img/icon/heart.png' alt='')
+                li
+                  a(href='#')
+                    img(src='img/icon/compare.png' alt='')
+                    span Compare
+                li
+                  a(href='#')
+                    img(src='img/icon/search.png' alt='')
+            .product__item__text
+              h6 Ankle Boots
+              a.add-cart(href='#') + Add To Cart
+              .rating
+                i.fa.fa-star
+                i.fa.fa-star
+                i.fa.fa-star
+                i.fa.fa-star
+                i.fa.fa-star-o
+              h5 $98.49
+              .product__color__select
+                label(for='pc-16')
+                  input#pc-16(type='radio')
+                label.active.black(for='pc-17')
+                  input#pc-17(type='radio')
+                label.grey(for='pc-18')
+                  input#pc-18(type='radio')
+        .col-lg-3.col-md-6.col-sm-6.col-md-6.col-sm-6.mix.new-arrivals
+          .product__item
+            .product__item__pic.set-bg(data-setbg='img/product/product-7.jpg')
+              ul.product__hover
+                li
+                  a(href='#')
+                    img(src='img/icon/heart.png' alt='')
+                li
+                  a(href='#')
+                    img(src='img/icon/compare.png' alt='')
+                    span Compare
+                li
+                  a(href='#')
+                    img(src='img/icon/search.png' alt='')
+            .product__item__text
+              h6 T-shirt Contrast Pocket
+              a.add-cart(href='#') + Add To Cart
+              .rating
+                i.fa.fa-star-o
+                i.fa.fa-star-o
+                i.fa.fa-star-o
+                i.fa.fa-star-o
+                i.fa.fa-star-o
+              h5 $49.66
+              .product__color__select
+                label(for='pc-19')
+                  input#pc-19(type='radio')
+                label.active.black(for='pc-20')
+                  input#pc-20(type='radio')
+                label.grey(for='pc-21')
+                  input#pc-21(type='radio')
+        .col-lg-3.col-md-6.col-sm-6.col-md-6.col-sm-6.mix.hot-sales
+          .product__item
+            .product__item__pic.set-bg(data-setbg='img/product/product-8.jpg')
+              ul.product__hover
+                li
+                  a(href='#')
+                    img(src='img/icon/heart.png' alt='')
+                li
+                  a(href='#')
+                    img(src='img/icon/compare.png' alt='')
+                    span Compare
+                li
+                  a(href='#')
+                    img(src='img/icon/search.png' alt='')
+            .product__item__text
+              h6 Basic Flowing Scarf
+              a.add-cart(href='#') + Add To Cart
+              .rating
+                i.fa.fa-star-o
+                i.fa.fa-star-o
+                i.fa.fa-star-o
+                i.fa.fa-star-o
+                i.fa.fa-star-o
+              h5 $26.28
+              .product__color__select
+                label(for='pc-22')
+                  input#pc-22(type='radio')
+                label.active.black(for='pc-23')
+                  input#pc-23(type='radio')
+                label.grey(for='pc-24')
+                  input#pc-24(type='radio')
+  // Product Section End
+  // Categories Section Begin
+  section.categories.spad
+    .container
+      .row
+        .col-lg-3
+          .categories__text
+            h2
+              | Clothings Hot 
+              br
+              span Shoe Collection
+              br
+              |                 Accessories
+        .col-lg-4
+          .categories__hot__deal
+            img(src='img/product-sale.png' alt='')
+            .hot__deal__sticker
+              span Sale Of
+              h5 $29.99
+        .col-lg-4.offset-lg-1
+          .categories__deal__countdown
+            span Deal Of The Week
+            h2 Multi-pocket Chest Bag Black
+            #countdown.categories__deal__countdown__timer
+              .cd-item
+                span 3
+                p Days
+              .cd-item
+                span 1
+                p Hours
+              .cd-item
+                span 50
+                p Minutes
+              .cd-item
+                span 18
+                p Seconds
+            a.primary-btn(href='#') Shop now
+  // Categories Section End
+  // Instagram Section Begin
+  section.instagram.spad
+    .container
+      .row
+        .col-lg-8
+          .instagram__pic
+            .instagram__pic__item.set-bg(data-setbg='img/instagram/instagram-1.jpg')
+            .instagram__pic__item.set-bg(data-setbg='img/instagram/instagram-2.jpg')
+            .instagram__pic__item.set-bg(data-setbg='img/instagram/instagram-3.jpg')
+            .instagram__pic__item.set-bg(data-setbg='img/instagram/instagram-4.jpg')
+            .instagram__pic__item.set-bg(data-setbg='img/instagram/instagram-5.jpg')
+            .instagram__pic__item.set-bg(data-setbg='img/instagram/instagram-6.jpg')
+        .col-lg-4
+          .instagram__text
+            h2 Instagram
+            p
+              | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              | eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            h3 #Male_Fashion
+  // Instagram Section End
+  // Latest Blog Section Begin
+  section.latest.spad
+    .container
+      .row
+        .col-lg-12
+          .section-title
+            span Latest News
+            h2 Fashion New Trends
+      .row
+        .col-lg-4.col-md-6.col-sm-6
+          .blog__item
+            .blog__item__pic.set-bg(data-setbg='img/blog/blog-1.jpg')
+            .blog__item__text
+              span
+                img(src='img/icon/calendar.png' alt='')
+                |  16 February
+                |                   2020
+              h5 What Curling Irons Are The Best Ones
+              a(href='#') Read More
+        .col-lg-4.col-md-6.col-sm-6
+          .blog__item
+            .blog__item__pic.set-bg(data-setbg='img/blog/blog-2.jpg')
+            .blog__item__text
+              span
+                img(src='img/icon/calendar.png' alt='')
+                |  21 February
+                |                   2020
+              h5 Eternity Bands Do Last Forever
+              a(href='#') Read More
+        .col-lg-4.col-md-6.col-sm-6
+          .blog__item
+            .blog__item__pic.set-bg(data-setbg='img/blog/blog-3.jpg')
+            .blog__item__text
+              span
+                img(src='img/icon/calendar.png' alt='')
+                |  28 February
+                |                   2020
+              h5 The Health Benefits Of Sunglasses
+              a(href='#') Read More
+  // Latest Blog Section End
+  // Footer Section Begin
+  footer.footer
+    .container
+      .row
+        .col-lg-3.col-md-6.col-sm-6
+          .footer__about
+            .footer__logo
+              a(href='#')
+                img(src='img/footer-logo.png' alt='')
+            p
+              | The customer is at the heart of our unique business model, which
+              | includes design.
+            a(href='#')
+              img(src='img/payment.png' alt='')
+        .col-lg-2.offset-lg-1.col-md-3.col-sm-6
+          .footer__widget
+            h6 Shopping
+            ul
+              li
+                a(href='#') Clothing Store
+              li
+                a(href='#') Trending Shoes
+              li
+                a(href='#') Accessories
+              li
+                a(href='#') Sale
+        .col-lg-2.col-md-3.col-sm-6
+          .footer__widget
+            h6 Shopping
+            ul
+              li
+                a(href='#') Contact Us
+              li
+                a(href='#') Payment Methods
+              li
+                a(href='#') Delivary
+              li
+                a(href='#') Return &amp; Exchanges
+        .col-lg-3.offset-lg-1.col-md-6.col-sm-6
+          .footer__widget
+            h6 NewLetter
+            .footer__newslatter
+              p
+                | Be the first to know about new arrivals, look books, sales &amp;
+                | promos!
+              form(action='#')
+                input(type='text' placeholder='Your email')
+                button(type='submit')
+                  span.icon_mail_alt
+      .row
+        .col-lg-12.text-center
+          .footer__copyright__text
+            // Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0.
+            p
+              | Copyright &copy;
+              script.
+                document.write(new Date().getFullYear());
+              |                 2020 All rights reserved | This template is made with
+              i.fa.fa-heart-o(aria-hidden='true')
+              |  by
+              a(href='https://colorlib.com' target='_blank') Colorlib
+            // Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0.
+  // Footer Section End
+  // Search Begin
+  .search-model
+    .h-100.d-flex.align-items-center.justify-content-center
+      .search-close-switch +
+      form.search-model-form
+        input#search-input(type='text' placeholder='Search here.....')
+  // Search End
