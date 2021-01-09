@@ -1,29 +1,36 @@
 const express = require('express');
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const dotenv = require('dotenv');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 const authController = require('./../controllers/authController');
-const catchAsync = require('./../utils/catchAsync');
-const User = require('./../models/userModel');
 
 //2 Read .env files
 dotenv.config({ path: './../config.env' });
-const { clientID, clientSecret, callbackURL } = process.env;
+const {
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
+  GOOGLE_CALLBACK_URL,
+  FACEBOOK_CLIENT_ID,
+  FACEBOOK_CLIENT_SECRET,
+  FACEBOOK_CALLBACK_URL,
+} = process.env;
 
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  done(null, user);
 });
 
 passport.deserializeUser((user, done) => {
   done(null, user);
 });
 
+//2 Google Strategy Setup
 passport.use(
   new GoogleStrategy(
     {
-      clientID,
-      clientSecret,
-      callbackURL,
+      clientID: GOOGLE_CLIENT_ID,
+      clientSecret: GOOGLE_CLIENT_SECRET,
+      callbackURL: GOOGLE_CALLBACK_URL,
     },
     function (accessToken, refreshToken, profile, cb) {
       // Register user here.
@@ -32,75 +39,30 @@ passport.use(
   )
 );
 
-const getCredentials = (req, res, next) => {
-  //2 Get user
-  const user = req.user._json;
-
-  //2  Put the User data in req.user
-  req.user = user;
-
-  //2 Call next
-  next();
-};
-
-const thirdPartyLogin = catchAsync(async (req, res, next) => {
-  const { sub } = req.user;
-
-  // 1) Check if email and password exist
-  if (!sub) {
-    return next(
-      new AppError(
-        'Something went wrong ! The login was not successful, Please try agin',
-        400
-      )
-    );
-  }
-  // 2) Check if user exists && password is correct
-  const user = await User.findOne({ googleId: sub });
-
-  if (!user) {
-    return next(
-      new AppError(
-        'Something went wrong ! The login was not successful, Please try agin',
-        400
-      )
-    );
-  }
-
-  // 3) If everything ok, send token to client
-  authController.createSendToken(user, 200, res);
-});
-
-const thirdPartySignUp = catchAsync(async (req, res, next) => {
-  const { sub, name, picture, email, locale } = req.user;
-
-  const newUser = await User.create({
-    googleId: sub,
-    name,
-    email,
-    picture,
-    locale,
-  });
-
-  authController.createSendToken(newUser, 201, res);
-});
-
-const findOrCreate = catchAsync(async (req, res, next) => {
-  //2 Find the user
-  const { sub } = req.user;
-
-  const user = await User.findOne({ googleId: sub });
-
-  if (!user) {
-    console.log('No user');
-    await thirdPartySignUp(req, res, next);
-    return;
-  }
-
-  console.log('There is user');
-  await thirdPartyLogin(req, res, next);
-  return;
-});
+//2 Facebook Strategy Setup
+passport.use(
+  new FacebookStrategy(
+    {
+      clientID: FACEBOOK_CLIENT_ID,
+      clientSecret: FACEBOOK_CLIENT_SECRET,
+      callbackURL: FACEBOOK_CALLBACK_URL,
+      profileFields: [
+        'id',
+        'email',
+        'gender',
+        'link',
+        'locale',
+        'name',
+        'timezone',
+        'updated_time',
+        'verified',
+      ],
+    },
+    function (accessToken, refreshToken, profile, cb) {
+      return cb(null, profile);
+    }
+  )
+);
 
 const router = express.Router();
 
@@ -112,8 +74,18 @@ router.get(
 router.get(
   '/google/redirect',
   passport.authenticate('google', { failureRedirect: '/login' }),
-  getCredentials,
-  findOrCreate
+  authController.getCredentials,
+  authController.findOrCreate
+);
+
+//2 Facebook Auth
+router.get('/facebook', passport.authenticate('facebook'));
+
+router.get(
+  '/facebook/redirect',
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  authController.getCredentials,
+  authController.findOrCreate
 );
 
 router.post('/signup', authController.signup);

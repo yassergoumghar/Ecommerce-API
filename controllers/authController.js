@@ -12,7 +12,7 @@ const signToken = (id) => {
   });
 };
 
-exports.createSendToken = (user, statusCode, res) => {
+const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
   const cookieOptions = {
     expires: new Date(
@@ -260,3 +260,82 @@ exports.getUser = (req, res, next) => {
   //2 Call next
   next();
 };
+
+const thirdPartyLogin = catchAsync(async (req, res, next) => {
+  const { sub, id } = req.user;
+
+  // 1) Check if email and password exist
+  if (!sub) {
+    return next(
+      new AppError(
+        'Something went wrong ! The login was not successful, Please try agin',
+        400
+      )
+    );
+  }
+  // 2) Check if user exists && password is correct
+  const user = await User.findOne({ thirdPartyId: sub || id });
+
+  if (!user) {
+    return next(
+      new AppError(
+        'Something went wrong ! The login was not successful, Please try agin',
+        400
+      )
+    );
+  }
+
+  // 3) If everything ok, send token to client
+  createSendToken(user, 200, res);
+});
+
+const thirdPartySignUp = catchAsync(async (req, res, next) => {
+  const { sub, picture, email, locale, id, first_name, last_name } = req.user;
+  let { name } = req.user;
+
+  if (!name && (first_name, last_name)) name = `${first_name} ${last_name}`;
+
+  if (sub || id) {
+    let newUser = await User.create({
+      thirdPartyId: sub || id,
+      name,
+      email,
+      picture,
+      locale,
+    });
+    return createSendToken(newUser, 201, res);
+  }
+
+  const err = new AppError('Something went wrong, Please sign up again', 500);
+  next(err);
+});
+
+exports.getCredentials = (req, res, next) => {
+  //2 Get user
+  const user = req.user._json;
+
+  //2  Put the User data in req.user
+  req.user = user;
+
+  //2 Call next
+  next();
+};
+
+exports.findOrCreate = catchAsync(async (req, res, next) => {
+  //2 Find the user
+  const { sub, id } = req.user;
+
+  let user;
+
+  //2 Look for the User using Google ID or Facebook ID
+  if (sub) user = await User.findOne({ thirdPartyId: sub });
+  if (id) user = await User.findOne({ thirdPartyId: id });
+
+  if (!user) {
+    console.log('No user');
+    return await thirdPartySignUp(req, res, next);
+  }
+
+  console.log('There is user');
+  return await thirdPartyLogin(req, res, next);
+});

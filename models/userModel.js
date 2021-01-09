@@ -2,6 +2,7 @@ const crypto = require('crypto');
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
+const AppError = require('./../utils/appError');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -11,7 +12,6 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     // required: [true, 'Please provide your email'],
-    unique: true,
     lowercase: true,
     validate: [validator.isEmail, 'Please provide a valid email'],
   },
@@ -45,15 +45,26 @@ const userSchema = new mongoose.Schema({
     default: true,
     select: false,
   },
-  googleId: {
-    type: String,
-    default: 'Not Logged in as a Google User',
-  },
-  facebookId: {
-    type: String,
-    default: 'Not Logged in as a Facebook User',
-  },
+  thirdPartyId: String,
   locale: String,
+});
+
+//? Password Required Middleware
+userSchema.pre('save', function (next) {
+  //2 Check if there is Google Id or Facebook Id specified
+  if (this.thirdPartyId) {
+    //2 One of the Ids is true, donc call next
+    return next();
+  }
+
+  //3 If not, then check if there is password
+  if (!this.password || !this.passwordConfirm) {
+    const err = new AppError('Please specify a password and confirm it', 400);
+    return next(err);
+  }
+
+  //4 Else, Everything is good 👍
+  next();
 });
 
 userSchema.pre('save', async function (next) {
