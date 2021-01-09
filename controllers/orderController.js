@@ -22,3 +22,11 @@ exports.getStatus = (req, _res, next) => {
 
   next();
 };
+
+exports.putUnconfirmed = (req, res, next) => {
+  //2 Put the req.params.unconfirmed
+  req.params.unconfirmed = true;
+
+  //2 Call next
+  next();
+};

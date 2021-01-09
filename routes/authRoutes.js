@@ -73,7 +73,7 @@ router.get(
 );
 router.get(
   '/google/redirect',
-  passport.authenticate('google', { failureRedirect: '/login' }),
+  passport.authenticate('google', { failureRedirect: '/' }),
   authController.getCredentials,
   authController.findOrCreate
 );
@@ -83,7 +83,7 @@ router.get('/facebook', passport.authenticate('facebook'));
 
 router.get(
   '/facebook/redirect',
-  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  passport.authenticate('facebook', { failureRedirect: '/' }),
   authController.getCredentials,
   authController.findOrCreate
 );

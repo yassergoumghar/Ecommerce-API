@@ -22,4 +22,11 @@ router.patch(
   orderController.updateOrder
 );
 
+//7 Get new Orders
+router.get(
+  '/unconfirmed',
+  orderController.putUnconfirmed,
+  orderController.getOrders
+);
+
 module.exports = router;
