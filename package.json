@@ -1,13 +1,14 @@
 {
   "name": "template",
   "version": "1.0.0",
-  "description": "A template for Developping Web Application",
-  "main": "app.js",
+  "description": "An API template for E-commerce using Mongoose, Express and Google, Facebook Auth",
+  "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
-    "debug": "ndb server.js"
+    "start:dev": "nodemon ./server.js",
+    "debug": "ndb ./server.js",
+    "start": "node ./server.js"
   },
-  "author": "Yasser",
+  "author": "Yasser Goumghar",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -35,5 +36,9 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YasserGmr/Ecommerce-API.git"
   }
 }
