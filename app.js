@@ -14,7 +14,6 @@ const globalErrorHandler = require('./controllers/errorController');
 
 //) Routers
 const productRouter = require('./routes/productRoutes');
-const userRouter = require('./routes/userRoutes');
 const orderRouter = require('./routes/orderRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const authRouter = require('./routes/authRoutes');
@@ -28,7 +27,7 @@ app.set('view engine', 'pug');
 
 // 1) GLOBAL MIDDLEWARES
 // Serving static files
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
 // Set security HTTP headers
 app.use(helmet());
 
@@ -83,8 +82,6 @@ app.use(passport.initialize());
 app.use('/api/v1/products', productRouter);
 //? Orders, add promocode functionnality
 app.use('/api/v1/orders', orderRouter);
-//? Users
-app.use('/api/v1/users', userRouter);
 //? Authentification
 app.use('/api/v1/auth', authRouter);
 //? Reviews
@@ -94,10 +91,7 @@ app.use('/', viewRouter);
 
 //) 404 not found
 app.all('*', (req, res, next) => {
-  //! TEMPORARLY REDIRECT TO HOME
-  res.redirect('/');
-
-  // next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
 app.use(globalErrorHandler);
