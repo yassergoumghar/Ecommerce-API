@@ -19,13 +19,18 @@ const productSchema = new mongoose.Schema(
       required: [true, "Please put the Product's description"],
     },
     price: {
-      type: Array,
+      type: Number,
       required: [true, "Please put the Product's price"],
     },
     pictures: {
       type: Array,
       required: [true, "Please put the Product's pictures"],
     },
+    preview: {
+      type: String,
+      required: [true, 'PLease put the product preview picture'],
+    },
+    sale: Boolean,
     active: {
       type: Boolean,
       default: true,

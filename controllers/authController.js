@@ -262,28 +262,7 @@ exports.getUser = (req, res, next) => {
 };
 
 const thirdPartyLogin = catchAsync(async (req, res, next) => {
-  const { sub, id } = req.user;
-
-  // 1) Check if email and password exist
-  if (!sub) {
-    return next(
-      new AppError(
-        'Something went wrong ! The login was not successful, Please try agin',
-        400
-      )
-    );
-  }
-  // 2) Check if user exists && password is correct
-  const user = await User.findOne({ thirdPartyId: sub || id });
-
-  if (!user) {
-    return next(
-      new AppError(
-        'Something went wrong ! The login was not successful, Please try agin',
-        400
-      )
-    );
-  }
+  const { user } = req;
 
   // 3) If everything ok, send token to client
   createSendToken(user, 200, res);
@@ -336,6 +315,9 @@ exports.findOrCreate = catchAsync(async (req, res, next) => {
     return await thirdPartySignUp(req, res, next);
   }
 
-  console.log('There is user');
+  //2 Put the user in req.user
+  req.user = user;
+  console.log(user);
+
   return await thirdPartyLogin(req, res, next);
 });

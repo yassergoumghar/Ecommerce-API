@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start:dev": "nodemon ./server.js",
+    "watch:dev": "webpack",
     "debug": "ndb ./server.js",
     "start": "node ./server.js"
   },

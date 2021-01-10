@@ -1,3 +1,4 @@
 {
-    "ext": "js,html,pug,css"
+    "ext": "js,html,pug,css",
+    "ignore": ["src/js/*.js", "dist/bundle.js"] 
 }
