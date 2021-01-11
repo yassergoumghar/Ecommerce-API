@@ -1,5 +1,3 @@
-
-
 // Overlay
 #preloder
     .loader
@@ -25,82 +23,84 @@
             a.search-switch(href='#')
                 img(src='img/icon/search.png' alt='')
             a(href='#')
-                img(src='img/icon/heart.png' alt='')
-            a(href='#')
-                img(src='img/icon/cart.png' alt='')
-                span 0
-            .price $0.00
+                img.like(src='img/icon/heart.png' alt='')
+            a.cart
+                .cart
+                    img(src='img/icon/cart.png' alt='')
+                    span 0
+            .cart.price $0.00
         #mobile-menu-wrap
         .offcanvas__text
             p Free shipping, 30-day return or refund guarantee.
     // Offcanvas Menu End
-    header.header
-        .header__top
-            .container
-                .row
-                    .col-lg-6.col-md-7
-                        .header__top__left
-                            p Free shipping, 30-day return or refund guarantee.
-                    .col-lg-6.col-md-5
-                        .header__top__right
-                            .header__top__links
-
-                                if (user)
-                                    - var UserName = user.name.split(' ')[0]
-                                    a(href='#') Welcome #{UserName}
-                                else
-                                    a(href='#') Sign in
-                                    a(href='#') FAQs
-
-
-                            .header__top__hover
-                                span
-                                    | Usd 
-                                    i.arrow_carrot-down
-                                ul
-                                    li USD
-                                    li EUR
-                                    li USD
+header.header
+    .header__top
         .container
             .row
-                .col-lg-3.col-md-3
-                    .header__logo
-                        a(href='./index.html')
-                            img(src='img/logo.png' alt='')
-                .col-lg-6.col-md-6
-                    nav.header__menu.mobile-menu
-                        ul
-                            li
-                                a(href='./index.html') Home
-                            li.active
-                                a(href='./shop.html') Shop
-                            li
-                                a(href='#') Pages
-                                ul.dropdown
-                                    li
-                                        a(href='./about.html') About Us
-                                    li
-                                        a(href='./shop-details.html') Shop Details
-                                    li
-                                        a(href='./shopping-cart.html') Shopping Cart
-                                    li
-                                        a(href='./checkout.html') Check Out
-                                    li
-                                        a(href='./blog-details.html') Blog Details
-                            li
-                                a(href='./blog.html') Blog
-                            li
-                                a(href='./contact.html') Contacts
-                .col-lg-3.col-md-3
-                    .header__nav__option
-                        a.search-switch(href='#')
-                            img(src='img/icon/search.png' alt='')
-                        a(href='#')
-                            img(src='img/icon/heart.png' alt='')
-                        a(href='#')
+                .col-lg-6.col-md-7
+                    .header__top__left
+                        p Free shipping, 30-day return or refund guarantee.
+                .col-lg-6.col-md-5
+                    .header__top__right
+                        .header__top__links
+
+                            if (user)
+                                - var UserName = user.name.split(' ')[0]
+                                a(href='#') Welcome #{UserName}
+                            else
+                                a(href='#') Sign in
+                                a(href='#') FAQs
+
+
+                        .header__top__hover
+                            span
+                                | Usd 
+                                i.arrow_carrot-down
+                            ul
+                                li USD
+                                li EUR
+                                li USD
+    .container
+        .row
+            .col-lg-3.col-md-3
+                .header__logo
+                    a(href='./index.html')
+                        img(src='img/logo.png' alt='')
+            .col-lg-6.col-md-6
+                nav.header__menu.mobile-menu
+                    ul
+                        li
+                            a(href='./index.html') Home
+                        li.active
+                            a(href='./shop.html') Shop
+                        li
+                            a(href='#') Pages
+                            ul.dropdown
+                                li
+                                    a(href='./about.html') About Us
+                                li
+                                    a(href='./shop-details.html') Shop Details
+                                li
+                                    a(href='./shopping-cart.html') Shopping Cart
+                                li
+                                    a(href='./checkout.html') Check Out
+                                li
+                                    a(href='./blog-details.html') Blog Details
+                        li
+                            a(href='./blog.html') Blog
+                        li
+                            a(href='./contact.html') Contacts
+            .col-lg-3.col-md-3
+                .header__nav__option
+                    a.search-switch(href='#')
+                        img(src='img/icon/search.png' alt='')
+                    a.like
+                        img(src='img/icon/heart.png' alt='')
+                    a.cart
+                        .cart
                             img(src='img/icon/cart.png' alt='')
                             span 0
-                        .price $0.00
-            .canvas__open
-                i.fa.fa-bars
-    // Header Section End
+                    .cart.price $0.00
+        .canvas__open
+            i.fa.fa-bars
+// Header Section End

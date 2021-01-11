@@ -20,12 +20,12 @@ block content
                 .shop__sidebar
                     .shop__sidebar__search
                         form(action='#')
-                            input(type='text' placeholder='Search...')
-                            button(type='submit')
-                                span.icon_search
+                            input(type='text' placeholder='Search...' id="search__input")
+                            button.search
+                                span.icon_search.search
                     .shop__sidebar__accordion
                         #accordionExample.accordion
-                            .card
+                            .card#categories
                                 .card-heading
                                     a(data-toggle='collapse' data-target='#collapseOne') Categories
                                 #collapseOne.collapse.show(data-parent='#accordionExample')
@@ -33,24 +33,20 @@ block content
                                         .shop__sidebar__categories
                                             ul.nice-scroll
                                                 li
-                                                    a(href='#') Men (20)
+                                                    a(id="men" class="pointer") Men (20)
                                                 li
-                                                    a(href='#') Women (20)
+                                                    a(id="women" class="pointer") Women (20)
                                                 li
-                                                    a(href='#') Bags (20)
+                                                    a(id="bags" class="pointer") Bags (20)
                                                 li
-                                                    a(href='#') Clothing (20)
+                                                    a(id="clothing" class="pointer") Clothing (20)
                                                 li
-                                                    a(href='#') Shoes (20)
+                                                    a(id="shoes" class="pointer") Shoes (20)
                                                 li
-                                                    a(href='#') Accessories (20)
+                                                    a(id="accessories" class="pointer") Accessories (20)
                                                 li
-                                                    a(href='#') Kids (20)
-                                                li
-                                                    a(href='#') Kids (20)
-                                                li
-                                                    a(href='#') Kids (20)
-                            .card
+                                                    a(id="kids" class="pointer") Kids (20)
+                            .card#branding
                                 .card-heading
                                     a(data-toggle='collapse' data-target='#collapseTwo') Branding
                                 #collapseTwo.collapse.show(data-parent='#accordionExample')
@@ -65,7 +61,7 @@ block content
                                                     a(href='#') Hermes
                                                 li
                                                     a(href='#') Gucci
-                            .card
+                            .card#price                            
                                 .card-heading
                                     a(data-toggle='collapse' data-target='#collapseThree') Filter Price
                                 #collapseThree.collapse.show(data-parent='#accordionExample')
@@ -84,7 +80,7 @@ block content
                                                     a(href='#') $200.00 - $250.00
                                                 li
                                                     a(href='#') 250.00+
-                            .card
+                            .card#size                            
                                 .card-heading
                                     a(data-toggle='collapse' data-target='#collapseFour') Size
                                 #collapseFour.collapse.show(data-parent='#accordionExample')
@@ -114,7 +110,7 @@ block content
                                             label(for='4xl')
                                                 | 4xl
                                                 input#4xl(type='radio')
-                            .card
+                            .card#colors                            
                                 .card-heading
                                     a(data-toggle='collapse' data-target='#collapseFive') Colors
                                 #collapseFive.collapse.show(data-parent='#accordionExample')
@@ -138,7 +134,7 @@ block content
                                                 input#sp-8(type='radio')
                                             label.c-9(for='sp-9')
                                                 input#sp-9(type='radio')
-                            .card
+                            .card#tags
                                 .card-heading
                                     a(data-toggle='collapse' data-target='#collapseSix') Tags
                                 #collapseSix.collapse.show(data-parent='#accordionExample')
@@ -166,6 +162,7 @@ block content
                                     option(value='') $55 - $100
                 .row
                     each product in products
+                          //- Testing Purpose
                           each val in [1, 2, 3, 4, 5]
                             .col-lg-4.col-md-6.col-sm-6
                                 .product__item.sale
@@ -209,4 +206,15 @@ block content
                             a(href='#') 3
                             span ...
                             a(href='#') 21
-    // Shop Section End
+        // Shop Section End
+    section.latest.spad
+        .container
+            .row
+                .col-lg-12
+            .row
+                .col-lg-4.col-md-6.col-sm-6
+                    .blog__item
+                .col-lg-4.col-md-6.col-sm-6
+                    .blog__item
+                .col-lg-4.col-md-6.col-sm-6
+                    .blog__item
