@@ -22,5 +22,9 @@ export const elements = {
 export const routes = {
   checkout: '/checkout',
   likes: '/likes',
-  search: '/products/results?search_query=',
+  search: '/products?search_query=',
+};
+
+export const paramsMethod = {
+  filterRoute: '/products',
 };

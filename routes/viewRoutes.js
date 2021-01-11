@@ -17,7 +17,7 @@ router.get('/', function (req, res, next) {
 //2 Get Best Sellers, new Arrivals, Hot sales, deal of the week
 
 //2 Get /shop: All products, filter by: Categories, Branding, Price: Low to high + high to low + between x and y... , Size (multi select), colors, tags, Pagination: Get only 20 products by 20
-router.get('/shop', viewController.getProducts);
+router.get('/products', viewController.getProducts);
 
 //2 Checkout
 router.get('/checkout', (req, res, next) => {
