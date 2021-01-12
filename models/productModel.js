@@ -8,11 +8,27 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please put the Product's name"],
     },
-    category: String,
+    categories: {
+      type: String,
+      required: [true, "Please put the Product's category, and it's either: "],
+      enum: [
+        'men',
+        'women',
+        'bags',
+        'clothing',
+        'shoes',
+        'clothing',
+        'accessories',
+      ],
+    },
     slug: String,
     brand: {
       type: String,
-      required: [true, "Please put the Product's brand"],
+      enum: ['louisVuitton', 'chanel', 'hermes', 'gucci'],
+      required: [
+        true,
+        "Please put the Product's brand, and it's either: 'louisVuitton', 'chanel', 'hermes', 'gucci' ",
+      ],
     },
     description: {
       type: String,

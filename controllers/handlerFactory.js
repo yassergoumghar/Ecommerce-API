@@ -67,7 +67,7 @@ exports.getOne = (Model, popOptions) =>
 
 exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
-    // To allow for nested GET reviews on tour (hack)
+    //) To Retreive only not confirmed orders.
     let filter = {};
     if (req.params.unconfirmed) filter = { status: { $eq: 'notConfirmed' } };
 
@@ -76,7 +76,6 @@ exports.getAll = (Model) =>
       .sort()
       .limitFields()
       .paginate();
-    // const doc = await features.query.explain();
     const doc = await features.query;
 
     // SEND RESPONSE

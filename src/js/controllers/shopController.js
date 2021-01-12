@@ -2,7 +2,7 @@ import { elements } from './../utils/Variables';
 import { searchHandler } from './headerController';
 import { queryListener } from './queryController';
 
-const { searchElements, categories } = elements;
+const { searchElements, filter } = elements;
 
 const callSearchandler = (e) => {
   e.preventDefault();
@@ -22,5 +22,5 @@ export const searchController = () => {
 };
 
 export const queryController = () => {
-  Object.entries(categories).forEach((el) => queryListener(el));
+  Object.entries(filter).forEach((el) => queryListener(el));
 };

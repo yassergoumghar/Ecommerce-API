@@ -1,23 +1,40 @@
+const els = [
+  'men',
+  'women',
+  'bags',
+  'clothing',
+  'accessories',
+  'kids',
+  'louisVuitton',
+  'chanel',
+  'hermes',
+  'gucci',
+  'black',
+  'blue',
+  'yellow',
+  'grey',
+  'brown',
+  'pink',
+  'purple',
+  'red',
+  'white',
+  'bags',
+  'shoes',
+  'clothing',
+  'accessories',
+];
+
 export const elements = {
   carts: document.querySelectorAll('.cart'),
   likes: document.querySelectorAll('.like'),
   search: document.querySelectorAll('.search-switch'),
   searchElements: document.querySelectorAll('.search'),
-  categories: {
-    men: document.getElementById('men'),
-    women: document.getElementById('women'),
-    bags: document.getElementById('bags'),
-    clothing: document.getElementById('clothing'),
-    shoes: document.getElementById('shoes'),
-    accessories: document.getElementById('accessories'),
-    kids: document.getElementById('kids'),
-  },
-  branding: document.getElementById('branding'),
-  price: document.getElementById('price'),
-  size: document.getElementById('size'),
-  colors: document.getElementById('colors'),
-  tags: document.getElementById('tags'),
+  filter: {},
 };
+
+els.forEach((key) => {
+  elements.filter[key] = document.getElementById(key);
+});
 
 export const routes = {
   checkout: '/checkout',

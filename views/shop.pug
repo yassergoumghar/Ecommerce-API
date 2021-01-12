@@ -1,7 +1,7 @@
 extends base
 
 block content
-    // Breadcrumb Section Begin
+    //- Breadcrumb Section Begin
     section.breadcrumb-option
         .container
             .row
@@ -11,8 +11,8 @@ block content
                         .breadcrumb__links
                             a(href='./index.html') Home
                             span Shop
-        // Breadcrumb Section End
-        // Shop Section Begin
+        //- Breadcrumb Section End
+        //- Shop Section Begin
     section.shop.spad
     .container
         .row
@@ -33,34 +33,34 @@ block content
                                         .shop__sidebar__categories
                                             ul.nice-scroll
                                                 li
-                                                    a(id="men" class="pointer") Men (20)
+                                                    a(href='#' id="men") Men (20)
                                                 li
-                                                    a(id="women" class="pointer") Women (20)
+                                                    a(href='#' id="women") Women (20)
                                                 li
-                                                    a(id="bags" class="pointer") Bags (20)
+                                                    a(href='#' id="bags") Bags (20)
                                                 li
-                                                    a(id="clothing" class="pointer") Clothing (20)
+                                                    a(href='#' id="clothing") Clothing (20)
                                                 li
-                                                    a(id="shoes" class="pointer") Shoes (20)
+                                                    a(href='#' id="shoes") Shoes (20)
                                                 li
-                                                    a(id="accessories" class="pointer") Accessories (20)
+                                                    a(href='#' id="accessories") Accessories (20)
                                                 li
-                                                    a(id="kids" class="pointer") Kids (20)
-                            .card#branding
-                                .card-heading
+                                                    a(href='#' id="kids") Kids (20)
+                            .card#brand
+                                .card-headbing
                                     a(data-toggle='collapse' data-target='#collapseTwo') Branding
                                 #collapseTwo.collapse.show(data-parent='#accordionExample')
                                     .card-body
                                         .shop__sidebar__brand
                                             ul
                                                 li
-                                                    a(href='#') Louis Vuitton
+                                                    a(href='#' id="louisVuitton") Louis Vuitton
                                                 li
-                                                    a(href='#') Chanel
+                                                    a(href='#' id="chanel") Chanel
                                                 li
-                                                    a(href='#') Hermes
+                                                    a(href='#' id="hermes") Hermes
                                                 li
-                                                    a(href='#') Gucci
+                                                    a(href='#' id="gucci") Gucci
                             .card#price                            
                                 .card-heading
                                     a(data-toggle='collapse' data-target='#collapseThree') Filter Price
@@ -116,43 +116,44 @@ block content
                                 #collapseFive.collapse.show(data-parent='#accordionExample')
                                     .card-body
                                         .shop__sidebar__color
-                                            label.c-1(for='sp-1')
+                                            label#black.c-1(for='sp-1')
                                                 input#sp-1(type='radio')
-                                            label.c-2(for='sp-2')
+                                            label#blue.c-2(for='sp-2')
                                                 input#sp-2(type='radio')
-                                            label.c-3(for='sp-3')
+                                            label#yellow.c-3(for='sp-3')
                                                 input#sp-3(type='radio')
-                                            label.c-4(for='sp-4')
+                                            label#grey.c-4(for='sp-4')
                                                 input#sp-4(type='radio')
-                                            label.c-5(for='sp-5')
+                                            label#brown.c-5(for='sp-5')
                                                 input#sp-5(type='radio')
-                                            label.c-6(for='sp-6')
+                                            label#pink.c-6(for='sp-6')
                                                 input#sp-6(type='radio')
-                                            label.c-7(for='sp-7')
+                                            label#purple.c-7(for='sp-7')
                                                 input#sp-7(type='radio')
-                                            label.c-8(for='sp-8')
+                                            label#red.c-8(for='sp-8')
                                                 input#sp-8(type='radio')
-                                            label.c-9(for='sp-9')
+                                            label#white.c-9(for='sp-9')
                                                 input#sp-9(type='radio')
-                            .card#tags
-                                .card-heading
-                                    a(data-toggle='collapse' data-target='#collapseSix') Tags
-                                #collapseSix.collapse.show(data-parent='#accordionExample')
-                                    .card-body
-                                        .shop__sidebar__tags
-                                            a(href='#') Product
-                                            a(href='#') Bags
-                                            a(href='#') Shoes
-                                            a(href='#') Fashio
-                                            a(href='#') Clothing
-                                            a(href='#') Hats
-                                            a(href='#') Accessories
+                            //- Tags as lables
+                            //- .card#tags
+                            //-     .card-heading
+                            //-         a(data-toggle='collapse' data-target='#collapseSix') Tags
+                            //-     #collapseSix.collapse.show(data-parent='#accordionExample')
+                            //-         .card-body
+                            //-             .shop__sidebar__tags
+                            //-                 a(href='#' id="product") Product
+                            //-                 a(href='#' id="bags") Bags
+                            //-                 a(href='#' id="shoes") Shoes
+                            //-                 a(href='#' id="fashio") Fashio
+                            //-                 a(href='#' id="clothing") Clothing
+                            //-                 a(href='#' id="hats") Hats
+                            //-                 a(href='#' id="accessories") Accessories
             .col-lg-9
                 .shop__product__option
                     .row
                         .col-lg-6.col-md-6.col-sm-6
                             .shop__product__option__left
-                                p Showing 1&ndash;12 of 126 results
+                                p Showing 1&ndash;12 of #{length} results
                         .col-lg-6.col-md-6.col-sm-6
                             .shop__product__option__right
                                 p Sort by Price:
@@ -162,12 +163,9 @@ block content
                                     option(value='') $55 - $100
                 .row
                     each product in products
-                          //- Testing Purpose
-                          each val in [1, 2, 3, 4, 5]
                             .col-lg-4.col-md-6.col-sm-6
                                 .product__item.sale
-                                    //- .product__item__pic.set-bg(data-setbg=product.preview)
-                                    .product__item__pic.set-bg(data-setbg=`/img/product/product-${val}.jpg`)
+                                    .product__item__pic.set-bg(data-setbg=`${product.preview}`)
                                         if (product.sale)
                                             span.label Sale
                                         ul.product__hover
@@ -206,7 +204,7 @@ block content
                             a(href='#') 3
                             span ...
                             a(href='#') 21
-        // Shop Section End
+        //- Shop Section End
     section.latest.spad
         .container
             .row
