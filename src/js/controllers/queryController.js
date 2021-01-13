@@ -12,6 +12,13 @@ export const getFilterLink = (originalLink, filter, type) => {
   //2 Initialize Paginate
   const paginate = 'page';
   const paginateTarget = type === paginate;
+  const priceTarget = type.includes('price');
+
+  //2 Input: /product => /product?price[lte]=100
+
+  let priceFilter;
+
+  if (priceTarget) priceFilter = filter;
 
   //1 input: /product => output: product?type=filter
   const baseCase = originalLink === filterRoute;
@@ -19,7 +26,14 @@ export const getFilterLink = (originalLink, filter, type) => {
   //1 Or a speacial case: input: /product? => output: product?type=filter
   const speacialCase = originalLink === `${filterRoute}?`;
 
-  if (baseCase || speacialCase) return `${filterRoute}?${type}=${filter}`;
+  //2 Check pricing
+  const isPricingQuery = priceFilter ? priceFilter : `${type}=${filter}`;
+
+  if (baseCase || speacialCase) {
+    const baseCaseLink = `${filterRoute}?${isPricingQuery}`;
+
+    return baseCaseLink;
+  }
 
   //2 Check if the link includes 'page', if true, remove it:
   originalLink = originalLink.replace(/(\?|&)page=[-0-9]+/g, '');
@@ -31,13 +45,28 @@ export const getFilterLink = (originalLink, filter, type) => {
   if (!isPaginate) {
     const sameFilter = originalLink.includes(type);
     if (sameFilter) {
+      //3 Check if we're dealing with pricing
+      if (priceFilter) {
+        const [start, end] = priceFilter.split('&');
+
+        if (start && end) {
+          const gte = /price\[gte\]=[-0-9]+\&/g;
+          originalLink = originalLink.replace(gte, start);
+
+          const lte = /price\[lte\]=[-0-9]+/g;
+          originalLink = originalLink.replace(lte, end);
+          return originalLink;
+        }
+
+        console.log({ originalLink, type, filter, priceFilter });
+      }
+
       //4 input: /product?type_1=filter_1 ( not pages ) => output: /product?type_1=filter_2
       const oldFilter = getOldFilter(originalLink, type);
-
       return originalLink.replace(oldFilter, filter);
     } else {
       //2 input: /product?type_1=filter_1 ( not pages ) => output: /product?type_1=filter_1&type=filter
-      return `${originalLink}${queryString}${type}=${filter}`;
+      return `${originalLink}${queryString}${isPricingQuery}`;
     }
   }
 
@@ -57,7 +86,6 @@ export const getFilterLink = (originalLink, filter, type) => {
     const sameFilter = originalLink.includes(type);
     if (sameFilter) {
       const oldFilter = getOldFilter(originalLink, type);
-      console.log('Same');
 
       return originalLink.replace(oldFilter, filter);
     }
@@ -80,8 +108,10 @@ const queryHandler = (e) => {
   //) Get the filter link
   const link = getFilterLink(originalLink, id, type);
 
+  console.log(link);
+
   //) Change the link dinamicly
-  if (link) location.href = link;
+  // if (link) location.href = link;
 };
 
 export const queryListener = (el) => {

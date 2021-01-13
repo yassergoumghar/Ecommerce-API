@@ -61,7 +61,8 @@ block content
                                                     a(href='#' id="hermes") Hermes
                                                 li
                                                     a(href='#' id="gucci") Gucci
-                            .card#price                            
+                            - const priceId = `price`
+                            .card(id=priceId)              
                                 .card-heading
                                     a(data-toggle='collapse' data-target='#collapseThree') Filter Price
                                 #collapseThree.collapse.show(data-parent='#accordionExample')
@@ -69,17 +70,17 @@ block content
                                         .shop__sidebar__price
                                             ul
                                                 li
-                                                    a(href='#') $0.00 - $50.00
+                                                    a(href='#' id='price[gte]=0&price[lte]=50') $0.00 - $50.00
                                                 li
-                                                    a(href='#') $50.00 - $100.00
+                                                    a(href='#' id='price[gte]=50&price[lte]=100') $50.00 - $100.00
                                                 li
-                                                    a(href='#') $100.00 - $150.00
+                                                    a(href='#' id='price[gte]=100&price[lte]=150') $100.00 - $150.00
                                                 li
-                                                    a(href='#') $150.00 - $200.00
+                                                    a(href='#' id='price[gte]=150&price[lte]=200') $150.00 - $200.00
                                                 li
-                                                    a(href='#') $200.00 - $250.00
+                                                    a(href='#' id='price[gte]=200&price[lte]=250') $200.00 - $250.00
                                                 li
-                                                    a(href='#') 250.00+
+                                                    a(href='#' id='price[gte]=50') 250.00+
                             .card#size                            
                                 .card-heading
                                     a(data-toggle='collapse' data-target='#collapseFour') Size

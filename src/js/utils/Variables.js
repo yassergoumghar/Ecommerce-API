@@ -22,6 +22,12 @@ const els = [
   'shoes',
   'clothing',
   'accessories',
+  'price[gte]=0&price[lte]=50',
+  'price[gte]=50&price[lte]=100',
+  'price[gte]=100&price[lte]=150',
+  'price[gte]=150&price[lte]=200',
+  'price[gte]=200&price[lte]=250',
+  'price[gte]=50',
 ];
 
 export const elements = {

@@ -32,7 +32,7 @@ const callSearchandler = (e) => {
 };
 
 const searchListener = (search) => {
-  search.addEventListener('click', callSearchandler);
+  if (search) search.addEventListener('click', callSearchandler);
 };
 
 const paginateHandler = (e) => {
@@ -54,7 +54,7 @@ const paginateHandler = (e) => {
 };
 
 const paginateListener = (paginate) => {
-  paginate.addEventListener('click', paginateHandler);
+  if (paginate) paginate.addEventListener('click', paginateHandler);
 };
 
 const renderResultsNumber = (start, end, total, result) => {
@@ -122,7 +122,7 @@ export const queryController = () => {
 
 export const paginateController = () => {
   //* Render Paginate Numbers and pass the Paginate element and pagination Limit
-  paginateNumber(paginateElement, paginationLimit);
+  if (paginateElement[0]) paginateNumber(paginateElement, paginationLimit);
 
   //* Listen for Paginate Click
   const paginates = document.querySelectorAll('.paginate');

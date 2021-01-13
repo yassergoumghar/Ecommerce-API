@@ -15,13 +15,13 @@ const { carts, likes, search } = elements;
 const init = () => {
   //* HomePage Controller: '/'
   //2 Call Go to cart controller
-  cartController(carts);
+  if (carts) cartController(carts);
 
   //2 Call Go to Like Controller
-  likeController(likes);
+  if (likes) likeController(likes);
 
   //2 Call Search Controller
-  searchController(search);
+  if (search) searchController(search);
 
   //* Shop page: '/shop' Controller
   //2 Call search Controller
