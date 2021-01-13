@@ -153,7 +153,9 @@ block content
                     .row
                         .col-lg-6.col-md-6.col-sm-6
                             .shop__product__option__left
-                                p Showing 1&ndash;12 of #{length} results
+                                    - const number =  (length >= 12) ? 12 : length 
+                                    .hide.paginate__number Length: #{length} And Page: #{page}
+                                    p.resultsNumber Showing 1&ndash; #{number} of #{length} results
                         .col-lg-6.col-md-6.col-sm-6
                             .shop__product__option__right
                                 p Sort by Price:
@@ -161,9 +163,9 @@ block content
                                     option(value='') Low To High
                                     option(value='') $0 - $55
                                     option(value='') $55 - $100
-                .row
+                .row.products__render
                     each product in products
-                            .col-lg-4.col-md-6.col-sm-6
+                            .col-lg-4.col-md-6.col-sm-6.product.hide
                                 .product__item.sale
                                     .product__item__pic.set-bg(data-setbg=`${product.preview}`)
                                         if (product.sale)
@@ -199,11 +201,14 @@ block content
                 .row
                     .col-lg-12
                         .product__pagination
-                            a.active(href='#') 1
-                            a(href='#') 2
-                            a(href='#') 3
-                            span ...
-                            a(href='#') 21
+                //-                 a.paginate(href='#') 1
+                //-                 a.active(href='#') 2 
+                //-                 a.paginate(href='#') 3
+                //-                 span ...
+                //-                 a.paginate(href='#') 5
+
+                             
+
         //- Shop Section End
     section.latest.spad
         .container

@@ -2,6 +2,7 @@ class APIFeatures {
   constructor(query, queryString) {
     this.query = query;
     this.queryString = queryString;
+    this.length = undefined;
   }
 
   filter() {
@@ -41,6 +42,7 @@ class APIFeatures {
   }
 
   paginate() {
+    //* Skip Pagination, DO it on the Front-End
     const page = this.queryString.page * 1 || 1;
     const limit = this.queryString.limit * 1 || 12;
     const skip = (page - 1) * limit;

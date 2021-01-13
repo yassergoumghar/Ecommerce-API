@@ -1,18 +1,13 @@
 const Product = require('./../models/productModel');
-const handlerFactory = require('./handlerFactory');
 const catchAsync = require('../utils/catchAsync');
 const APIFeatures = require('./../utils/apiFeatures');
 
 exports.getProducts = catchAsync(async (req, res, next) => {
-  //) To Retreive only not confirmed orders.
-  let filter = {};
-  if (req.params.unconfirmed) filter = { status: { $eq: 'notConfirmed' } };
-
-  const features = new APIFeatures(Product.find(filter), req.query)
+  //* Skipped Pagination to do it on the Front-End
+  const features = new APIFeatures(Product.find(), req.query)
     .filter()
     .sort()
-    .limitFields()
-    .paginate();
+    .limitFields();
   const products = await features.query;
 
   //2 Build Template
@@ -22,5 +17,6 @@ exports.getProducts = catchAsync(async (req, res, next) => {
     user: res.locals.user,
     products,
     length: products.length,
+    page: req.query.page,
   });
 });

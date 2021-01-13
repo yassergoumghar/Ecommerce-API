@@ -51,6 +51,10 @@ const productSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    length: {
+      type: Number,
+      default: undefined,
+    },
   },
   //) Make sure when we have a field not stored in the database but calculated later show up in the Database
   {
@@ -73,6 +77,7 @@ productSchema.virtual('reviews', {
   localField: '_id',
 });
 
+//) Hide the *deleted* Products
 productSchema.pre(/^find/, function (next) {
   // this points to the current query
   this.find({ active: { $ne: false } });

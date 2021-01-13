@@ -2,36 +2,68 @@ import { paramsMethod } from './../utils/Variables';
 
 const { filterRoute } = paramsMethod;
 
-const getFilterLink = (originalLink, filter, type) => {
-  //2 Go to:  GET:
-  const params = '?';
-  const sameFilter = originalLink.includes(filter);
+const getOldFilter = (originalLink, type) => {
+  const re = /&/;
 
-  let link;
+  return originalLink.split(`${type}=`)[1].split(re)[0];
+};
 
-  //2 Check if the filter is already has been used:
-  if (!sameFilter) {
-    if (originalLink.includes(type)) {
-      //) '/products?search_query=searchString&category=men,women'
-      const re = /&/;
-      const oldFilter = originalLink.split(`${type}=`)[1].split(re)[0];
-      // const newFilter = `${oldFilter},${filter}`;
+export const getFilterLink = (originalLink, filter, type) => {
+  //2 Initialize Paginate
+  const paginate = 'page';
+  const paginateTarget = type === paginate;
+
+  //1 input: /product => output: product?type=filter
+  const baseCase = originalLink === filterRoute;
+
+  //1 Or a speacial case: input: /product? => output: product?type=filter
+  const speacialCase = originalLink === `${filterRoute}?`;
+
+  if (baseCase || speacialCase) return `${filterRoute}?${type}=${filter}`;
+
+  //2 Check if the link includes 'page', if true, remove it:
+  originalLink = originalLink.replace(/(\?|&)page=[-0-9]+/g, '');
+  const queryString = originalLink.includes('?') ? '&' : '?';
+
+  //6 Check if not Paginate to treat if differently
+  const isPaginate = originalLink.includes(paginate);
+
+  if (!isPaginate) {
+    const sameFilter = originalLink.includes(type);
+    if (sameFilter) {
+      //4 input: /product?type_1=filter_1 ( not pages ) => output: /product?type_1=filter_2
+      const oldFilter = getOldFilter(originalLink, type);
 
       return originalLink.replace(oldFilter, filter);
     } else {
-      const filtered = originalLink.includes(params);
-
-      //) Speacial Case: '/products?'
-      const speacialCase = originalLink.split(params)[1] === '';
-      if (speacialCase) return `${filterRoute}${params}${type}=${filter}`;
-
-      //) '/products?search_query=searchString&category=men' or '/products?category=men'
-      const reqString = filtered ? '&' : '?';
-      link = `${originalLink}${reqString}${type}=${filter}`;
+      //2 input: /product?type_1=filter_1 ( not pages ) => output: /product?type_1=filter_1&type=filter
+      return `${originalLink}${queryString}${type}=${filter}`;
     }
   }
 
-  return link;
+  //) Is paginate: Check if the target filter is paginate: if true, move to next page, if the target is
+  //) categories, color, brand... remove the paginate filter
+  if (paginateTarget) {
+    //4 input: /product?page=n  => output: /product?page=filter
+    const oldFilter = getOldFilter(originalLink, type);
+
+    return originalLink.replace(oldFilter, filter);
+  } else {
+    //4 input: /product?categories=men&brand=gucci&page=3 => output: /product?categories=men&brand=filter
+    //4 Remove &page=3, edit new filter
+    //* /products?brand=louisVuitton&
+    //* /products?&brand=louisVuitton
+
+    const sameFilter = originalLink.includes(type);
+    if (sameFilter) {
+      const oldFilter = getOldFilter(originalLink, type);
+      console.log('Same');
+
+      return originalLink.replace(oldFilter, filter);
+    }
+
+    return `${originalLink}${queryString}${type}=${filter}`;
+  }
 };
 
 const queryHandler = (e) => {
@@ -42,8 +74,11 @@ const queryHandler = (e) => {
   const { id, baseURI } = e.path[0];
   const type = e.path[0].offsetParent.id;
 
+  //) http://localhost:3000/products => products
+  const originalLink = `/${baseURI.split('/')[3]}`;
+
   //) Get the filter link
-  const link = getFilterLink(baseURI, id, type);
+  const link = getFilterLink(originalLink, id, type);
 
   //) Change the link dinamicly
   if (link) location.href = link;

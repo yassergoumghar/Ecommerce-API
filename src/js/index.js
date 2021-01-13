@@ -29,6 +29,9 @@ const init = () => {
 
   //2 Call Query controller
   ShopController.queryController();
+
+  //2 Call Paginate Controller
+  ShopController.paginateController();
 };
 
 init();
