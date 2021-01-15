@@ -33,19 +33,33 @@ block content
                                         .shop__sidebar__categories
                                             ul.nice-scroll
                                                 li
-                                                    a(href='#' id="men") Men (20)
+                                                    input(type='checkbox' id="categories=men" class="filter")
+                                                    span.checkmark
+                                                    a(href='#') Men (20)
                                                 li
-                                                    a(href='#' id="women") Women (20)
+                                                    input(type='checkbox' id="categories=women" class="filter")
+                                                    span.checkmark
+                                                    a(href='#') Women (20)
                                                 li
-                                                    a(href='#' id="bags") Bags (20)
+                                                    input(type='checkbox' id="categories=bags" class="filter")
+                                                    span.checkmark
+                                                    a(href='#') Bags (20)
                                                 li
-                                                    a(href='#' id="clothing") Clothing (20)
+                                                    input(type='checkbox' id="categories=clothing" class="filter")
+                                                    span.checkmark
+                                                    a(href='#') Clothing (20)
                                                 li
-                                                    a(href='#' id="shoes") Shoes (20)
+                                                    input(type='checkbox' id="categories=shoes" class="filter")
+                                                    span.checkmark
+                                                    a(href='#') Shoes (20)
                                                 li
-                                                    a(href='#' id="accessories") Accessories (20)
+                                                    input(type='checkbox' id="categories=accessories" class="filter")
+                                                    span.checkmark
+                                                    a(href='#') Accessories (20)
                                                 li
-                                                    a(href='#' id="kids") Kids (20)
+                                                    input(type='checkbox' id="categories=kids" class="filter")
+                                                    span.checkmark
+                                                    a(href='#') Kids (20)
                             .card#brand
                                 .card-headbing
                                     a(data-toggle='collapse' data-target='#collapseTwo') Branding
@@ -54,14 +68,23 @@ block content
                                         .shop__sidebar__brand
                                             ul
                                                 li
-                                                    a(href='#' id="louisVuitton") Louis Vuitton
+                                                    input(type='checkbox' id="brand=louisVuitton" class="filter")
+                                                    span.checkmark
+                                                    a(href="") Louis Vuitton
                                                 li
-                                                    a(href='#' id="chanel") Chanel
+                                                    input(type='checkbox' id="brand=chanel" class="filter")
+                                                    span.checkmark
+                                                    a(href="") Chanel
                                                 li
-                                                    a(href='#' id="hermes") Hermes
+                                                    input(type='checkbox' id="brand=hermes" class="filter")
+                                                    span.checkmark
+                                                    a(href="") Hermes
                                                 li
-                                                    a(href='#' id="gucci") Gucci
+                                                    input(type='checkbox' id="brand=gucci" class="filter")
+                                                    span.checkmark
+                                                    a(href="") Gucci
                             - const priceId = `price`
+                            .hide#queries= queries 
                             .card(id=priceId)              
                                 .card-heading
                                     a(data-toggle='collapse' data-target='#collapseThree') Filter Price
@@ -70,17 +93,29 @@ block content
                                         .shop__sidebar__price
                                             ul
                                                 li
-                                                    a(href='#' id='price[gte]=0&price[lte]=50') $0.00 - $50.00
+                                                    input(type='checkbox' id='price[gte]=0&price[lte]=50' class="filter")
+                                                    span.checkmark
+                                                    a(href='#') $0.00 - $50.00
                                                 li
-                                                    a(href='#' id='price[gte]=50&price[lte]=100') $50.00 - $100.00
+                                                    input(type='checkbox' id='price[gte]=50&price[lte]=100' class="filter")
+                                                    span.checkmark
+                                                    a(href='#') $50.00 - $100.00
                                                 li
-                                                    a(href='#' id='price[gte]=100&price[lte]=150') $100.00 - $150.00
+                                                    input(type='checkbox' id='price[gte]=100&price[lte]=150' class="filter")
+                                                    span.checkmark
+                                                    a(href='#') $100.00 - $150.00
                                                 li
-                                                    a(href='#' id='price[gte]=150&price[lte]=200') $150.00 - $200.00
+                                                    input(type='checkbox' id='price[gte]=150&price[lte]=200' class="filter")
+                                                    span.checkmark
+                                                    a(href='#') $150.00 - $200.00
                                                 li
-                                                    a(href='#' id='price[gte]=200&price[lte]=250') $200.00 - $250.00
+                                                    input(type='checkbox' id='price[gte]=200&price[lte]=250' class="filter")
+                                                    span.checkmark
+                                                    a(href='#') $200.00 - $250.00
                                                 li
-                                                    a(href='#' id='price[gte]=50') 250.00+
+                                                    input(type='checkbox' id='price[gte]=50' class="filter")
+                                                    span.checkmark
+                                                    a(href='#') 250.00+
                             .card#size                            
                                 .card-heading
                                     a(data-toggle='collapse' data-target='#collapseFour') Size
@@ -111,30 +146,30 @@ block content
                                             label(for='4xl')
                                                 | 4xl
                                                 input#4xl(type='radio')
-                            .card#colors                            
-                                .card-heading
-                                    a(data-toggle='collapse' data-target='#collapseFive') Colors
-                                #collapseFive.collapse.show(data-parent='#accordionExample')
-                                    .card-body
-                                        .shop__sidebar__color
-                                            label#black.c-1(for='sp-1')
-                                                input#sp-1(type='radio')
-                                            label#blue.c-2(for='sp-2')
-                                                input#sp-2(type='radio')
-                                            label#yellow.c-3(for='sp-3')
-                                                input#sp-3(type='radio')
-                                            label#grey.c-4(for='sp-4')
-                                                input#sp-4(type='radio')
-                                            label#brown.c-5(for='sp-5')
-                                                input#sp-5(type='radio')
-                                            label#pink.c-6(for='sp-6')
-                                                input#sp-6(type='radio')
-                                            label#purple.c-7(for='sp-7')
-                                                input#sp-7(type='radio')
-                                            label#red.c-8(for='sp-8')
-                                                input#sp-8(type='radio')
-                                            label#white.c-9(for='sp-9')
-                                                input#sp-9(type='radio')
+                            //- .card#colors                            
+                            //-     .card-heading
+                            //-         a(data-toggle='collapse' data-target='#collapseFive') Colors
+                            //-     #collapseFive.collapse.show(data-parent='#accordionExample')
+                            //-         .card-body
+                            //-             .shop__sidebar__color
+                            //-                 label(id="colors=black" class="c-1" for='sp-1')
+                            //-                     input#sp-1(type='radio')
+                            //-                 label(id="colors=blue" class="c-2" for='sp-2')
+                            //-                     input#sp-2(type='radio')
+                            //-                 label(id="colors=yellow" class="c-3" for='sp-3')
+                            //-                     input#sp-3(type='radio')
+                            //-                 label(id="colors=grey" class="c-4" for='sp-4')
+                            //-                     input#sp-4(type='radio')
+                            //-                 label(id="colors=brown" class="c-5" for='sp-5')
+                            //-                     input#sp-5(type='radio')
+                            //-                 label(id="colors=pink" class="c-6" for='sp-6')
+                            //-                     input#sp-6(type='radio')
+                            //-                 label(id="colors=purple" class="c-7" for='sp-7')
+                            //-                     input#sp-7(type='radio')
+                            //-                 label(id="colors=red" class="c-8" for='sp-8')
+                            //-                     input#sp-8(type='radio')
+                            //-                 label(id="colors=white" class="c-9" for='sp-9')
+                            //-                     input#sp-9(type='radio')
                             //- Tags as lables
                             //- .card#tags
                             //-     .card-heading

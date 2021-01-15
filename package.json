@@ -6,6 +6,7 @@
   "scripts": {
     "start:dev": "nodemon ./server.js",
     "watch:dev": "webpack",
+    "watch:css": "sass --watch ./src/css/style.css ./dist/css/main.css",
     "debug": "ndb ./server.js",
     "start": "node ./server.js"
   },

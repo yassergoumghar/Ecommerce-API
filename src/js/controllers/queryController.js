@@ -1,120 +1,91 @@
 import { paramsMethod } from './../utils/Variables';
 
-const { filterRoute } = paramsMethod;
+const { productRoute } = paramsMethod;
 
-const getOldFilter = (originalLink, type) => {
-  const re = /&/;
+const getIndex = (originalFilter, type) => {
+  let idx;
 
-  return originalLink.split(`${type}=`)[1].split(re)[0];
+  originalFilter.forEach((filter, i) => {
+    const includes = filter.includes(type);
+    includes ? (idx = i) : undefined;
+  });
+
+  return idx;
 };
 
-export const getFilterLink = (originalLink, filter, type) => {
-  //2 Initialize Paginate
-  const paginate = 'page';
-  const paginateTarget = type === paginate;
-  const priceTarget = type.includes('price');
+export const getFilter = (oldLink, filter, checked) => {
+  //& Check if there is no older filter => Base Case and it's Checked
+  const firstFilter = oldLink[1].length < 2;
 
-  //2 Input: /product => /product?price[lte]=100
+  //& Get old filter
+  let [, oldFilter] = oldLink;
+  const [type] = filter.split('=');
 
-  let priceFilter;
+  //& Check Paging and remove it, if only the paginate is not the target
+  const pageReg = /(\?|&)?page=[-0-9]+/g;
+  const paginate = filter.includes('page');
 
-  if (priceTarget) priceFilter = filter;
+  if (!paginate) oldFilter = oldFilter.replace(pageReg, '');
 
-  //1 input: /product => output: product?type=filter
-  const baseCase = originalLink === filterRoute;
+  if (firstFilter && checked) return `${productRoute}?${filter}`;
 
-  //1 Or a speacial case: input: /product? => output: product?type=filter
-  const speacialCase = originalLink === `${filterRoute}?`;
+  //) Check if the same filter to replace Or add the new filter to the old filter
+  const sameFilter = oldLink.join('?').includes(type);
 
-  //2 Check pricing
-  const isPricingQuery = priceFilter ? priceFilter : `${type}=${filter}`;
+  if (sameFilter) {
+    //= Check if filter is Price
+    const priceFilter = filter.includes('price');
 
-  if (baseCase || speacialCase) {
-    const baseCaseLink = `${filterRoute}?${isPricingQuery}`;
+    if (priceFilter) {
+      //) Replace the Old filter with the new one
+      let defaultFilter = oldFilter.replace(
+        /(\?|&)?price\[(gte|lte)\]=[-0-9]+&?/g,
+        ''
+      );
+      if (checked) defaultFilter = defaultFilter.concat(`&${filter}`);
 
-    return baseCaseLink;
-  }
+      const newFilter = defaultFilter !== '' ? `?${defaultFilter}` : '';
 
-  //2 Check if the link includes 'page', if true, remove it:
-  originalLink = originalLink.replace(/(\?|&)page=[-0-9]+/g, '');
-  const queryString = originalLink.includes('?') ? '&' : '?';
-
-  //6 Check if not Paginate to treat if differently
-  const isPaginate = originalLink.includes(paginate);
-
-  if (!isPaginate) {
-    const sameFilter = originalLink.includes(type);
-    if (sameFilter) {
-      //3 Check if we're dealing with pricing
-      if (priceFilter) {
-        const [start, end] = priceFilter.split('&');
-
-        if (start && end) {
-          const gte = /price\[gte\]=[-0-9]+\&/g;
-          originalLink = originalLink.replace(gte, start);
-
-          const lte = /price\[lte\]=[-0-9]+/g;
-          originalLink = originalLink.replace(lte, end);
-          return originalLink;
-        }
-
-        console.log({ originalLink, type, filter, priceFilter });
-      }
-
-      //4 input: /product?type_1=filter_1 ( not pages ) => output: /product?type_1=filter_2
-      const oldFilter = getOldFilter(originalLink, type);
-      return originalLink.replace(oldFilter, filter);
-    } else {
-      //2 input: /product?type_1=filter_1 ( not pages ) => output: /product?type_1=filter_1&type=filter
-      return `${originalLink}${queryString}${isPricingQuery}`;
-    }
-  }
-
-  //) Is paginate: Check if the target filter is paginate: if true, move to next page, if the target is
-  //) categories, color, brand... remove the paginate filter
-  if (paginateTarget) {
-    //4 input: /product?page=n  => output: /product?page=filter
-    const oldFilter = getOldFilter(originalLink, type);
-
-    return originalLink.replace(oldFilter, filter);
-  } else {
-    //4 input: /product?categories=men&brand=gucci&page=3 => output: /product?categories=men&brand=filter
-    //4 Remove &page=3, edit new filter
-    //* /products?brand=louisVuitton&
-    //* /products?&brand=louisVuitton
-
-    const sameFilter = originalLink.includes(type);
-    if (sameFilter) {
-      const oldFilter = getOldFilter(originalLink, type);
-
-      return originalLink.replace(oldFilter, filter);
+      //) Return the filter
+      return `${productRoute}${newFilter}`;
     }
 
-    return `${originalLink}${queryString}${type}=${filter}`;
+    //) Get All the filters
+    const oldFilters = oldFilter.split('&');
+
+    //) Get the Old Filter Index
+    const oldFiltersIndex = getIndex(oldFilters, type);
+
+    //) Replace the Old filter
+    if (checked) oldFilters[oldFiltersIndex] = filter;
+    if (!checked) oldFilters.splice(oldFiltersIndex, 1);
+
+    const newFilter = oldFilters.length > 0 ? `?${oldFilters.join('&')}` : '';
+
+    //) Return the new filter
+    return `${productRoute}${newFilter}`;
   }
+
+  const old = oldFilter !== '' ? `?${oldFilter}&` : '?';
+
+  return `${productRoute}${old}${filter}`;
 };
 
 const queryHandler = (e) => {
   //) Prevent Reload
-  e.preventDefault();
+  // e.preventDefault();
 
   //) Get clicked query filter
-  const { id, baseURI } = e.path[0];
-  const type = e.path[0].offsetParent.id;
-
-  //) http://localhost:3000/products => products
-  const originalLink = `/${baseURI.split('/')[3]}`;
+  const { id, baseURI, checked } = e.path[0];
+  const oldFilter = baseURI.split(/\/products\#?\??/g);
 
   //) Get the filter link
-  const link = getFilterLink(originalLink, id, type);
-
-  console.log(link);
+  const link = getFilter(oldFilter, id, checked);
 
   //) Change the link dinamicly
-  // if (link) location.href = link;
+  if (link) location.href = link;
 };
 
 export const queryListener = (el) => {
-  const [string, element] = el;
-  if (element) element.addEventListener('click', queryHandler);
+  if (el) el.addEventListener('click', queryHandler);
 };

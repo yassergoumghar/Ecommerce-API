@@ -5,17 +5,18 @@ import {
   classnames,
 } from './../utils/Variables';
 import { searchHandler } from './headerController';
-import { queryListener, getFilterLink } from './queryController';
+import { queryListener, getFilter } from './queryController';
 import * as PaginationView from './../view/paginationView';
 
 const {
   searchElements,
-  filter,
   paginateElement,
   products,
   productPagination,
   productsHidden,
   results,
+  filterCheckmarks,
+  queries,
 } = elements;
 const { paginationLimit } = preferences;
 const { noProduct, renderAvailablePages } = PaginationView;
@@ -39,15 +40,12 @@ const paginateHandler = (e) => {
   e.preventDefault();
 
   //* Get the wanted paginate
-  const { innerText, baseURI } = e.path[0];
-  const type = 'page';
-
-  //! Link is undefined for pages > 2
+  const { id, baseURI } = e.path[0];
+  const oldFilter = baseURI.split(/\/products\#?\??/g);
+  const checked = true;
 
   //* Get link
-  //) http://localhost:3000/products => products
-  const originalLink = `/${baseURI.split('/')[3]}`;
-  const link = getFilterLink(originalLink, innerText, type);
+  const link = getFilter(oldFilter, id, checked);
 
   //* Go to Link
   if (link) location.href = link;
@@ -112,12 +110,26 @@ const paginateNumber = (paginateElement, limit) => {
   return renderAvailablePages(productPagination[0], availablePages, page);
 };
 
+const renderCheckmark = (queries, filterCheckmarks) => {
+  const totalQuery = queries.innerText;
+
+  filterCheckmarks.forEach((filter) => {
+    const { id } = filter;
+    const check = totalQuery.includes(id);
+    filter.checked = check;
+  });
+};
+
 export const searchController = () => {
   searchElements.forEach((element) => searchListener(element));
 };
 
 export const queryController = () => {
-  Object.entries(filter).forEach((el) => queryListener(el));
+  //* Render checked status
+  renderCheckmark(queries, filterCheckmarks);
+
+  //* Listen To Queries Clicked
+  filterCheckmarks.forEach((checkmark) => queryListener(checkmark));
 };
 
 export const paginateController = () => {

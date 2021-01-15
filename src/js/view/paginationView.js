@@ -22,7 +22,7 @@ export const renderAvailablePages = (element, number, active) => {
       str,
       `${str} <a href="#" class="paginate ${
         i == active ? 'active' : ''
-      }">${i}</a>`
+      }" id="page=${i}" >${i}</a>`
     );
   }
 

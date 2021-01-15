@@ -1,27 +1,15 @@
 const els = [
-  'men',
-  'women',
-  'bags',
-  'clothing',
-  'accessories',
-  'kids',
-  'louisVuitton',
-  'chanel',
-  'hermes',
-  'gucci',
-  'black',
-  'blue',
-  'yellow',
-  'grey',
-  'brown',
-  'pink',
-  'purple',
-  'red',
-  'white',
-  'bags',
-  'shoes',
-  'clothing',
-  'accessories',
+  'categories=men',
+  'categories=women',
+  'categories=bags',
+  'categories=clothing',
+  'categories=accessories',
+  'categories=kids',
+  'categories=shoes',
+  'brand=louisVuitton',
+  'brand=chanel',
+  'brand=hermes',
+  'brand=gucci',
   'price[gte]=0&price[lte]=50',
   'price[gte]=50&price[lte]=100',
   'price[gte]=100&price[lte]=150',
@@ -41,6 +29,8 @@ export const elements = {
   productsHidden: document.querySelectorAll('.product'),
   results: document.querySelectorAll('.resultsNumber'),
   filter: {},
+  filterCheckmarks: document.querySelectorAll('.filter'),
+  queries: document.getElementById('queries'),
 };
 
 export const preferences = {
@@ -66,5 +56,5 @@ export const routes = {
 };
 
 export const paramsMethod = {
-  filterRoute: '/products',
+  productRoute: '/products',
 };
