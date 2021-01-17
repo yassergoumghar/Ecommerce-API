@@ -18,6 +18,8 @@ const orderRouter = require('./routes/orderRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const authRouter = require('./routes/authRoutes');
 const viewRouter = require('./routes/viewRoutes');
+const cartRouter = require('./routes/cartRouter');
+const likeRouter = require('./routes/likeRouter');
 
 const app = express();
 
@@ -82,6 +84,10 @@ app.use(passport.initialize());
 app.use('/api/v1/products', productRouter);
 //? Orders, add promocode functionnality
 app.use('/api/v1/orders', orderRouter);
+//? Carts
+app.use('/api/v1/carts', cartRouter);
+//? Likes or Wishlist
+// app.use('/api/v1/likes', likeRouter);
 //? Authentification
 app.use('/api/v1/auth', authRouter);
 //? Reviews

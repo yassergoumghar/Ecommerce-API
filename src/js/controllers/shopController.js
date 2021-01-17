@@ -3,6 +3,7 @@ import {
   preferences,
   messages,
   classnames,
+  routes,
 } from './../utils/Variables';
 import { searchHandler } from './headerController';
 import { queryListener, getFilter } from './queryController';
@@ -21,7 +22,9 @@ const {
 const { paginationLimit } = preferences;
 const { noProduct, renderAvailablePages } = PaginationView;
 const { productNotFound } = messages;
-const { hide } = classnames;
+const { hide, paginate, preview, rendered } = classnames;
+
+const { previewProduct } = routes;
 
 const callSearchandler = (e) => {
   e.preventDefault();
@@ -82,7 +85,10 @@ const renderProducts = (page, limit, total) => {
   //5 Render Only needed Products
   for (let n = start - 1; n < end; n++) {
     const product = productsHidden[n];
-    if (product) product.classList.remove(hide);
+    if (product) {
+      product.classList.remove(hide);
+      product.classList.add('rendered');
+    }
   }
 };
 
@@ -110,6 +116,33 @@ const paginateNumber = (paginateElement, limit) => {
   return renderAvailablePages(productPagination[0], availablePages, page);
 };
 
+const getPreviewClass = (event) => {
+  const className = event.target.getAttribute('class');
+
+  const include = className ? className.includes(preview) : false;
+
+  return include;
+};
+
+const getSlug = (event) => event.srcElement.attributes.slug.value;
+
+const previewHandler = (e) => {
+  //) Prevent default reaction
+  e.preventDefault();
+
+  //) Check if targeted button is the product preview picutre
+  const targeted = getPreviewClass(e);
+  if (!targeted) return;
+
+  //) If targeted, then redirect to /products/:slug
+  const slug = getSlug(e);
+  if (slug) location.href = `${previewProduct}${slug}`;
+};
+
+const previewListener = (preview) => {
+  if (preview) preview.addEventListener('click', previewHandler);
+};
+
 const renderCheckmark = (queries, filterCheckmarks) => {
   const totalQuery = queries.innerText;
 
@@ -126,10 +159,14 @@ export const searchController = () => {
 
 export const queryController = () => {
   //* Render checked status
-  renderCheckmark(queries, filterCheckmarks);
+  if (queries) renderCheckmark(queries, filterCheckmarks);
 
   //* Listen To Queries Clicked
   filterCheckmarks.forEach((checkmark) => queryListener(checkmark));
+
+  //* Listen To Peview click
+  const productPreviews = document.querySelectorAll(`.${rendered}`);
+  productPreviews.forEach((preview) => previewListener(preview));
 };
 
 export const paginateController = () => {
@@ -137,6 +174,6 @@ export const paginateController = () => {
   if (paginateElement[0]) paginateNumber(paginateElement, paginationLimit);
 
   //* Listen for Paginate Click
-  const paginates = document.querySelectorAll('.paginate');
+  const paginates = document.querySelectorAll(`.${paginate}`);
   paginates.forEach((paginate) => paginateListener(paginate));
 };

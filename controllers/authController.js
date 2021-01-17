@@ -2,6 +2,7 @@ const crypto = require('crypto');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const User = require('./../models/userModel');
+const Cart = require('./../models/cartModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const sendEmail = require('./../utils/email');
@@ -44,7 +45,11 @@ exports.signup = catchAsync(async (req, res, next) => {
     passwordConfirm: req.body.passwordConfirm,
   });
 
-  createSendToken(newUser, 201, res);
+  await Cart.create({
+    user: newUser._id,
+  });
+
+  await createSendToken(newUser, 201, res);
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -275,13 +280,18 @@ const thirdPartySignUp = catchAsync(async (req, res, next) => {
   if (!name && (first_name, last_name)) name = `${first_name} ${last_name}`;
 
   if (sub || id) {
-    let newUser = await User.create({
+    const newUser = await User.create({
       thirdPartyId: sub || id,
       name,
       email,
       picture,
       locale,
     });
+
+    await Cart.create({
+      user: newUser._id,
+    });
+
     return createSendToken(newUser, 201, res);
   }
 

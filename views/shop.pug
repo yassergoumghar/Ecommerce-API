@@ -85,37 +85,38 @@ block content
                                                     a(href="") Gucci
                             - const priceId = `price`
                             .hide#queries= queries 
-                            .card(id=priceId)              
-                                .card-heading
-                                    a(data-toggle='collapse' data-target='#collapseThree') Filter Price
-                                #collapseThree.collapse.show(data-parent='#accordionExample')
-                                    .card-body
-                                        .shop__sidebar__price
-                                            ul
-                                                li
-                                                    input(type='checkbox' id='price[gte]=0&price[lte]=50' class="filter")
-                                                    span.checkmark
-                                                    a(href='#') $0.00 - $50.00
-                                                li
-                                                    input(type='checkbox' id='price[gte]=50&price[lte]=100' class="filter")
-                                                    span.checkmark
-                                                    a(href='#') $50.00 - $100.00
-                                                li
-                                                    input(type='checkbox' id='price[gte]=100&price[lte]=150' class="filter")
-                                                    span.checkmark
-                                                    a(href='#') $100.00 - $150.00
-                                                li
-                                                    input(type='checkbox' id='price[gte]=150&price[lte]=200' class="filter")
-                                                    span.checkmark
-                                                    a(href='#') $150.00 - $200.00
-                                                li
-                                                    input(type='checkbox' id='price[gte]=200&price[lte]=250' class="filter")
-                                                    span.checkmark
-                                                    a(href='#') $200.00 - $250.00
-                                                li
-                                                    input(type='checkbox' id='price[gte]=50' class="filter")
-                                                    span.checkmark
-                                                    a(href='#') 250.00+
+                            //- Hide Filter Price
+                            //- .card(id=priceId)              
+                            //-     .card-heading
+                            //-         a(data-toggle='collapse' data-target='#collapseThree') Filter Price
+                            //-     #collapseThree.collapse.show(data-parent='#accordionExample')
+                            //-         .card-body
+                            //-             .shop__sidebar__price
+                            //-                 ul
+                            //-                     li
+                            //-                         input(type='checkbox' id='price[gte]=0&price[lte]=50' class="filter")
+                            //-                         span.checkmark
+                            //-                         a(href='#') $0.00 - $50.00
+                            //-                     li
+                            //-                         input(type='checkbox' id='price[gte]=50&price[lte]=100' class="filter")
+                            //-                         span.checkmark
+                            //-                         a(href='#') $50.00 - $100.00
+                            //-                     li
+                            //-                         input(type='checkbox' id='price[gte]=100&price[lte]=150' class="filter")
+                            //-                         span.checkmark
+                            //-                         a(href='#') $100.00 - $150.00
+                            //-                     li
+                            //-                         input(type='checkbox' id='price[gte]=150&price[lte]=200' class="filter")
+                            //-                         span.checkmark
+                            //-                         a(href='#') $150.00 - $200.00
+                            //-                     li
+                            //-                         input(type='checkbox' id='price[gte]=200&price[lte]=250' class="filter")
+                            //-                         span.checkmark
+                            //-                         a(href='#') $200.00 - $250.00
+                            //-                     li
+                            //-                         input(type='checkbox' id='price[gte]=50' class="filter")
+                            //-                         span.checkmark
+                            //-                         a(href='#') 250.00+
                             .card#size                            
                                 .card-heading
                                     a(data-toggle='collapse' data-target='#collapseFour') Size
@@ -203,7 +204,7 @@ block content
                     each product in products
                             .col-lg-4.col-md-6.col-sm-6.product.hide
                                 .product__item.sale
-                                    .product__item__pic.set-bg(data-setbg=`${product.preview}`)
+                                    .product__item__pic.pointer.set-bg(data-setbg=`${product.preview}` slug= `${product.slug}`)
                                         if (product.sale)
                                             span.label Sale
                                         ul.product__hover

@@ -32,6 +32,7 @@ router.get('/checkout', (req, res, next) => {
 //2 About Us route
 
 //2 Product details: get product by slug, get related products
+router.get('/products/:slug', viewController.getProduct);
 
 //2 Shopping cart: Update quantity, remove product, coupon codes, Add order
 

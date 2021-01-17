@@ -7,6 +7,7 @@ import {
 } from './controllers/headerController';
 
 import * as ShopController from './controllers/shopController';
+import * as ProductController from './controllers/productController';
 
 //4 Get Variables
 const { carts, likes, search } = elements;
@@ -27,11 +28,15 @@ const init = () => {
   //2 Call search Controller
   ShopController.searchController();
 
+  //2 Call Paginate Controller
+  ShopController.paginateController();
+
   //2 Call Query controller
   ShopController.queryController();
 
-  //2 Call Paginate Controller
-  ShopController.paginateController();
+  //* Product page: '/product/:slug'
+  //2 Call Cart Controller
+  ProductController.cartController();
 };
 
 init();

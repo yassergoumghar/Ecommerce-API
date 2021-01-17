@@ -44,6 +44,14 @@ router.get(
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
 router.get('/logout', authController.logout);
+router.get('/loggedIn', authController.isLoggedIn, (req, res, next) => {
+  const { user } = res.locals || undefined;
+  const loggedIn = user ? true : false;
+
+  res.status(200).json({
+    loggedIn,
+  });
+});
 
 router.use(authController.protect);
 

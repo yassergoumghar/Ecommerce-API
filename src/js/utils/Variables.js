@@ -31,6 +31,8 @@ export const elements = {
   filter: {},
   filterCheckmarks: document.querySelectorAll('.filter'),
   queries: document.getElementById('queries'),
+  addToCart: document.querySelectorAll('.addToCart'),
+  productId: document.querySelectorAll('.product__id'),
 };
 
 export const preferences = {
@@ -43,6 +45,10 @@ export const messages = {
 
 export const classnames = {
   hide: 'hide',
+  preview: 'product__item__pic',
+  paginate: 'paginate',
+  rendered: 'rendered',
+  productQuantiy: 'product__quantity',
 };
 
 els.forEach((key) => {
@@ -53,6 +59,9 @@ export const routes = {
   checkout: '/checkout',
   likes: '/likes',
   search: '/products?search_query=',
+  previewProduct: '/products/',
+  isLoggedIn: '/api/v1/auth/loggedIn',
+  addCart: '/api/v1/carts/new',
 };
 
 export const paramsMethod = {
