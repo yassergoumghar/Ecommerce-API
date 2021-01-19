@@ -23,10 +23,10 @@ exports.editCart = catchAsync(async (req, res, next) => {
 
   oldCart.products.push(newCartItem);
 
-  await oldCart.save();
+  const cart = await oldCart.save();
 
   res.status(200).json({
-    message: 'Helo',
-    oldCart,
+    message: 'Product Added To Cart',
+    cart,
   });
 });

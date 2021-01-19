@@ -33,6 +33,8 @@ export const elements = {
   queries: document.getElementById('queries'),
   addToCart: document.querySelectorAll('.addToCart'),
   productId: document.querySelectorAll('.product__id'),
+  loadingSpinner: document.querySelectorAll('.loading__spinner'),
+  alert: document.querySelectorAll('.alert'),
 };
 
 export const preferences = {
@@ -41,6 +43,7 @@ export const preferences = {
 
 export const messages = {
   productNotFound: 'Sorry No Product was found !',
+  productAddedToCart: 'PRODUCT ADDED TO CART SUCCESSFULLY',
 };
 
 export const classnames = {
@@ -49,6 +52,7 @@ export const classnames = {
   paginate: 'paginate',
   rendered: 'rendered',
   productQuantiy: 'product__quantity',
+  success: 'success',
 };
 
 els.forEach((key) => {
@@ -61,7 +65,7 @@ export const routes = {
   search: '/products?search_query=',
   previewProduct: '/products/',
   isLoggedIn: '/api/v1/auth/loggedIn',
-  addCart: '/api/v1/carts/new',
+  addCart: '/api/v1/carts/product',
 };
 
 export const paramsMethod = {

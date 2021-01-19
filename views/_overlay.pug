@@ -1,3 +1,8 @@
+mixin cartPricing
+    - const price = user ? user.cart.prices : 0
+    .cart.price $#{price}.00
+
+
 //- Overlay
 #preloder
     .loader
@@ -28,7 +33,7 @@
                 .cart
                     img(src='/img/icon/cart.png' alt='')
                     span 0
-            .cart.price $0.00
+            +cartPricing
         #mobile-menu-wrap
         .offcanvas__text
             p Free shipping, 30-day return or refund guarantee.
@@ -100,7 +105,7 @@ header.header
                         .cart
                             img(src='/img/icon/cart.png' alt='')
                             span 0
-                    .cart.price $0.00
+                    +cartPricing
         .canvas__open
             i.fa.fa-bars
 //- Header Section End

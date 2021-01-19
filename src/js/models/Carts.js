@@ -30,7 +30,7 @@ export const getCartElements = async (e) => {
 
   //* Get Quantity
   const quantity = document.querySelector(`.${productQuantiy}`)
-    ? document.querySelector(`.${productQuantiy}`).value
+    ? parseInt(document.querySelector(`.${productQuantiy}`).value)
     : undefined;
 
   return {
@@ -41,11 +41,14 @@ export const getCartElements = async (e) => {
 };
 
 export const addProductToCart = async (elements) => {
-  const { products, quanity } = elements;
+  const { product, quantity } = elements;
   const data = {
-    products,
+    product: {
+      id: product,
+      quantity: quantity > 0 ? quantity : 1,
+    },
   };
 
-  const res = await axios.post(addCart, data);
+  const res = await axios.patch(addCart, data);
   console.log(res);
 };

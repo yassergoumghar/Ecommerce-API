@@ -22,6 +22,20 @@ const cartSchema = new mongoose.Schema({
   },
 });
 
+// ) Create a virtual property `totalPrice` computed from the sum of the product's prices
+cartSchema.virtual('prices').get(function () {
+  //* Initiaze the sum with 0.00
+  let sum = 0;
+
+  //* Loop through every product
+  this.products.forEach((product) => {
+    const { price } = product.product;
+    sum += price;
+  });
+
+  return sum;
+});
+
 cartSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'user',

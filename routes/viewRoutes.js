@@ -5,7 +5,7 @@ const viewController = require('../controllers/viewController');
 const router = express.Router();
 
 //4 Use the is Logged in Middleware: Check if the user is logged n
-router.use(authController.isLoggedIn);
+router.use(authController.isLoggedIn, viewController.getCart);
 
 //2 GET home page
 router.get('/', function (req, res, next) {

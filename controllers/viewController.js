@@ -1,4 +1,5 @@
 const Product = require('./../models/productModel');
+const Cart = require('./../models/cartModel');
 const catchAsync = require('../utils/catchAsync');
 const APIFeatures = require('./../utils/apiFeatures');
 const AppError = require('../utils/appError');
@@ -44,4 +45,20 @@ exports.getProduct = catchAsync(async (req, res, next) => {
     user: res.locals.user,
     product: doc,
   });
+});
+
+exports.getCart = catchAsync(async (req, res, next) => {
+  const { user } = res.locals;
+
+  if (user) {
+    //* Get the User id
+    const filter = user.id;
+
+    //* Find the cart by the User id
+    cart = await Cart.findOne({ user: filter });
+    //* Put the cart in the user object
+    res.locals.user.cart = cart;
+  }
+
+  next();
 });
