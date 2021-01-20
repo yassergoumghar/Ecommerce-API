@@ -19,6 +19,7 @@ const els = [
 ];
 
 export const elements = {
+  filter: {},
   carts: document.querySelectorAll('.cart'),
   likes: document.querySelectorAll('.like'),
   search: document.querySelectorAll('.search-switch'),
@@ -28,13 +29,13 @@ export const elements = {
   productPagination: document.querySelectorAll('.product__pagination'),
   productsHidden: document.querySelectorAll('.product'),
   results: document.querySelectorAll('.resultsNumber'),
-  filter: {},
   filterCheckmarks: document.querySelectorAll('.filter'),
   queries: document.getElementById('queries'),
   addToCart: document.querySelectorAll('.addToCart'),
   productId: document.querySelectorAll('.product__id'),
   loadingSpinner: document.querySelectorAll('.loading__spinner'),
   alert: document.querySelectorAll('.alert'),
+  checkoutButtons: document.querySelectorAll('.checkout'),
 };
 
 export const preferences = {
@@ -53,6 +54,9 @@ export const classnames = {
   rendered: 'rendered',
   productQuantiy: 'product__quantity',
   success: 'success',
+  quantityButton: 'qtybtn',
+  checkoutClassName: 'checkout',
+  primaryButton: 'primary-btn',
 };
 
 els.forEach((key) => {
@@ -66,6 +70,9 @@ export const routes = {
   previewProduct: '/products/',
   isLoggedIn: '/api/v1/auth/loggedIn',
   addCart: '/api/v1/carts/product',
+  login: '/login',
+  getCartLink: '/api/v1/carts/cart',
+  addOrderLink: '/api/v1/orders/new',
 };
 
 export const paramsMethod = {

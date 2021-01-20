@@ -29,8 +29,9 @@ cartSchema.virtual('prices').get(function () {
 
   //* Loop through every product
   this.products.forEach((product) => {
+    const { quantity } = product;
     const { price } = product.product;
-    sum += price;
+    sum += price * quantity;
   });
 
   return sum;

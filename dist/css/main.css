@@ -25,12 +25,6 @@
 9.  Contact
 10.  Footer Style
 -------------------------------------------------------------------*/
-/* ===================================================================
- *  # imports 
- *
- * ------------------------------------------------------------------- */
-@import url("font-awesome/css/font-awesome.min.css");
-@import url("fonts.css");
 /*----------------------------------------*/
 /* Template default CSS
 /*----------------------------------------*/
@@ -4008,48 +4002,8 @@ ol {
   text-align: center;
 }
 
-/* ------------------------------------------------------------------- 
- * ## alert box
- * ------------------------------------------------------------------- */
-.alert-box {
-  padding: 2.1rem 4rem 2.1rem 3rem;
-  position: relative;
-  margin-bottom: 3rem;
-  border-radius: 3px;
-  font-family: "metropolis-semibold", sans-serif;
-  font-size: 1.5rem;
-  line-height: 1.6;
-}
-
-.alert-box__close {
-  position: absolute;
-  right: 1.8rem;
-  top: 1.8rem;
-  cursor: pointer;
-}
-
-.alert-box__close.fa {
-  font-size: 12px;
-}
-
-.alert-box--error {
-  background-color: #ffd1d2;
-  color: #e65153;
-}
-
-.alert-box--success {
-  background-color: #c8e675;
-  color: #758c36;
-}
-
-.alert-box--info {
-  background-color: #d7ecfb;
-  color: #4a95cc;
-}
-
-.alert-box--notice {
-  background-color: #fff099;
-  color: #bba31b;
+.product__cart__item__pic__small {
+  width: 90px;
 }
 
 /*# sourceMappingURL=main.css.map */

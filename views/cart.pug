@@ -1,0 +1,60 @@
+extends base
+
+block content
+    section.shopping-cart.spad
+        .container
+            .row
+                .col-lg-8
+                    .shopping__cart__table
+                        table
+                            thead
+                                tr
+                                    th Product
+                                    th Quantity
+                                    th Total
+                                    th
+                            tbody
+                            each product in user.cart.products 
+                                tr
+                                    td.product__cart__item
+                                        .product__cart__item__pic
+                                            a(href=`/products/${product.product.slug}` target='_blank')
+                                                img.product__cart__item__pic__small(src=`${product.product.preview}`)
+                                        .product__cart__item__text
+                                            h6= product.product.name
+                                            h5 $#{product.product.price}
+                                    td.quantity__item
+                                        .quantity
+                                            h5= product.quantity
+                                    td.cart__price $ #{product.product.price * product.quantity}
+                                    td.cart__close
+                                        i.fa.fa-close
+                    .row
+                        .col-lg-6.col-md-6.col-sm-6
+                            .continue__btn
+                                a(href='#') Continue Shopping
+                        .col-lg-6.col-md-6.col-sm-6
+                            .continue__btn.update__btn
+                                .spinner-border.loading__spinner.hide(role='status')
+                                span.sr-only Loading...
+                                a.checkout.firstCheckout(href='#')
+                                    |  Checkout
+                .col-lg-4
+                    .cart__discount
+                        h6 Discount codes
+                        form(action='#')
+                            input(type='text' placeholder='Coupon code')
+                            button Apply
+                    .cart__total
+                        h6 Cart total
+                        ul
+                            li
+                                | Subtotal 
+                                span $ 169.50
+                            li
+                                | Total 
+                                span $ 169.50
+                        .spinner-border.loading__spinner.hide(role='status')
+                            span.sr-only Loading...
+                        a.primary-btn.checkout.secondCheckout(href='#') Proceed to checkout
+    // Shopping Cart Section End

@@ -3,7 +3,7 @@ import { errorHandler } from './../controllers/errorController';
 import { routes } from './../utils/Variables';
 import { elements, classnames } from './../utils/Variables';
 
-const { isLoggedIn, addCart } = routes;
+const { isLoggedIn, addCart, getCartLink } = routes;
 const { productId } = elements;
 const { productQuantiy } = classnames;
 
@@ -49,6 +49,15 @@ export const addProductToCart = async (elements) => {
     },
   };
 
-  const res = await axios.patch(addCart, data);
-  console.log(res);
+  return await axios.patch(addCart, data);
+};
+
+export const getCartId = async () => {
+  try {
+    const res = await axios.get(getCartLink);
+    const id = res.data.cart._id;
+    return id;
+  } catch (error) {
+    console.error(error);
+  }
 };

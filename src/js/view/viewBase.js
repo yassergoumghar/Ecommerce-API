@@ -47,4 +47,9 @@ export const renderSuccess = (loading, button, alert) => {
 
   //* Render Alert-success box
   renderAlert(alert);
+
+  //* Reload After 3 Seconds
+  window.setTimeout(function () {
+    location.reload();
+  }, 5000);
 };

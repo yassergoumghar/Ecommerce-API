@@ -29,12 +29,27 @@ router.get('/checkout', (req, res, next) => {
   });
 });
 
+//2 Login Route
+router.get('/login', (req, res, next) => {
+  res.status(200).json({
+    message: 'Hello, This is login route',
+  });
+});
+
 //2 About Us route
 
 //2 Product details: get product by slug, get related products
 router.get('/products/:slug', viewController.getProduct);
 
 //2 Shopping cart: Update quantity, remove product, coupon codes, Add order
+router.get('/shop/cart', (req, res, next) => {
+  const { user } = res.locals;
+
+  //) Check if there is no User, redirect to Login
+  if (!user) return res.redirect('/login');
+
+  res.status(200).render('cart', { title: 'Shoping Cart', user });
+});
 
 //2 Contact Page
 

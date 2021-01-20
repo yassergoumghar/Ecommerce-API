@@ -2,6 +2,11 @@ mixin cartPricing
     - const price = user ? user.cart.prices : 0
     .cart.price $#{price}.00
 
+mixin totalLength
+    - const length = user ? user.cart.products.length : 0
+    span= length
+
+
 
 //- Overlay
 #preloder
@@ -32,7 +37,7 @@ mixin cartPricing
             a.cart
                 .cart
                     img(src='/img/icon/cart.png' alt='')
-                    span 0
+                    +totalLength
             +cartPricing
         #mobile-menu-wrap
         .offcanvas__text
@@ -104,7 +109,7 @@ header.header
                     a.cart
                         .cart
                             img(src='/img/icon/cart.png' alt='')
-                            span 0
+                            +totalLength
                     +cartPricing
         .canvas__open
             i.fa.fa-bars

@@ -3939,6 +3939,10 @@ ol {
 	margin-right: auto;
 	text-align: center;
  }
- 
+
+  
+.product__cart__item__pic__small {
+	width: 90px;
+} 
  
 

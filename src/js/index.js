@@ -34,7 +34,7 @@ const init = () => {
   //2 Call Query controller
   ShopController.queryController();
 
-  //* Product page: '/product/:slug'
+  //* Product page: '/product/:slug'. Cart Preview page: '/shop/cart'
   //2 Call Cart Controller
   ProductController.cartController();
 };
