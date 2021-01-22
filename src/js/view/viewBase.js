@@ -38,12 +38,12 @@ const renderAlert = (alert) => {
   }, 3000);
 };
 
-export const renderSuccess = (loading, button, alert) => {
+export const renderSuccess = (loading, button, alert, inital = false) => {
   //* Hide the loading
   if (loading) loading.classList.add(hide);
 
   //* Show the Button
-  if (button) button.classList.remove(hide);
+  if (button && !inital) button.classList.remove(hide);
 
   //* Render Alert-success box
   renderAlert(alert);
@@ -51,5 +51,5 @@ export const renderSuccess = (loading, button, alert) => {
   //* Reload After 3 Seconds
   window.setTimeout(function () {
     location.reload();
-  }, 5000);
+  }, 3000);
 };

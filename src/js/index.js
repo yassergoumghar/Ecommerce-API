@@ -9,6 +9,9 @@ import {
 import * as ShopController from './controllers/shopController';
 import * as ProductController from './controllers/productController';
 
+//6 Clear the Console
+console.clear();
+
 //4 Get Variables
 const { carts, likes, search } = elements;
 

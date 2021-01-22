@@ -33,7 +33,6 @@ export const elements = {
   queries: document.getElementById('queries'),
   addToCart: document.querySelectorAll('.addToCart'),
   productId: document.querySelectorAll('.product__id'),
-  loadingSpinner: document.querySelectorAll('.loading__spinner'),
   alert: document.querySelectorAll('.alert'),
   checkoutButtons: document.querySelectorAll('.checkout'),
 };
@@ -45,6 +44,7 @@ export const preferences = {
 export const messages = {
   productNotFound: 'Sorry No Product was found !',
   productAddedToCart: 'PRODUCT ADDED TO CART SUCCESSFULLY',
+  orderAddedSuccessfully: 'Order Placed succesfully, Thanks for your purchase',
 };
 
 export const classnames = {
@@ -55,8 +55,8 @@ export const classnames = {
   productQuantiy: 'product__quantity',
   success: 'success',
   quantityButton: 'qtybtn',
-  checkoutClassName: 'checkout',
-  primaryButton: 'primary-btn',
+  spinner: '__loading__spinner',
+  checkoutAlert: '__alert',
 };
 
 els.forEach((key) => {

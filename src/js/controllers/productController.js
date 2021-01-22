@@ -9,8 +9,8 @@ import { loading, renderSuccess } from './../view/viewBase';
 import { addOrder } from './orderController';
 
 const { addToCart, loadingSpinner, alert, checkoutButtons } = elements;
-const { success, checkoutClassName, primaryButton } = classnames;
-const { productAddedToCart } = messages;
+const { success, spinner, checkoutAlert } = classnames;
+const { productAddedToCart, orderAddedSuccessfully } = messages;
 const { login } = routes;
 
 const cartHandler = async (e) => {
@@ -66,25 +66,37 @@ const checkRedirect = () => {
   }
 };
 
+const getSpinerElement = (checkout) => {
+  return document.querySelector(`.${checkout}${spinner}`);
+};
+
 const checkoutHandler = async (e) => {
   //5 Prevent Default
   e.preventDefault();
 
   //5 Render Loading
-  // const spiner = loadingSpinner[0];
-  // //2 Remove the checkout class
-  // const classLists = [...e.target.classList]
-  //   .join(' ')
-  //   .replace(/checkout|primary-btn| /g, '');
-  // const checkoutButton = document.querySelector(`.${classLists}`);
-  // loading(checkoutButton, spiner);
+  //2 Remove the checkout class
+  const checkoutButton = e.target.parentElement;
+  const spiner = getSpinerElement(checkoutButton.classList[0]);
+  loading(checkoutButton, spiner);
 
   try {
     //5 Get Cart
     const cart = await getCartId();
 
     //5 Send order
-    // const order = await addOrder(cart);
+    const order = await addOrder(cart);
+
+    //5 Return to inital state
+    const alertObject = {
+      type: success,
+      message: orderAddedSuccessfully,
+      box: document.querySelector(
+        `.${checkoutButton.classList[0]}${checkoutAlert}`
+      ),
+    };
+    const inital = true;
+    renderSuccess(spiner, checkoutButton, alertObject, inital);
   } catch (error) {
     console.error(error);
   }
