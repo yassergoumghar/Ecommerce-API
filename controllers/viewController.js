@@ -9,6 +9,32 @@ const getQueries = (url) => {
   return query;
 };
 
+exports.getCart = catchAsync(async (req, res, next) => {
+  const { user } = res.locals;
+
+  if (user) {
+    //2 Get the User id
+    const userId = user.id;
+
+    //2 Find the cart by the User id
+    cart = await Cart.findOne({ user: userId });
+
+    //2 Put the cart in the user object
+    res.locals.user.cart = cart;
+  }
+
+  next();
+});
+
+exports.getOverview = (req, res, next) => {
+  const { user } = res.locals;
+
+  res.status(200).render('index', {
+    title: 'Home Page',
+    user,
+  });
+};
+
 exports.getProducts = catchAsync(async (req, res, next) => {
   //* Skipped Pagination to do it on the Front-End
   const features = new APIFeatures(Product.find(), req.query)
@@ -47,18 +73,22 @@ exports.getProduct = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getCart = catchAsync(async (req, res, next) => {
+exports.getOrderStatus = (req, res, next) => {
+  console.log('Haa');
+  res.status(200).json({
+    message: 'Helo',
+    order: req.body.order,
+  });
+};
+
+exports.getCheckout = (req, res, next) => {
   const { user } = res.locals;
 
-  if (user) {
-    //* Get the User id
-    const filter = user.id;
+  //) Check if there is no User, redirect to Login
+  if (!user) return res.redirect('/login');
 
-    //* Find the cart by the User id
-    cart = await Cart.findOne({ user: filter });
-    //* Put the cart in the user object
-    res.locals.user.cart = cart;
-  }
-
-  next();
-});
+  res.status(200).render('cart', {
+    title: 'Shoping Cart',
+    user,
+  });
+};

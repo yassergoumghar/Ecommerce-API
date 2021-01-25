@@ -1,6 +1,6 @@
 mixin cartPricing
     - const price = user ? user.cart.prices : 0
-    .cart.price $#{price}.00
+    .cart.pointer.price $#{price}.00
 
 mixin totalLength
     - const length = user ? user.cart.products.length : 0
@@ -34,8 +34,8 @@ mixin totalLength
                 img(src='/img/icon/search.png' alt='')
             a(href='#')
                 img.like(src='/img/icon/heart.png' alt='')
-            a.cart
-                .cart
+            a.cart.pointer
+                .cart.pointer
                     img(src='/img/icon/cart.png' alt='')
                     +totalLength
             +cartPricing
@@ -74,13 +74,13 @@ header.header
         .row
             .col-lg-3.col-md-3
                 .header__logo
-                    a(href='./index.html')
+                    a(href='/')
                         img(src='/img/logo.png' alt='')
             .col-lg-6.col-md-6
                 nav.header__menu.mobile-menu
                     ul
                         li
-                            a(href='./index.html') Home
+                            a(href='/') Home
                         li.active
                             a(href='./shop.html') Shop
                         li
@@ -106,8 +106,8 @@ header.header
                         img(src='/img/icon/search.png' alt='')
                     a.like
                         img(src='/img/icon/heart.png' alt='')
-                    a.cart
-                        .cart
+                    a.cart.pointer
+                        .cart.pointer
                             img(src='/img/icon/cart.png' alt='')
                             +totalLength
                     +cartPricing

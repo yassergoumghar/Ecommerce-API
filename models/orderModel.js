@@ -7,11 +7,20 @@ const orderSchema = new mongoose.Schema({
     ref: 'Cart',
     required: [true, 'Order must belong to a cart'],
   },
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+    required: [true, 'Order must belong to a user'],
+  },
   notes: String,
   status: {
     type: String,
     enum: ['notConfirmed', 'confirmed', 'shipping', 'shipped', 'canceled'],
     default: 'notConfirmed',
+  },
+  redirected: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -20,8 +29,8 @@ orderSchema.pre(/^find/, function (next) {
     path: 'user',
     select: 'name email',
   }).populate({
-    path: 'products',
-    select: 'name pictures slug',
+    path: 'cart',
+    select: '-user',
   });
 
   next();

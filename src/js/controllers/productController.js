@@ -1,17 +1,24 @@
-import { elements, classnames, messages, routes } from './../utils/Variables';
+import {
+  elements,
+  classnames,
+  messages,
+  routes,
+  statusCodes,
+} from './../utils/Variables';
 import {
   addProductToCart,
   getCartElements,
   getCartId,
 } from './../models/Carts';
 import { errorHandler } from './errorController';
-import { loading, renderSuccess } from './../view/viewBase';
+import { loading, renderSuccess, redirectTo } from './../view/viewBase';
 import { addOrder } from './orderController';
 
 const { addToCart, loadingSpinner, alert, checkoutButtons } = elements;
 const { success, spinner, checkoutAlert } = classnames;
 const { productAddedToCart, orderAddedSuccessfully } = messages;
-const { login } = routes;
+const { login, orderStatus } = routes;
+const { created } = statusCodes;
 
 const cartHandler = async (e) => {
   try {
@@ -87,16 +94,17 @@ const checkoutHandler = async (e) => {
     //5 Send order
     const order = await addOrder(cart);
 
-    //5 Return to inital state
-    const alertObject = {
-      type: success,
-      message: orderAddedSuccessfully,
-      box: document.querySelector(
-        `.${checkoutButton.classList[0]}${checkoutAlert}`
-      ),
-    };
-    const inital = true;
-    renderSuccess(spiner, checkoutButton, alertObject, inital);
+    //5 If success, Send to Success Page
+    const { status, data } = order;
+    const orderAdded = status === created;
+    const redirect = orderAdded ? true : false;
+    const orderId = data._id;
+    const redirectLink = `${orderStatus}/${orderId}`;
+
+    //5 If the order is added, redirect to success. Else: Render an alert saying something went wrong, Please try again
+    if (redirect) return redirectTo(redirectLink);
+
+    console.error('Something Went Wrong...');
   } catch (error) {
     console.error(error);
   }

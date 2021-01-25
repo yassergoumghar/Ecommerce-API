@@ -9,7 +9,10 @@ export const addOrder = async (cart) => {
       cart,
     };
     const res = await axios.post(addOrderLink, data);
-    return res.data.data.data;
+    return {
+      data: res.data.data.data,
+      status: res.status,
+    };
   } catch (error) {
     console.log(error);
   }

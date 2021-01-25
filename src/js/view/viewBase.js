@@ -53,3 +53,5 @@ export const renderSuccess = (loading, button, alert, inital = false) => {
     location.reload();
   }, 3000);
 };
+
+export const redirectTo = (link) => (window.location.href = link);

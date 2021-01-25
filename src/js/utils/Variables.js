@@ -35,6 +35,7 @@ export const elements = {
   productId: document.querySelectorAll('.product__id'),
   alert: document.querySelectorAll('.alert'),
   checkoutButtons: document.querySelectorAll('.checkout'),
+  loadingSpinner: document.querySelectorAll('.loading__spinner'),
 };
 
 export const preferences = {
@@ -73,8 +74,13 @@ export const routes = {
   login: '/login',
   getCartLink: '/api/v1/carts/cart',
   addOrderLink: '/api/v1/orders/new',
+  orderStatus: '/order/status',
 };
 
 export const paramsMethod = {
   productRoute: '/products',
+};
+
+export const statusCodes = {
+  created: 201,
 };
