@@ -1,9 +1,9 @@
 mixin cartPricing
-    - const price = user ? user.cart.prices : 0
+    - const price = (user && !error) ? user.cart.prices : 0
     .cart.pointer.price $#{price}.00
 
 mixin totalLength
-    - const length = user ? user.cart.products.length : 0
+    - const length = (user && !error) ? user.cart.products.length : 0
     span= length
 
 
@@ -15,7 +15,7 @@ mixin totalLength
     .offcanvas-menu-wrapper
         .offcanvas__option
             .offcanvas__links
-                if (user)
+                if (user && !error)
                     - var UserName = user.name.split(' ')[0]
                     a(href='#') Welcome #{UserName}
                 else

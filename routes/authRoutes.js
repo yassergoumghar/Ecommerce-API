@@ -58,7 +58,7 @@ router.use(authController.protect);
 //2 This is a protected route
 router.use('/protected', (req, res, next) => {
   res.status(200).json({
-    message: 'U are logged in',
+    message: 'You are logged in',
   });
 });
 

@@ -1,10 +1,4 @@
-import {
-  elements,
-  classnames,
-  messages,
-  routes,
-  statusCodes,
-} from './../utils/Variables';
+import { elements, classnames, messages, routes } from './../utils/Variables';
 import {
   addProductToCart,
   getCartElements,
@@ -18,7 +12,6 @@ const { addToCart, loadingSpinner, alert, checkoutButtons } = elements;
 const { success, spinner, checkoutAlert } = classnames;
 const { productAddedToCart, orderAddedSuccessfully } = messages;
 const { login, orderStatus } = routes;
-const { created } = statusCodes;
 
 const cartHandler = async (e) => {
   try {
@@ -40,12 +33,14 @@ const cartHandler = async (e) => {
       await addProductToCart(elements);
 
       //4 Remove the loading
+      const reload = true;
+      const showButton = true;
       const alertObject = {
         type: success,
         message: productAddedToCart,
         box: alert[0],
       };
-      return renderSuccess(spiner, cartButton, alertObject);
+      return renderSuccess(spiner, cartButton, alertObject, reload, showButton);
     }
 
     //2 If Not logged in:
@@ -73,9 +68,11 @@ const checkRedirect = () => {
   }
 };
 
-const getSpinerElement = (checkout) => {
-  return document.querySelector(`.${checkout}${spinner}`);
-};
+const getSpinerElement = (checkout) =>
+  document.querySelector(`.${checkout}${spinner}`);
+
+const getAlertElement = (checkout) =>
+  document.querySelector(`.${checkout}${checkoutAlert}`);
 
 const checkoutHandler = async (e) => {
   //5 Prevent Default
@@ -84,7 +81,8 @@ const checkoutHandler = async (e) => {
   //5 Render Loading
   //2 Remove the checkout class
   const checkoutButton = e.target.parentElement;
-  const spiner = getSpinerElement(checkoutButton.classList[0]);
+  const checkoutClass = checkoutButton.classList[0];
+  const spiner = getSpinerElement(checkoutClass);
   loading(checkoutButton, spiner);
 
   try {
@@ -94,17 +92,22 @@ const checkoutHandler = async (e) => {
     //5 Send order
     const order = await addOrder(cart);
 
-    //5 If success, Send to Success Page
-    const { status, data } = order;
-    const orderAdded = status === created;
-    const redirect = orderAdded ? true : false;
-    const orderId = data._id;
-    const redirectLink = `${orderStatus}/${orderId}`;
-
     //5 If the order is added, redirect to success. Else: Render an alert saying something went wrong, Please try again
-    if (redirect) return redirectTo(redirectLink);
-
-    console.error('Something Went Wrong...');
+    if (order) {
+      const { data } = order;
+      const orderId = data.orders[data.orders.length - 1]._id;
+      const redirectLink = `${orderStatus}/${orderId}`;
+      const alertElement = getAlertElement(checkoutClass);
+      const reload = false;
+      const showButton = false;
+      const alertObject = {
+        type: success,
+        message: orderAddedSuccessfully,
+        box: alertElement,
+      };
+      renderSuccess(spiner, checkoutButton, alertObject, reload, showButton);
+      return redirectTo(redirectLink);
+    }
   } catch (error) {
     console.error(error);
   }

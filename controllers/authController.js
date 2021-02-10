@@ -3,6 +3,7 @@ const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const User = require('./../models/userModel');
 const Cart = require('./../models/cartModel');
+const Order = require('./../models/orderModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const sendEmail = require('./../utils/email');
@@ -37,6 +38,17 @@ const createSendToken = (user, statusCode, res) => {
   });
 };
 
+const createCartAndOrder = async (user) => {
+  //) Create An empty Cart and Order
+  await Cart.create({
+    user,
+  });
+
+  await Order.create({
+    user,
+  });
+};
+
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
     name: req.body.name,
@@ -45,9 +57,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     passwordConfirm: req.body.passwordConfirm,
   });
 
-  await Cart.create({
-    user: newUser._id,
-  });
+  await createCartAndOrder(newUser._id);
 
   await createSendToken(newUser, 201, res);
 });
@@ -288,9 +298,7 @@ const thirdPartySignUp = catchAsync(async (req, res, next) => {
       locale,
     });
 
-    await Cart.create({
-      user: newUser._id,
-    });
+    await createCartAndOrder(newUser._id);
 
     return createSendToken(newUser, 201, res);
   }

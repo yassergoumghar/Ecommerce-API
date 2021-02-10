@@ -25,7 +25,7 @@ const getMarkup = (element, type, message) => {
   }
 };
 
-const renderAlert = (alert) => {
+export const renderAlert = (alert) => {
   //) Get the Type and message
   const { type, message, box } = alert;
 
@@ -38,20 +38,28 @@ const renderAlert = (alert) => {
   }, 3000);
 };
 
-export const renderSuccess = (loading, button, alert, inital = false) => {
+export const renderSuccess = (
+  loading,
+  button,
+  alert,
+  reload,
+  showButton = true
+) => {
   //* Hide the loading
   if (loading) loading.classList.add(hide);
 
   //* Show the Button
-  if (button && !inital) button.classList.remove(hide);
+  if (button && showButton) button.classList.remove(hide);
 
   //* Render Alert-success box
   renderAlert(alert);
 
-  //* Reload After 3 Seconds
-  window.setTimeout(function () {
-    location.reload();
-  }, 3000);
+  if (reload) {
+    //* Reload After 3 Seconds
+    window.setTimeout(function () {
+      location.reload();
+    }, 3000);
+  }
 };
 
 export const redirectTo = (link) => (window.location.href = link);

@@ -28,6 +28,7 @@ exports.getCart = catchAsync(async (req, res, next) => {
 
 exports.getOverview = (req, res, next) => {
   const { user } = res.locals;
+  console.log(user.cart);
 
   res.status(200).render('index', {
     title: 'Home Page',
@@ -74,7 +75,6 @@ exports.getProduct = catchAsync(async (req, res, next) => {
 });
 
 exports.getOrderStatus = (req, res, next) => {
-  console.log('Haa');
   res.status(200).json({
     message: 'Helo',
     order: req.body.order,
