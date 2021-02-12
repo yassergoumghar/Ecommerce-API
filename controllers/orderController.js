@@ -1,30 +1,54 @@
-const handleFactory = require('./handlerFactory');
-const Orders = require('./../models/orderModel');
-const AppError = require('../utils/appError');
-const catchAsync = require('../utils/catchAsync');
+const handleFactory = require('./handlerFactory')
+const AppError = require('../utils/appError')
+const catchAsync = require('../utils/catchAsync')
+const Orders = require('./../models/orderModel')
+const Cart = require('../models/cartModel')
 
-const trackOrderRoute = process.env.TRACK_ORDER;
+const trackOrderRoute = process.env.TRACK_ORDER
 
 const editOrder = (order, cart) => {
   //2 Get the Old cart and the order
 
   //2 Add the Cart to the order
-  order.orders.push({ cart });
+  order.orders.push({ cart })
 
   //2 Edit the Ordered property
-  order.ordered = true;
+  order.ordered = true
 
-  return order;
-};
+  return order
+}
+
+const putOrdered = async order => {
+  try {
+    //2 Get Cart id *last ordered cart*
+    const oldCartId = order.orders[order.orders.length - 1].cart
+
+    //2 Find the Cart from the Database
+    let oldCart = await Cart.findById(oldCartId)
+
+    //2 Loop through the Cart and edit ordered property to true
+    oldCart.products.forEach(product => (product.ordered = true))
+
+    //2 Save the product Ordered in the Database
+    oldCart = await oldCart.save()
+
+    return oldCart
+  } catch (error) {
+    throw new AppError(error)
+  }
+}
 
 exports.addOrder = catchAsync(async (req, res, next) => {
-  const { user, cart } = req.body;
+  const { user, cart } = req.body
 
-  let oldOrder = await Orders.findOne({ user });
+  let oldOrder = await Orders.findOne({ user })
 
   //) Add a new Cart to the orders and edit the 'ordered' property
-  const order = editOrder(oldOrder, cart);
-  const { ordered, orders } = order;
+  const order = editOrder(oldOrder, cart)
+  const { ordered, orders } = order
+
+  //) Edit the Cart in the Databse
+  const finalCart = await putOrdered(order)
 
   //) Edit the Order in the Database
   const finalOrder = await Orders.findByIdAndUpdate(
@@ -34,90 +58,88 @@ exports.addOrder = catchAsync(async (req, res, next) => {
       new: true,
       runValidators: true,
     }
-  );
+  )
 
   res.status(201).json({
     message: 'Order Added Successfully',
     data: {
       data: finalOrder,
     },
-  });
-});
+  })
+})
 
-exports.getOrders = handleFactory.getAll(Orders);
-exports.updateOrder = handleFactory.updateOne(Orders);
+exports.getOrders = handleFactory.getAll(Orders)
+exports.updateOrder = handleFactory.updateOne(Orders)
 
 exports.getStatus = (req, _res, next) => {
   //2 Get status
-  const { status } = req.body;
+  const { status } = req.body
 
   //2 Check if there is no status
   if (!status) {
-    return next(
-      new AppError('Please enter a status to update this order', 400)
-    );
+    return next(new AppError('Please enter a status to update this order', 400))
   }
 
   //2 Edit req.body by only getting status
-  req.body = { status };
+  req.body = { status }
 
-  next();
-};
+  next()
+}
 
 exports.putUnconfirmed = (req, res, next) => {
   //2 Put the req.params.unconfirmed
-  req.params.unconfirmed = true;
+  req.params.unconfirmed = true
 
   //2 Call next
-  next();
-};
+  next()
+}
 
 const getCurrentOrder = (order, orderId) => {
-  const { orders } = order[0];
-  let redirected;
-  let idx;
+  const { orders } = order[0]
+  let redirected
+  let idx
 
   orders.forEach((order, i) => {
-    const currentId = order.id;
-    const wantedOrder = currentId === orderId;
+    const currentId = order.id
+    const wantedOrder = currentId === orderId
     if (wantedOrder) {
-      redirected = order.redirected;
-      idx = i;
+      redirected = order.redirected
+      idx = i
     }
-  });
+  })
 
-  return { redirected, idx };
-};
+  return { redirected, idx }
+}
 
 exports.getOrderStatus = catchAsync(async (req, res, next) => {
   //) Get the Order Id, and find It
-  const { id } = req.params;
+  const { id } = req.params
 
-  const order = await Orders.find({ 'orders._id': id });
+  const order = await Orders.find({ 'orders._id': id })
 
   //) If no order, then it wasn't placed in the first place
   if (order.length === 0) {
     const error = new AppError(
       `It looks like your order hasn't been plalced successfuly or There is a problem with your link, Plase try again or check your Order from our Website.`,
       500
-    );
-    return next(error);
+    )
+    return next(error)
   }
 
-  const { redirected, idx } = getCurrentOrder(order, id);
+  const { redirected, idx } = getCurrentOrder(order, id)
 
   if (redirected) {
     //) Check if the User has already been directed, if true, redirect him to track your order route
-    return res.redirect(trackOrderRoute);
+    return res.redirect(trackOrderRoute)
   }
 
   //) Edit the Order redirected property to true
-  order[0].orders[idx].redirected = true;
-  await order[0].save();
+  order[0].orders[idx].redirected = true
+  await order[0].save()
 
   //) Put the Order in the response
-  req.body.order = order;
+  req.body.order = order
 
   //) Call next
-  next();
-});
+  next()
+})

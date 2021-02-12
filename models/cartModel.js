@@ -1,9 +1,13 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 //) Order Model:
 const cartSchema = new mongoose.Schema({
   products: [
     {
+      ordered: {
+        type: Boolean,
+        default: false,
+      },
       quantity: {
         type: Number,
         default: 1,
@@ -20,22 +24,22 @@ const cartSchema = new mongoose.Schema({
     required: [true, 'Cart must belong to a user'],
     unique: true,
   },
-});
+})
 
 // ) Create a virtual property `totalPrice` computed from the sum of the product's prices
 cartSchema.virtual('prices').get(function () {
   //* Initiaze the sum with 0.00
-  let sum = 0;
+  let sum = 0
 
   //* Loop through every product
-  this.products.forEach((product) => {
-    const { quantity } = product;
-    const { price } = product.product;
-    sum += price * quantity;
-  });
+  this.products.forEach(product => {
+    const { quantity } = product
+    const { price } = product.product
+    sum += price * quantity
+  })
 
-  return sum;
-});
+  return sum
+})
 
 cartSchema.pre(/^find/, function (next) {
   this.populate({
@@ -48,11 +52,11 @@ cartSchema.pre(/^find/, function (next) {
       model: 'Product',
     },
     select: 'name pictures slug',
-  });
+  })
 
-  next();
-});
+  next()
+})
 
-const Cart = mongoose.model('Cart', cartSchema);
+const Cart = mongoose.model('Cart', cartSchema)
 
-module.exports = Cart;
+module.exports = Cart
