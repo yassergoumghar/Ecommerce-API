@@ -48,7 +48,7 @@ exports.addOrder = catchAsync(async (req, res, next) => {
   const { ordered, orders } = order
 
   //) Edit the Cart in the Databse
-  const finalCart = await putOrdered(order)
+  await putOrdered(order)
 
   //) Edit the Order in the Database
   const finalOrder = await Orders.findByIdAndUpdate(

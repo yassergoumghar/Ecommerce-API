@@ -53,6 +53,7 @@ exports.editCart = catchAsync(async (req, res, next) => {
 
   let cart
 
+  //0 ISSUE HERE: WHENEVER PRODUCT IS ADDED, OLD PRODUCT ARE DELETED, DO NOT MUTATE BUT UPDATE.
   if (oldCart) cart = await oldCart.save()
 
   res.status(200).json({
