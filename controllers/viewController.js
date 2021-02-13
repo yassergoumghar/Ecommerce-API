@@ -3,14 +3,12 @@ const Cart = require('./../models/cartModel')
 const catchAsync = require('../utils/catchAsync')
 const APIFeatures = require('./../utils/apiFeatures')
 const AppError = require('../utils/appError')
+const { getCartFiltered } = require('./handlerFactory')
 
 const getQueries = url => {
   const [, query] = url.split(/\/products\??/g)
   return query
 }
-
-const filterCart = cart =>
-  cart.products?.filter(product => product?.ordered !== true)
 
 exports.getCart = catchAsync(async (req, res, next) => {
   const { user } = res.locals
@@ -19,11 +17,8 @@ exports.getCart = catchAsync(async (req, res, next) => {
     //2 Get the User id
     const userId = user.id
 
-    //2 Find the cart by the User id
-    const cart = await Cart.findOne({ user: userId })
-
-    //2 Filter Cart *remove ordered products*
-    cart.products = filterCart(cart)
+    //2 Get Cart
+    const cart = await getCartFiltered(Cart, userId)
 
     //2 Put the cart in the user object
     res.locals.user.cart = cart

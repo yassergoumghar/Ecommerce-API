@@ -207,13 +207,6 @@
         margin-right: 26px;
         position: relative;
 
-        span {
-            color: #0d0d0d;
-            font-size: 11px;
-            position: absolute;
-            left: 5px;
-            top: 8px;
-        }
 
         &:last-child {
             margin-right: 0;
@@ -229,6 +222,23 @@
         position: relative;
         top: 3px;
     }
+
+    &__notification {
+        font-size: 1rem;
+        height: 1.75rem;
+        width: 1.75em;
+        border-radius: 50%;
+        background-color: $primary-color;
+        color: #fff;
+        position: absolute;
+        top: -.5rem;
+        right: 1rem;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
 }
 
 .offcanvas-menu-wrapper {

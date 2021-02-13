@@ -33,6 +33,13 @@ body {
   height: 100%;
   font-family: 'Nunito Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
+  // 1 rem = 10 px;  10px/16px= 62.5%
+  font-size: 62.5%; 
+
+  @media only screen and (max-width: $bp-large) {
+      font-size: 50%;
+  }
+
 }
 
 h1,

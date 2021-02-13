@@ -1,5 +1,6 @@
 const catchAsync = require('./../utils/catchAsync')
 const Cart = require('./../models/cartModel')
+const { getCartFiltered } = require('./handlerFactory')
 
 exports.getCart = catchAsync(async (req, res, next) => {
   const cart = await Cart.findOne({
@@ -39,8 +40,8 @@ const getIncludes = (oldCart, newCartItem) => {
 exports.editCart = catchAsync(async (req, res, next) => {
   const { product, user } = req.body
 
-  //! ORDERED PRODUCTS ARE RETURNED, FIND A WAY TO FILTER THEM
-  let oldCart = await Cart.findOne({ user })
+  //0 ORDERED PRODUCTS ARE RETURNED, FIND A WAY TO FILTER THEM
+  let oldCart = await getCartFiltered(Cart, user)
 
   const newCartItem = {
     product: product.id,
@@ -53,8 +54,6 @@ exports.editCart = catchAsync(async (req, res, next) => {
   let cart
 
   if (oldCart) cart = await oldCart.save()
-
-  console.log({ cart: cart.products })
 
   res.status(200).json({
     message: 'Product Added To Cart',
