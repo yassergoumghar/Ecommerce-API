@@ -39,16 +39,25 @@ Very simple, Clone this repository and first, you should create a _config.env_ f
 
 > Front-End
 
-=> Users: 1. Solve rem issue, check '/prodcuts/:slug' page. 2. Design:
-.the Error page and message
-.Order added page
-.Dashboard page 3. Re-Design Product Details page '/prodcuts/:slug'
-=> Admin: 1. Design Dashboard account. With Back-end features.
+**Users**
+
+1. Solve rem issue, check '/prodcuts/:slug' page.
+2. Design:
+   .the Error page and message
+   .Order added page
+   .Dashboard page
+3. Re-Design Product Details page '/prodcuts/:slug'
+
+**Admin**
+
+4. Design Dashboard account. With Back-end features.
 
 > Back-End
 
-=) User: 1. Solve the add to cart issue, whenever product is added, the provious ones are deleted, maybe the issue is in 'cartController, editCart function, line 57
-=) Admin:
+1. Solve the add to cart issue, whenever product is added, the provious ones are deleted, maybe the issue is in 'cartController, editCart function, line 57
+
+**Admin**:
+
 . Login with 2 Step Authentification.
 . See Orders.
 . Mark order as confirmed, shipped, canceled.
