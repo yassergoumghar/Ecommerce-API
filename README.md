@@ -58,11 +58,11 @@ Very simple, Clone this repository and first, you should create a _config.env_ f
 
 **Admin**:
 
-. Login with 2 Step Authentification.
-. See Orders.
-. Mark order as confirmed, shipped, canceled.
-. See best working employees ( whenever an employee adds cinfirms an Order add him to the List )
-. Have a Financial report:
-. Yearly, Weekly, Today sales.
-. Make a Target Figures wanted and have a big counter that counts left sales
-eg: 7 Figures monthly wanted, cuurent monthly figure is: $200.000,00 so there is $800.000,00 left, with 5 days to the end of the month.
+1. Login with 2 Step Authentification.
+2. See Orders.
+3. Mark order as confirmed, shipped, canceled.
+4. See best working employees ( whenever an employee adds cinfirms an Order add him to the List )
+5. Have a Financial report:
+6. Yearly, Weekly, Today sales.
+7. Make a Target Figures wanted and have a big counter that counts left sales
+   eg: 7 Figures monthly wanted, cuurent monthly figure is: $200.000,00 so there is $800.000,00 left, with 5 days to the end of the month.
