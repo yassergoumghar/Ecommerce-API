@@ -1,5 +1,6 @@
-const catchAsync = require('./../utils/catchAsync')
+const { ObjectId } = require('mongoose').Types
 const Cart = require('./../models/cartModel')
+const catchAsync = require('./../utils/catchAsync')
 const { getCartFiltered } = require('./handlerFactory')
 
 exports.getCart = catchAsync(async (req, res, next) => {
@@ -40,8 +41,7 @@ const getIncludes = (oldCart, newCartItem) => {
 exports.editCart = catchAsync(async (req, res, next) => {
   const { product, user } = req.body
 
-  //0 ORDERED PRODUCTS ARE RETURNED, FIND A WAY TO FILTER THEM
-  let oldCart = await getCartFiltered(Cart, user)
+  let { oldCart, id } = await getCartFiltered(Cart, user)
 
   const newCartItem = {
     product: product.id,
@@ -54,7 +54,19 @@ exports.editCart = catchAsync(async (req, res, next) => {
   let cart
 
   //0 ISSUE HERE: WHENEVER PRODUCT IS ADDED, OLD PRODUCT ARE DELETED, DO NOT MUTATE BUT UPDATE.
-  if (oldCart) cart = await oldCart.save()
+  if (oldCart)
+    cart = await Cart.findByIdAndUpdate(
+      { _id: id },
+      {
+        products: oldCart.products,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    )
+
+  // console.log({ cart: cart.products })
 
   res.status(200).json({
     message: 'Product Added To Cart',

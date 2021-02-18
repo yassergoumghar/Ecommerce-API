@@ -1,15 +1,15 @@
-const handleFactory = require('./handlerFactory')
-const AppError = require('../utils/appError')
-const catchAsync = require('../utils/catchAsync')
 const Orders = require('./../models/orderModel')
 const Cart = require('../models/cartModel')
+const AppError = require('../utils/appError')
+const handleFactory = require('./handlerFactory')
+const catchAsync = require('../utils/catchAsync')
 
 const trackOrderRoute = process.env.TRACK_ORDER
 
 const editOrder = (order, cart) => {
   //2 Get the Old cart and the order
 
-  //2 Add the Cart to the order
+  //2 Add the products to the Order.
   order.orders.push({ cart })
 
   //2 Edit the Ordered property
@@ -18,21 +18,19 @@ const editOrder = (order, cart) => {
   return order
 }
 
-const putOrdered = async order => {
+const editCart = async cart => {
   try {
-    //2 Get Cart id *last ordered cart*
-    const oldCartId = order.orders[order.orders.length - 1].cart
+    // const newCart = await Cart.findByIdAndUpdate(
+    //   cart.id,
+    //   { products: [] },
+    //   {
+    //     new: true,
+    //     runValidators: true,
+    //   }
+    // )
 
-    //2 Find the Cart from the Database
-    let oldCart = await Cart.findById(oldCartId)
-
-    //2 Loop through the Cart and edit ordered property to true
-    oldCart.products.forEach(product => (product.ordered = true))
-
-    //2 Save the product Ordered in the Database
-    oldCart = await oldCart.save()
-
-    return oldCart
+    // return newCart
+    return true
   } catch (error) {
     throw new AppError(error)
   }
@@ -43,27 +41,37 @@ exports.addOrder = catchAsync(async (req, res, next) => {
 
   let oldOrder = await Orders.findOne({ user })
 
+  //) Get The Products from the Cart.
+  const oldCart = await Cart.findById({ _id: cart })
+
   //) Add a new Cart to the orders and edit the 'ordered' property
-  const order = editOrder(oldOrder, cart)
+  const order = editOrder(oldOrder, oldCart)
   const { ordered, orders } = order
 
   //) Edit the Cart in the Databse
-  await putOrdered(order)
+  const updatedCart = await editCart(oldCart)
+  console.log(updatedCart)
 
   //) Edit the Order in the Database
-  const finalOrder = await Orders.findByIdAndUpdate(
-    oldOrder.id,
-    { ordered, orders },
-    {
-      new: true,
-      runValidators: true,
-    }
-  )
+  // const finalOrder = await Orders.findByIdAndUpdate(
+  //   oldOrder.id,
+  //   { ordered, orders },
+  //   {
+  //     new: true,
+  //     runValidators: true,
+  //   }
+  // )
+
+  //0 ISUUES:
+  //1. POPULATION OF PRODUCTS IN ORDER
+  //1. CART ISN'T FILTERED
+  // console.log(finalOrder.orders[finalOrder.orders.length - 1].cart)
 
   res.status(201).json({
     message: 'Order Added Successfully',
     data: {
-      data: finalOrder,
+      // data: finalOrder,
+      data: {},
     },
   })
 })

@@ -1,13 +1,22 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 //) Order Model: Products, Price, User, Notes: By admin, Status: [ 'notConfirmed', 'confirmed', 'shipped', 'shipping', 'canceled' ].
 const orderSchema = new mongoose.Schema({
   orders: [
     {
       cart: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Cart',
-        required: [true, 'Order must belong to a cart'],
+        products: [
+          {
+            quantity: {
+              type: Number,
+              default: 1,
+            },
+            product: {
+              type: mongoose.Schema.ObjectId,
+              ref: 'Product',
+            },
+          },
+        ],
       },
       status: {
         type: String,
@@ -30,25 +39,30 @@ const orderSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-});
+})
 
 orderSchema.pre(/^find/, function (next) {
   //2 Populate the User and the Orders.
   this.populate({
     path: 'user',
     select: 'name email',
-  }).populate({
-    path: 'orders',
-    populate: {
-      path: 'cart',
-      model: 'Cart',
-    },
-    select: '-user',
-  });
+  })
+  // }).populate({
+  //   path: 'orders',
+  //   populate: {
+  //     path: 'cart',
+  //     populate: {
+  //       path: 'products',
+  //       populate: {
+  //         path: 'product',
+  //         model: 'Product',
+  //       },
+  //     },
+  //   },
 
-  next();
-});
+  next()
+})
 
-const Order = mongoose.model('Orders', orderSchema);
+const Order = mongoose.model('Orders', orderSchema)
 
-module.exports = Order;
+module.exports = Order

@@ -33,9 +33,24 @@ app.use(express.static(path.join(__dirname, 'dist')))
 // Set security HTTP headers
 app.use(helmet())
 
-// Development logging
-if (process.env.NODE_ENV === 'development') app.use(morgan('dev'))
+// Development logging + Refresh front end on save
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'))
 
+  const connectLivereload = require('connect-livereload')
+  const livereload = require('livereload')
+
+  const liveReloadServer = livereload.createServer()
+  liveReloadServer.watch(path.join(__dirname, 'public'))
+
+  liveReloadServer.server.once('connection', () => {
+    setTimeout(() => {
+      liveReloadServer.refresh('/')
+    }, 100)
+  })
+
+  app.use(connectLivereload())
+}
 // Limit requests from same API
 const limiter = rateLimit({
   max: 100,
@@ -69,10 +84,10 @@ app.use(xss())
 //   })
 // );
 
-// Test middleware
+//2 Test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString()
-  console.log(req.cookies)
+  // console.log(req.cookies)
   next()
 })
 

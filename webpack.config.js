@@ -1,5 +1,5 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require('path')
 
 module.exports = {
   entry: ['./src/js/index.js', './src/js/main.js'],
@@ -13,4 +13,4 @@ module.exports = {
   watchOptions: {
     ignored: ['node_modules/**'],
   },
-};
+}

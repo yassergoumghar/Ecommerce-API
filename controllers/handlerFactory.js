@@ -94,10 +94,14 @@ const filterCart = products =>
 exports.getCartFiltered = async (Model, user) => {
   try {
     const cart = await Model.findOne({ user })
+    const { id } = cart
     const products = filterCart(cart?.products)
     cart.products = products
 
-    return cart
+    return {
+      oldCart: cart,
+      id,
+    }
   } catch (error) {
     throw new AppError('Ooops, Something went wrong. Please try again', 500)
   }

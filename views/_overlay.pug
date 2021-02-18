@@ -42,7 +42,7 @@ mixin totalLength
         #mobile-menu-wrap
         .offcanvas__text
             p Free shipping, 30-day return or refund guarantee.
-    //- Offcanvas Menu End
+        //- Offcanvas Menu End
 header.header
     .header__top
         .container
@@ -53,15 +53,12 @@ header.header
                 .col-lg-6.col-md-5
                     .header__top__right
                         .header__top__links
-
                             if (user)
                                 - var UserName = user.name.split(' ')[0]
                                 a(href='#') Welcome #{UserName}
                             else
                                 a(href='#') Sign in
                                 a(href='#') FAQs
-
-
                         .header__top__hover
                             span
                                 | Usd 
@@ -78,28 +75,7 @@ header.header
                         img(src='/img/logo.png' alt='')
             .col-lg-6.col-md-6
                 nav.header__menu.mobile-menu
-                    ul
-                        li
-                            a(href='/') Home
-                        li.active
-                            a(href='./shop.html') Shop
-                        li
-                            a(href='#') Pages
-                            ul.dropdown
-                                li
-                                    a(href='./about.html') About Us
-                                li
-                                    a(href='./shop-details.html') Shop Details
-                                li
-                                    a(href='./shopping-cart.html') Shopping Cart
-                                li
-                                    a(href='./checkout.html') Check Out
-                                li
-                                    a(href='./blog-details.html') Blog Details
-                        li
-                            a(href='./blog.html') Blog
-                        li
-                            a(href='./contact.html') Contacts
+                    //- input.header__menu__search(type="search")
             .col-lg-3.col-md-3
                 .header__nav__option
                     a.search-switch(href='#')

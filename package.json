@@ -7,12 +7,15 @@
     "watch:dev": "webpack",
     "start:dev": "nodemon ./server.js",
     "watch:sass": "node-sass ./src/sass/style.scss ./dist/css/main.css -w",
+    "tailwind:css": "postcss ./src/css/tailwind.css -o ./dist/css/tailwind.css",
+
     "compile:sass": "node-sass ./src/sass/style.scss ./src/css/style.comp.css",
     "prefix:css": "postcss --use autoprefixer -b \"last 10 versions\" ./src/css/style.comp.css -o ./src/css/style.prefix.css",
     "compress:css": "node-sass ./src/css/style.prefix.css ./dist/css/main.css --output-style compressed",
-    "debug": "ndb ./server.js",
     "build:css": "npm-run-all compile:sass prefix:css compress:css",
+    
     "start:prod": "node ./server.js",
+    "debug": "ndb ./server.js",
     "start": "npm-run-all --parallel watch:dev start:dev watch:sass"
   },
   "author": "Yasser Goumghar",
@@ -43,8 +46,9 @@
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {
-    "autoprefixer": "^10.2.1",
+    "autoprefixer": "^10.2.4",
     "concat": "^1.0.3",
+    "connect-livereload": "^0.6.1",
     "eslint": "^7.19.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^7.2.0",
@@ -54,12 +58,16 @@
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-react": "^7.22.0",
     "html-webpack-plugin": "^4.5.1",
+    "livereload": "^0.9.1",
     "node-sass": "^5.0.0",
     "nodemon": "^2.0.4",
     "npm-run-all": "^4.1.5",
-    "postcss": "^8.2.4",
+    "postcss": "^8.2.6",
     "postcss-cli": "^8.3.1",
     "prettier": "^2.2.1",
+    "sass": "^1.32.7",
+    "sass-loader": "^11.0.1",
+    "tailwindcss": "^2.0.3",
     "webpack": "^5.12.2",
     "webpack-cli": "^4.3.1",
     "webpack-dev-server": "^3.11.1"

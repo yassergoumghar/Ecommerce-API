@@ -1,4 +1,4 @@
 {
     "ext": "js,html,pug,css,env",
-    "ignore": ["src/js/*.js", "dist/bundle.js"] 
+    "ignore": ["src/js/*.js", "dist/bundle.js", "dist/css/tailwind.css"] 
 }

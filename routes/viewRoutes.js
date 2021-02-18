@@ -3,6 +3,8 @@ const authController = require('../controllers/authController')
 const viewController = require('../controllers/viewController')
 const orderController = require('../controllers/orderController')
 
+const Order = require('./../models/orderModel')
+
 const router = express.Router()
 
 //) Use the is Logged in and Get the cart Middlewares
@@ -22,18 +24,15 @@ router.get('/products/:slug', viewController.getProduct)
 //2 Checkout: Update quantity, remove product, coupon codes, Add order
 router.get('/checkout', viewController.getCheckout)
 
-//2 Get: Order added successfully. Or something went wrong.
-router.get(
-  '/order/status/:id',
-  authController.protect,
-  orderController.getOrderStatus,
-  viewController.getOrderStatus
-)
-
 //2 Get: Orders Dashboard
-router.get('/order/all', (req, res, next) => {
-  res.status(200).json({
-    message: 'Helo This is where you will find your Orders',
+router.get('/order/all', async (req, res, next) => {
+  const orders = await Order.findOne({
+    user: res.locals.user.id,
+  })
+
+  res.render('orders', {
+    title: 'All Orders',
+    orders,
   })
 })
 
@@ -43,4 +42,11 @@ router.get('/order/all', (req, res, next) => {
 
 //2 Contact Page
 
+//2 Get: Order added successfully. Or something went wrong.
+router.get(
+  '/order/status/:id',
+  authController.protect,
+  orderController.getOrderStatus,
+  viewController.getOrderStatus
+)
 module.exports = router
