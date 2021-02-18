@@ -15,6 +15,10 @@ const orderSchema = new mongoose.Schema({
               type: mongoose.Schema.ObjectId,
               ref: 'Product',
             },
+            orderedAt: {
+              type: Date,
+              default: Date.now(),
+            },
           },
         ],
       },
@@ -46,19 +50,16 @@ orderSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'user',
     select: 'name email',
+  }).populate({
+    path: 'orders',
+    populate: {
+      path: 'cart.products',
+      populate: {
+        path: 'product',
+        model: 'Product',
+      },
+    },
   })
-  // }).populate({
-  //   path: 'orders',
-  //   populate: {
-  //     path: 'cart',
-  //     populate: {
-  //       path: 'products',
-  //       populate: {
-  //         path: 'product',
-  //         model: 'Product',
-  //       },
-  //     },
-  //   },
 
   next()
 })

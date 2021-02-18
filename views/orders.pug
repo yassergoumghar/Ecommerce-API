@@ -2,4 +2,43 @@ extends base
 
 block content 
 
-    h1.h-screen Hello World    
+    //- Breadcrumb Section Begin
+    section.breadcrumb-option
+        .container
+            .row
+                .col-lg-12
+                    .breadcrumb__text
+                        h4 All Orders
+                        .breadcrumb__links
+                            a(href='/') Home
+                            span Orders
+    //- Breadcrumb Section End
+
+    //- All Orders Section Start
+    section.shopping-cart.spad
+        .container
+            .row
+                .shopping__cart__table
+                    table
+                        thead
+                            tr
+                                th Product
+                                th Quantity
+                                th Total
+                                th Status
+                                th Track Order
+                        tbody
+                        each product in user.cart.products 
+                            tr
+                                td.product__cart__item
+                                    .product__cart__item__pic
+                                        a(href=`/products/${product.product.slug}` target='_blank')
+                                            img.product__cart__item__pic__small(src=`${product.product.preview}`)
+                                    .product__cart__item__text
+                                        h6= product.product.name
+                                        h5 $#{product.product.price}
+                                td.quantity__item
+                                    .quantity
+                                        h5= product.quantity
+                                td.cart__price $ #{product.product.price * product.quantity}
+    //- All Orders Section End

@@ -26,13 +26,19 @@ router.get('/checkout', viewController.getCheckout)
 
 //2 Get: Orders Dashboard
 router.get('/order/all', async (req, res, next) => {
+  //) Get Ordered Products
   const orders = await Order.findOne({
-    user: res.locals.user.id,
+    user: res.locals.user?.id,
   })
+  const orderedProducts = []
+  orders.orders.forEach(order =>
+    order.cart.products.forEach(product => orderedProducts.push(product))
+  )
 
   res.render('orders', {
     title: 'All Orders',
     orders,
+    orderedProducts,
   })
 })
 

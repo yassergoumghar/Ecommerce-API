@@ -41,7 +41,7 @@ if (process.env.NODE_ENV === 'development') {
   const livereload = require('livereload')
 
   const liveReloadServer = livereload.createServer()
-  liveReloadServer.watch(path.join(__dirname, 'public'))
+  liveReloadServer.watch(path.join(__dirname, 'dist'))
 
   liveReloadServer.server.once('connection', () => {
     setTimeout(() => {

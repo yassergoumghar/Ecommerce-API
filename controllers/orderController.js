@@ -15,24 +15,12 @@ const editOrder = (order, cart) => {
   //2 Edit the Ordered property
   order.ordered = true
 
-  return order
-}
+  //2 Destructure
+  const { ordered, orders } = order
 
-const editCart = async cart => {
-  try {
-    // const newCart = await Cart.findByIdAndUpdate(
-    //   cart.id,
-    //   { products: [] },
-    //   {
-    //     new: true,
-    //     runValidators: true,
-    //   }
-    // )
-
-    // return newCart
-    return true
-  } catch (error) {
-    throw new AppError(error)
+  return {
+    ordered,
+    orders,
   }
 }
 
@@ -45,33 +33,30 @@ exports.addOrder = catchAsync(async (req, res, next) => {
   const oldCart = await Cart.findById({ _id: cart })
 
   //) Add a new Cart to the orders and edit the 'ordered' property
-  const order = editOrder(oldOrder, oldCart)
-  const { ordered, orders } = order
+  const { ordered, orders } = editOrder(oldOrder, oldCart)
 
   //) Edit the Cart in the Databse
-  const updatedCart = await editCart(oldCart)
-  console.log(updatedCart)
+  oldCart.products.forEach(product => (product.ordered = true))
+  await oldCart.save()
 
   //) Edit the Order in the Database
-  // const finalOrder = await Orders.findByIdAndUpdate(
-  //   oldOrder.id,
-  //   { ordered, orders },
-  //   {
-  //     new: true,
-  //     runValidators: true,
-  //   }
-  // )
+  const finalOrder = await Orders.findByIdAndUpdate(
+    oldOrder.id,
+    { ordered, orders },
+    {
+      new: true,
+      runValidators: true,
+    }
+  )
 
   //0 ISUUES:
   //1. POPULATION OF PRODUCTS IN ORDER
   //1. CART ISN'T FILTERED
-  // console.log(finalOrder.orders[finalOrder.orders.length - 1].cart)
 
   res.status(201).json({
     message: 'Order Added Successfully',
     data: {
-      // data: finalOrder,
-      data: {},
+      data: finalOrder,
     },
   })
 })

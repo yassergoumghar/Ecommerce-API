@@ -19,7 +19,6 @@ exports.getCart = catchAsync(async (req, res, next) => {
 
     //2 Get Cart
     const { oldCart } = await getCartFiltered(Cart, userId)
-    // console.log({ oldCart: oldCart.products })
 
     //2 Put the cart in the user object
     res.locals.user.cart = oldCart

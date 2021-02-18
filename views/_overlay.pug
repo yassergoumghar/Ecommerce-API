@@ -1,6 +1,6 @@
 mixin cartPricing
     - const price = (user && !error) ? user?.cart?.prices : undefined
-    .cart.pointer.price $#{price ? price : 0}.00
+    .cart.pointer.price(class="ml-1.5") $#{price ? price : 0}.00
 
 mixin totalLength
     - const length = (user && !error) ? user.cart?.products?.length : undefined
