@@ -18,27 +18,31 @@ block content
     section.shopping-cart.spad
         .container
             .row
-                .shopping__cart__table
-                    table
-                        thead
-                            tr
-                                th Product
-                                th Quantity
-                                th Total
-                                th Status
-                                th Track Order
-                        tbody
-                        each product in user.cart.products 
-                            tr
-                                td.product__cart__item
-                                    .product__cart__item__pic
-                                        a(href=`/products/${product.product.slug}` target='_blank')
-                                            img.product__cart__item__pic__small(src=`${product.product.preview}`)
-                                    .product__cart__item__text
-                                        h6= product.product.name
-                                        h5 $#{product.product.price}
-                                td.quantity__item
-                                    .quantity
-                                        h5= product.quantity
-                                td.cart__price $ #{product.product.price * product.quantity}
+                .col-lg-8
+                    .shopping__cart__table
+                        table
+                            thead
+                                tr
+                                    th Product
+                                    th Quantity
+                                    th Total
+                                    th Status
+                            tbody
+                            each cart in orderedProducts
+                                tr
+                                    td.product__cart__item
+                                        .product__cart__item__pic
+                                            a(href=`/products/${cart.product.product.slug}` target='_blank')
+                                                img.product__cart__item__pic__small(src=`${cart.product.product.preview}`)
+                                        .product__cart__item__text
+                                            h6= cart.product.product.name
+                                            h5 $#{cart.product.product.price}
+                                    td.quantity__item
+                                        .quantity
+                                            h5= cart.quantity
+                                    td.cart__price $ #{cart.product.product.price * cart.product.quantity}
+                                    td.quantity__item
+                                        .quantity
+                                            - const status = orders.orders[cart.index]?.status
+                                            h5= status
     //- All Orders Section End

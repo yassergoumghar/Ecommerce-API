@@ -13,6 +13,9 @@ router.use(authController.isLoggedIn, viewController.getCart)
 //2 GET home page
 router.get('/', viewController.getOverview)
 
+//2 Get Login Page
+router.get('/login', viewController.getLogin)
+
 //2 Get Best Sellers, new Arrivals, Hot sales, deal of the week
 
 //2 Get /shop: All products, filter by: Categories, Branding, Price: Low to high + high to low + between x and y... , Size (multi select), colors, tags, Pagination: Get only 20 products by 20
@@ -31,8 +34,10 @@ router.get('/order/all', async (req, res, next) => {
     user: res.locals.user?.id,
   })
   const orderedProducts = []
-  orders.orders.forEach(order =>
-    order.cart.products.forEach(product => orderedProducts.push(product))
+  orders.orders.forEach((order, index) =>
+    order.cart.products.forEach(product =>
+      orderedProducts.push({ product, index })
+    )
   )
 
   res.render('orders', {

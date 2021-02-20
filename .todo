@@ -10,8 +10,8 @@
         1. Design Dashboard account. With Back-end features.
 *Back-End
     =) User:
-        1. Solve the add to cart issue, whenever product is added, the provious ones are deleted, maybe the issue is in 'cartController, editCart function, line 57
-        1. Solve the Add order issue, whenver order is added, the cart is not updated.
+        // 1. Solve the add to cart issue, whenever product is added, the provious ones are deleted, maybe the issue is in 'cartController, editCart function, line 57
+        // 1. Solve the Add order issue, whenver order is added, the cart is not updated.
     =) Admin:
         1. Login with 2 Step Authentification.
         1. See Orders.

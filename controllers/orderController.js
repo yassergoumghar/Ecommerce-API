@@ -36,8 +36,17 @@ exports.addOrder = catchAsync(async (req, res, next) => {
   const { ordered, orders } = editOrder(oldOrder, oldCart)
 
   //) Edit the Cart in the Databse
-  oldCart.products.forEach(product => (product.ordered = true))
-  await oldCart.save()
+  // oldCart.products.forEach(product => (product.ordered = true))
+  // await oldCart.save()
+  const emptyArray = []
+  const updatedCart = await Cart.findByIdAndUpdate(
+    cart,
+    { products: emptyArray },
+    {
+      new: true,
+      runValidators: true,
+    }
+  )
 
   //) Edit the Order in the Database
   const finalOrder = await Orders.findByIdAndUpdate(
@@ -48,10 +57,6 @@ exports.addOrder = catchAsync(async (req, res, next) => {
       runValidators: true,
     }
   )
-
-  //0 ISUUES:
-  //1. POPULATION OF PRODUCTS IN ORDER
-  //1. CART ISN'T FILTERED
 
   res.status(201).json({
     message: 'Order Added Successfully',

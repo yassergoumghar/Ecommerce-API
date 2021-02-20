@@ -56,6 +56,7 @@ orderSchema.pre(/^find/, function (next) {
       path: 'cart.products',
       populate: {
         path: 'product',
+        select: '-description',
         model: 'Product',
       },
     },

@@ -74,8 +74,10 @@ exports.getProduct = catchAsync(async (req, res, next) => {
   })
 })
 
-exports.getOrderStatus = (req, res, next) => {
-  res.status(200).render('successfulOrder')
+exports.getOrderStatus = (_req, res, _next) => {
+  res.status(200).render('successfulOrder', {
+    title: 'Order Added Successfuly',
+  })
 }
 
 exports.getCheckout = (req, res, next) => {
@@ -87,16 +89,23 @@ exports.getCheckout = (req, res, next) => {
 
   //) Check if there is no product in cart, render Please add something to your Cart
   const cartEmpty = cart.products.length === 0
+  const title = 'Shoping Cart'
   if (cartEmpty) {
     return res.status(200).render('emptyCart', {
-      title: 'Shoping Cart',
+      title,
       message:
         'Oops, Looks like your cart is empty, Please add items to your cart then proceed to checkout !',
     })
   }
 
   res.status(200).render('cart', {
-    title: 'Shoping Cart',
+    title,
     user,
+  })
+}
+
+exports.getLogin = (req, res, next) => {
+  res.render('login', {
+    title: 'Login Page',
   })
 }
