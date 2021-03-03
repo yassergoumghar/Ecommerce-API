@@ -114,7 +114,7 @@
             font-size: 15px;
             color: #f7941d;
             display: inline-block;
-            margin-right: -5px;
+            // margin-right: -5px;
         }
 
         span {
@@ -185,7 +185,7 @@
 .product__details__option__color {
     display: inline-block;
     position: relative;
-    top: 10px;
+    // top: 10px;
 
     span {
         color: $heading-color;
@@ -247,7 +247,8 @@
     margin-bottom: 25px;
 
     .quantity {
-        display: inline-block;
+        // display: inline-block;
+        display: inline-flex;
         margin-right: 20px;
 
         .pro-qty {
@@ -264,6 +265,7 @@
                 height: 100%;
                 text-align: center;
                 border: none;
+                background-color: #f3f2ee;
             }
 
 
@@ -278,12 +280,21 @@
                 cursor: pointer;
                 font-weight: 600;
 
-                &.inc {
+                &.dec {
                     top: 16px;
                 }
             }
         }
     }
+
+    
+    &__icon {
+        width: 100px;
+        height: 100px;
+        margin-right: 20px;
+        // fill: $border-1;
+    }
+    
 }
 
 .product__details__btns__option {

@@ -33,17 +33,20 @@ router.get('/order/all', async (req, res, next) => {
   const orders = await Order.findOne({
     user: res.locals.user?.id,
   })
-  const orderedProducts = []
-  orders.orders.forEach((order, index) =>
-    order.cart.products.forEach(product =>
-      orderedProducts.push({ product, index })
-    )
-  )
+
+  console.log(orders.orders);
+
+  // const orderedProducts = []
+  // orders.orders.forEach((order, index) =>
+  //   order.cart.products.forEach(product =>
+  //     orderedProducts.push({ product, index })
+  //   )
+  // )
 
   res.render('orders', {
     title: 'All Orders',
     orders,
-    orderedProducts,
+    orderedProducts: [],
   })
 })
 

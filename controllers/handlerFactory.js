@@ -93,10 +93,19 @@ const filterCart = products =>
 
 exports.getCartFiltered = async (Model, user) => {
   try {
-    const cart = await Model.findOne({ user })
+    // const cart = await Model.findOne({ user })
+    //) Something Wrong here
+    const cart = await Model.aggregate([
+      {
+         $match: { 'products.ordered': { $ne: true } },  
+      },
+    ])  
+
+    console.log({cart});
     const { id } = cart
-    const products = filterCart(cart?.products)
-    cart.products = products
+    //) Filter
+    // const products = filterCart(cart?.products)
+    // cart.products = products
 
     return {
       oldCart: cart,

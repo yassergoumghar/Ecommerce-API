@@ -181,11 +181,12 @@
     if ($button.hasClass('inc')) {
       var newVal = parseFloat(oldValue) + 1;
     } else {
-      // Don't allow decrementing below zero
-      if (oldValue > 0) {
+      // Don't allow decrementing below 1
+      var min = 1
+      if (oldValue > min) {
         var newVal = parseFloat(oldValue) - 1;
       } else {
-        newVal = 0;
+        newVal = min;
       }
     }
     $button.parent().find('input').val(newVal);
@@ -201,10 +202,10 @@
       var newVal = parseFloat(oldValue) + 1;
     } else {
       // Don't allow decrementing below zero
-      if (oldValue > 0) {
+      if (oldValue > min) {
         var newVal = parseFloat(oldValue) - 1;
       } else {
-        newVal = 0;
+        newVal = min;
       }
     }
     $button.parent().find('input').val(newVal);

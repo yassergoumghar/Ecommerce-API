@@ -227,15 +227,15 @@
     }
 
     &__notification {
-        font-size: 1rem;
-        height: 1.75rem;
-        width: 1.75em;
+        font-size: 10px;
+        height: 17.5px;
+        width: 17.5px;
         border-radius: 50%;
         background-color: $primary-color;
         color: #fff;
         position: absolute;
-        top: -.5rem;
-        right: 1rem;
+        top: -5px;
+        right: 10px;
 
         display: flex;
         justify-content: center;

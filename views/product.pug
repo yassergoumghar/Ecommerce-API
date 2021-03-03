@@ -98,14 +98,18 @@ block content
                                         input.product__quantity(type="text" value="1")
                                 .spinner-border.loading__spinner.hide(role='status')
                                     span.sr-only Loading...
-                                a(href="#" class="primary-btn addToCart") add to cart
-                                a(href="#" class="primary-btn half-left") Buy now 
+                                a(href="#" class="primary-btn addToCart") 
+                                    svg.product__details__cart__option__icon.pull-left
+                                        use(xlink:href="/css/svg/cart.svg#Capa_1")
+                                    | add to cart
+                                a(href="#" class="primary-btn").mt-4
+                                    svg.product__details__cart__option__icon.pull-left
+                                        use(xlink:href="/css/svg/click.svg#Regular")
+                                    | add to cart
+                                //- a(href="#" class="primary-btn half-left") 
+                                //-     |Buy now 
                                 .alert.add-top.hide(role='alert')
                                     a.alert-link TEMPLATE
-                            .product__details__btns__option.align-center.add-top
-                                //- a(href="#")
-                                //-     i.fa.fa-heart 
-                                //-     | add to wishlist
         .product__details__content
             .container
                 .row.d-flex.justify-content-center

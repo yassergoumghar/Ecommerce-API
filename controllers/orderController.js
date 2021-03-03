@@ -6,62 +6,54 @@ const catchAsync = require('../utils/catchAsync')
 
 const trackOrderRoute = process.env.TRACK_ORDER
 
-const editOrder = (order, cart) => {
-  //2 Get the Old cart and the order
+const editOrder = (order, cartId) => {
 
-  //2 Add the products to the Order.
-  order.orders.push({ cart })
+  //2 Get the old Order and Cart Id
+  const  newOrder = { ...order._doc };
 
-  //2 Edit the Ordered property
-  order.ordered = true
+  //2 Add the Cart Id in the Orders
+  newOrder.orders.push(cartId)
 
-  //2 Destructure
-  const { ordered, orders } = order
+  return newOrder
 
-  return {
-    ordered,
-    orders,
-  }
 }
 
 exports.addOrder = catchAsync(async (req, res, next) => {
-  const { user, cart } = req.body
+  const { user } = req.body
+  const cartId = req.body.cart
 
-  let oldOrder = await Orders.findOne({ user })
+  //) Get The Order from the Database
+  const order = await Orders.findOne({ user })
+  const { id } = order
 
-  //) Get The Products from the Cart.
-  const oldCart = await Cart.findById({ _id: cart })
-
-  //) Add a new Cart to the orders and edit the 'ordered' property
-  const { ordered, orders } = editOrder(oldOrder, oldCart)
-
-  //) Edit the Cart in the Databse
-  // oldCart.products.forEach(product => (product.ordered = true))
-  // await oldCart.save()
-  const emptyArray = []
-  const updatedCart = await Cart.findByIdAndUpdate(
-    cart,
-    { products: emptyArray },
+  //) Update the Order in the Database: Add the Cart into the Orders.
+  const  finalOrder = await Orders.findByIdAndUpdate(id, 
+    { '$addToSet': { 'orders': { cart: cartId} } },
     {
-      new: true,
-      runValidators: true,
+      new: true, 
+      runValidators: true
     }
-  )
+    )
 
-  //) Edit the Order in the Database
-  const finalOrder = await Orders.findByIdAndUpdate(
-    oldOrder.id,
-    { ordered, orders },
-    {
-      new: true,
-      runValidators: true,
-    }
-  )
+    //) Update the Cart in the Database: Cart.product.ordered = true
+    let oldCart = await Cart.findById(finalOrder.orders[0].cart.id)
+    oldCart.products.forEach(product => product.ordered = true)
+    await oldCart.save()
+    console.log(oldCart);
+
+
+    
+
+
+
+  
+
 
   res.status(201).json({
     message: 'Order Added Successfully',
     data: {
-      data: finalOrder,
+      // data: finalOrder,
+      data: {},
     },
   })
 })

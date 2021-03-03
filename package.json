@@ -8,12 +8,10 @@
     "start:dev": "nodemon ./server.js",
     "watch:sass": "node-sass ./src/sass/style.scss ./dist/css/main.css -w",
     "tailwind:css": "postcss ./src/css/tailwind.css -o ./dist/css/tailwind.css",
-
     "compile:sass": "node-sass ./src/sass/style.scss ./src/css/style.comp.css",
     "prefix:css": "postcss --use autoprefixer -b \"last 10 versions\" ./src/css/style.comp.css -o ./src/css/style.prefix.css",
     "compress:css": "node-sass ./src/css/style.prefix.css ./dist/css/main.css --output-style compressed",
     "build:css": "npm-run-all compile:sass prefix:css compress:css",
-    
     "start:prod": "node ./server.js",
     "debug": "ndb ./server.js",
     "start": "npm-run-all --parallel watch:dev start:dev watch:sass"

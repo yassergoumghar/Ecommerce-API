@@ -6,6 +6,7 @@
             2.Order added page
             2.Dashboard page
         1. Re-Design Product Details page '/prodcuts/:slug'
+        1. Edit the Add to cart if not logged in functionnality, (if not, store it in the cookie not Local Storage)
     => Admin:
         1. Design Dashboard account. With Back-end features.
 *Back-End

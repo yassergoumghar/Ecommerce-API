@@ -5,22 +5,13 @@ const orderSchema = new mongoose.Schema({
   orders: [
     {
       cart: {
-        products: [
-          {
-            quantity: {
-              type: Number,
-              default: 1,
-            },
-            product: {
-              type: mongoose.Schema.ObjectId,
-              ref: 'Product',
-            },
-            orderedAt: {
-              type: Date,
-              default: Date.now(),
-            },
-          },
-        ],
+        type: mongoose.Schema.ObjectId,
+        ref: 'Cart',
+        required: [true, 'Order Must have a Cart'],    
+      },
+      orderedAt: {
+        type: Date,
+        default: Date.now(),
       },
       status: {
         type: String,
@@ -51,16 +42,11 @@ orderSchema.pre(/^find/, function (next) {
     path: 'user',
     select: 'name email',
   }).populate({
-    path: 'orders',
-    populate: {
-      path: 'cart.products',
-      populate: {
-        path: 'product',
-        select: '-description',
-        model: 'Product',
-      },
-    },
+    path: 'orders.cart',
+    select: '-user',
   })
+
+
 
   next()
 })
