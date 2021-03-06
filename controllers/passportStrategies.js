@@ -1,9 +1,9 @@
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const FacebookStrategy = require('passport-facebook').Strategy;
-const dotenv = require('dotenv');
+const GoogleStrategy = require('passport-google-oauth20').Strategy
+const FacebookStrategy = require('passport-facebook').Strategy
+const dotenv = require('dotenv')
 
 //2 Read .env files
-dotenv.config({ path: './../config.env' });
+dotenv.config({ path: './../config.env' })
 const {
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
@@ -11,7 +11,7 @@ const {
   FACEBOOK_CLIENT_ID,
   FACEBOOK_CLIENT_SECRET,
   FACEBOOK_CALLBACK_URL,
-} = process.env;
+} = process.env
 
 exports.GoogleMiddleware = new GoogleStrategy(
   {
@@ -19,11 +19,10 @@ exports.GoogleMiddleware = new GoogleStrategy(
     clientSecret: GOOGLE_CLIENT_SECRET,
     callbackURL: GOOGLE_CALLBACK_URL,
   },
-  function (accessToken, refreshToken, profile, cb) {
+  (accessToken, refreshToken, profile, cb) =>
     // Register user here.
-    cb(null, profile);
-  }
-);
+    cb(null, profile)
+)
 
 exports.FacebookMiddleware = new FacebookStrategy(
   {
@@ -42,7 +41,5 @@ exports.FacebookMiddleware = new FacebookStrategy(
       'verified',
     ],
   },
-  function (accessToken, refreshToken, profile, cb) {
-    return cb(null, profile);
-  }
-);
+  (accessToken, refreshToken, profile, cb) => cb(null, profile)
+)

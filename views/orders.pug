@@ -28,21 +28,21 @@ block content
                                     th Total
                                     th Status
                             tbody
-                            each cart in orderedProducts
-                                tr
-                                    td.product__cart__item
-                                        .product__cart__item__pic
-                                            a(href=`/products/${cart.product.product.slug}` target='_blank')
-                                                img.product__cart__item__pic__small(src=`${cart.product.product.preview}`)
-                                        .product__cart__item__text
-                                            h6= cart.product.product.name
-                                            h5 $#{cart.product.product.price}
-                                    td.quantity__item
-                                        .quantity
-                                            h5= cart.product.quantity
-                                    td.cart__price $ #{cart.product.product.price * cart.product.quantity}
-                                    td.quantity__item
-                                        .quantity
-                                            - const status = orders.orders[cart.index]?.status
-                                            h5= status
+                            each cart in orders
+                                each product in cart.products
+                                    tr
+                                        td.product__cart__item
+                                            .product__cart__item__pic
+                                                a(href=`/products/${product.product.slug}` target='_blank')
+                                                    img.product__cart__item__pic__small(src=`${product.product.preview}`)
+                                            .product__cart__item__text
+                                                h6= product.product.name
+                                                h5 $#{product.product.price}
+                                        td.quantity__item
+                                            .quantity
+                                                h5= product.quantity
+                                        td.cart__price $ #{product.product.price * product.quantity}
+                                        td.quantity__item
+                                            .quantity
+                                                h5= cart.status
     //- All Orders Section End

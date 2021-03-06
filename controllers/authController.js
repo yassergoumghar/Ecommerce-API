@@ -38,16 +38,7 @@ const createSendToken = (user, statusCode, res) => {
   })
 }
 
-const createCartAndOrder = async user => {
-  //) Create An empty Cart and Order
-  await Cart.create({
-    user,
-  })
-
-  await Order.create({
-    user,
-  })
-}
+const createCart = user => Cart.create({ user })
 
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
@@ -57,7 +48,8 @@ exports.signup = catchAsync(async (req, res, next) => {
     passwordConfirm: req.body.passwordConfirm,
   })
 
-  await createCartAndOrder(newUser._id)
+  //) Create An empty Cart and Order
+  await createCart(newUser._id)
 
   await createSendToken(newUser, 201, res)
 })
@@ -298,7 +290,8 @@ const thirdPartySignUp = catchAsync(async (req, res, next) => {
       locale,
     })
 
-    await createCartAndOrder(newUser._id)
+    //) Create An empty Cart and Order
+    await createCart(newUser._id)
 
     return createSendToken(newUser, 201, res)
   }

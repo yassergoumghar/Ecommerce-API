@@ -1,9 +1,9 @@
-const Product = require('./../models/productModel')
-const Cart = require('./../models/cartModel')
+const Product = require('../models/productModel')
+const Cart = require('../models/cartModel')
+const Order = require('../models/orderModel')
 const catchAsync = require('../utils/catchAsync')
-const APIFeatures = require('./../utils/apiFeatures')
+const APIFeatures = require('../utils/apiFeatures')
 const AppError = require('../utils/appError')
-const { getCartFiltered } = require('./handlerFactory')
 
 const getQueries = url => {
   const [, query] = url.split(/\/products\??/g)
@@ -18,10 +18,10 @@ exports.getCart = catchAsync(async (req, res, next) => {
     const userId = user.id
 
     //2 Get Cart
-    const { oldCart } = await getCartFiltered(Cart, userId)
+    const cart = await Cart.findOne({ user: userId })
 
     //2 Put the cart in the user object
-    res.locals.user.cart = oldCart
+    res.locals.user.cart = cart
   }
 
   next()
@@ -60,7 +60,7 @@ exports.getProducts = catchAsync(async (req, res, next) => {
 
 exports.getProduct = catchAsync(async (req, res, next) => {
   const { slug } = req.params
-  let query = Product.findOne({ slug }).populate('reviews')
+  const query = Product.findOne({ slug }).populate('reviews')
   const doc = await query
 
   if (!doc) {
@@ -82,10 +82,11 @@ exports.getOrderStatus = (_req, res, _next) => {
 
 exports.getCheckout = (req, res, next) => {
   const { user } = res.locals
-  const { cart } = user
 
   //) Check if there is no User, redirect to Login
   if (!user) return res.redirect('/login')
+
+  const { cart } = user
 
   //) Check if there is no product in cart, render Please add something to your Cart
   const cartEmpty = cart.products.length === 0
@@ -107,5 +108,17 @@ exports.getCheckout = (req, res, next) => {
 exports.getLogin = (req, res, next) => {
   res.render('login', {
     title: 'Login Page',
+  })
+}
+
+exports.getOrders = async (req, res, next) => {
+  //) Get Ordered Products
+  const orders = await Order.find({
+    user: res.locals.user.id,
+  })
+
+  res.render('orders', {
+    title: 'All Orders',
+    orders,
   })
 }

@@ -1,5 +1,5 @@
 //) review / rating / createdAt / ref to tour / ref to user
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const reviewSchema = new mongoose.Schema(
   {
@@ -40,9 +40,9 @@ const reviewSchema = new mongoose.Schema(
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   }
-);
+)
 
-reviewSchema.index({ product: 1, user: 1 }, { unique: true });
+reviewSchema.index({ product: 1, user: 1 }, { unique: true })
 
 reviewSchema.pre(/^find/, function (next) {
   // this.populate({
@@ -56,15 +56,15 @@ reviewSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'user',
     select: 'name photo',
-  });
-  next();
-});
+  })
+  next()
+})
 
 reviewSchema.pre(/^find/, function (next) {
   // this points to the current query
-  this.find({ checked: { $ne: false } });
-  next();
-});
+  this.find({ checked: { $ne: false } })
+  next()
+})
 
 // reviewSchema.statics.calcAverageRatings = async function (tourId) {
 //   const stats = await this.aggregate([
@@ -112,6 +112,6 @@ reviewSchema.pre(/^find/, function (next) {
 //   await this.r.constructor.calcAverageRatings(this.r.tour);
 // });
 
-const Review = mongoose.model('Review', reviewSchema);
+const Review = mongoose.model('Review', reviewSchema)
 
-module.exports = Review;
+module.exports = Review

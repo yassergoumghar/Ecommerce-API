@@ -1,7 +1,5 @@
-const { ObjectId } = require('mongoose').Types
-const Cart = require('./../models/cartModel')
-const catchAsync = require('./../utils/catchAsync')
-const { getCartFiltered } = require('./handlerFactory')
+const Cart = require('../models/cartModel')
+const catchAsync = require('../utils/catchAsync')
 
 exports.getCart = catchAsync(async (req, res, next) => {
   const cart = await Cart.findOne({
@@ -41,7 +39,8 @@ const getIncludes = (oldCart, newCartItem) => {
 exports.editCart = catchAsync(async (req, res, next) => {
   const { product, user } = req.body
 
-  let { oldCart, id } = await getCartFiltered(Cart, user)
+  let oldCart = await Cart.findOne({ user })
+  const { id } = oldCart
 
   const newCartItem = {
     product: product.id,

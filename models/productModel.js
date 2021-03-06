@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const slugify = require('slugify');
+const mongoose = require('mongoose')
+const slugify = require('slugify')
 
 //) Product Model: Name, Category, Price, Description, Pictures, Reviews.
 const productSchema = new mongoose.Schema(
@@ -65,31 +65,31 @@ const productSchema = new mongoose.Schema(
       virtuals: true,
     },
   }
-);
+)
 
 //* Indexes
-productSchema.index({ slug: 1 }, { unique: true });
+productSchema.index({ slug: 1 }, { unique: true })
 
 // Virtual populate
 productSchema.virtual('reviews', {
   ref: 'Review',
   foreignField: 'product',
   localField: '_id',
-});
+})
 
 //) Hide the *deleted* Products
 productSchema.pre(/^find/, function (next) {
   // this points to the current query
-  this.find({ active: { $ne: false } });
-  next();
-});
+  this.find({ active: { $ne: false } })
+  next()
+})
 
 //* DOCUMENT MIDDLEWARE: runs before .save() and .create()
 productSchema.pre('save', function (next) {
-  this.slug = slugify(this.name, { lower: true });
-  next();
-});
+  this.slug = slugify(this.name, { lower: true })
+  next()
+})
 
-const Product = mongoose.model('Product', productSchema, 'products');
+const Product = mongoose.model('Product', productSchema, 'products')
 
-module.exports = Product;
+module.exports = Product

@@ -1,6 +1,6 @@
-const catchAsync = require('./../utils/catchAsync')
-const AppError = require('./../utils/appError')
-const APIFeatures = require('./../utils/apiFeatures')
+const catchAsync = require('../utils/catchAsync')
+const AppError = require('../utils/appError')
+const APIFeatures = require('../utils/apiFeatures')
 
 exports.deleteOne = Model =>
   catchAsync(async (req, res, next) => {
@@ -87,31 +87,3 @@ exports.getAll = Model =>
       },
     })
   })
-
-const filterCart = products =>
-  products ? products.filter(product => product?.ordered !== true) : []
-
-exports.getCartFiltered = async (Model, user) => {
-  try {
-    // const cart = await Model.findOne({ user })
-    //) Something Wrong here
-    const cart = await Model.aggregate([
-      {
-         $match: { 'products.ordered': { $ne: true } },  
-      },
-    ])  
-
-    console.log({cart});
-    const { id } = cart
-    //) Filter
-    // const products = filterCart(cart?.products)
-    // cart.products = products
-
-    return {
-      oldCart: cart,
-      id,
-    }
-  } catch (error) {
-    throw new AppError('Ooops, Something went wrong. Please try again', 500)
-  }
-}

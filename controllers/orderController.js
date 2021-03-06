@@ -7,47 +7,31 @@ const catchAsync = require('../utils/catchAsync')
 const trackOrderRoute = process.env.TRACK_ORDER
 
 const editOrder = (order, cartId) => {
-
   //2 Get the old Order and Cart Id
-  const  newOrder = { ...order._doc };
+  const newOrder = { ...order._doc }
 
   //2 Add the Cart Id in the Orders
   newOrder.orders.push(cartId)
 
   return newOrder
-
 }
 
 exports.addOrder = catchAsync(async (req, res, next) => {
-  const { user } = req.body
-  const cartId = req.body.cart
+  const { user, cart } = req.body
 
-  //) Get The Order from the Database
-  const order = await Orders.findOne({ user })
-  const { id } = order
+  //2 Get current Cart and its orders + Empty the Cart
+  const oldCart = await Cart.findByIdAndUpdate(cart, {
+    products: [],
+  })
+  const { products } = oldCart
 
-  //) Update the Order in the Database: Add the Cart into the Orders.
-  const  finalOrder = await Orders.findByIdAndUpdate(id, 
-    { '$addToSet': { 'orders': { cart: cartId} } },
-    {
-      new: true, 
-      runValidators: true
-    }
-    )
+  //2 Add a new Order with the Current Cart Products
+  const order = await Orders.create({
+    user,
+    products,
+  })
 
-    //) Update the Cart in the Database: Cart.product.ordered = true
-    let oldCart = await Cart.findById(finalOrder.orders[0].cart.id)
-    oldCart.products.forEach(product => product.ordered = true)
-    await oldCart.save()
-    console.log(oldCart);
-
-
-    
-
-
-
-  
-
+  console.log(order)
 
   res.status(201).json({
     message: 'Order Added Successfully',

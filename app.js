@@ -5,9 +5,11 @@ const rateLimit = require('express-rate-limit')
 const helmet = require('helmet')
 const mongoSanitize = require('express-mongo-sanitize')
 const xss = require('xss-clean')
-const hpp = require('hpp')
 const cookieParser = require('cookie-parser')
 const passport = require('passport')
+const connectLivereload = require('connect-livereload')
+const livereload = require('livereload')
+// const hpp = require('hpp')
 
 const AppError = require('./utils/appError')
 const globalErrorHandler = require('./controllers/errorController')
@@ -19,7 +21,7 @@ const reviewRouter = require('./routes/reviewRoutes')
 const authRouter = require('./routes/authRoutes')
 const viewRouter = require('./routes/viewRoutes')
 const cartRouter = require('./routes/cartRouter')
-const likeRouter = require('./routes/likeRouter')
+// const likeRouter = require('./routes/likeRouter')
 
 const app = express()
 
@@ -36,9 +38,6 @@ app.use(helmet())
 // Development logging + Refresh front end on save
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
-
-  const connectLivereload = require('connect-livereload')
-  const livereload = require('livereload')
 
   const liveReloadServer = livereload.createServer()
   liveReloadServer.watch(path.join(__dirname, 'dist'))

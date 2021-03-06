@@ -1,26 +1,25 @@
-const express = require('express');
+const express = require('express')
+const authController = require('../controllers/authController')
+const productController = require('../controllers/productController')
 
-const authController = require('./../controllers/authController');
-const productController = require('./../controllers/productController');
-
-const router = express.Router();
+const router = express.Router()
 
 //2 Get All Prodcuts, Get a product by slug
-router.get('/all', productController.getAllProducts);
-router.get('/:slug', productController.getProductBySlug);
+router.get('/all', productController.getAllProducts)
+router.get('/:slug', productController.getProductBySlug)
 
 //2 Protect for admin only, add it when auth route is defined
 router.use(
   authController.protect,
   authController.restrictTo('employee', 'accountant', 'admin')
-);
+)
 
 //5 Post, Patch, Delete: A product by id
-router.post('/product', productController.addProduct);
+router.post('/product', productController.addProduct)
 
 router
   .route('/product/:id')
   .patch(productController.updateProduct)
-  .delete(productController.deleteProduct);
+  .delete(productController.deleteProduct)
 
-module.exports = router;
+module.exports = router
