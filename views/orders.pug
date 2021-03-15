@@ -27,6 +27,7 @@ block content
                                     th Quantity
                                     th Total
                                     th Status
+                                    th Order Date
                             tbody
                             each cart in orders
                                 each product in cart.products
@@ -45,4 +46,8 @@ block content
                                         td.quantity__item
                                             .quantity
                                                 h5= cart.status
+                                        td.quantity__item
+                                            .quantity
+                                                - const [day, month, dayNumber, year] = cart.orderedAt.toString().split(' ')
+                                                h5 #{day}, #{month}, #{dayNumber}/#{year} 
     //- All Orders Section End
